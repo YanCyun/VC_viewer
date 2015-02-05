@@ -1,0 +1,167 @@
+  MQOpenGL.MQOpenGLControl.resources - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v4.0.30319
+Assembly MQOpenGLControl, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly Microsoft.VisualC, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Class MQOpenGL.SimpleTypeConverter: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.ComponentModel.ExpandableObjectConverter
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type): PrivateScope, Public, Virtual, HideBySig
+Class MQOpenGL.MQFont2DType: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Properties:
+    MQOpenGL.FONTPITCH Pitch 'get set' : 
+    MQOpenGL.FONTCHARSET Charset 'get set' : 
+    MQOpenGL.FONTBOLD Bold 'get set' : 
+    System.Drawing.Color Color 'get set' : 
+    System.Drawing.Font Font 'get set' : 
+  Methods:
+    Font_Bold(): PrivateScope, Public, HideBySig
+    Font_Charset(): PrivateScope, Public, HideBySig
+    Font_Pitch(): PrivateScope, Public, HideBySig
+    get_Font(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font(Font): PrivateScope, Public, HideBySig, SpecialName
+    get_Color(): PrivateScope, Public, HideBySig, SpecialName
+    set_Color(Color): PrivateScope, Public, HideBySig, SpecialName
+    get_Bold(): PrivateScope, Public, HideBySig, SpecialName
+    set_Bold(FONTBOLD): PrivateScope, Public, HideBySig, SpecialName
+    get_Charset(): PrivateScope, Public, HideBySig, SpecialName
+    set_Charset(FONTCHARSET): PrivateScope, Public, HideBySig, SpecialName
+    get_Pitch(): PrivateScope, Public, HideBySig, SpecialName
+    set_Pitch(FONTPITCH): PrivateScope, Public, HideBySig, SpecialName
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class MQOpenGL.MQOpenGLControl: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    MQOpenGL.OPTIONALUIKBKEY Zoom_KBKey 'get set' : 
+    System.Windows.Forms.MouseButtons Zoom_MButton 'get set' : 
+    System.Windows.Forms.MouseButtons Translate_MButton 'get set' : 
+    System.Windows.Forms.MouseButtons TrackBall_MButton 'get set' : 
+    MQOpenGL.BOOLTYPE Enable_OptionalUI 'get set' : 
+    MQOpenGL.OUTLINEFONTDRAWMODE Font3D_DrawMode 'get set' : 
+    Single Font3D_Extrution 'get set' : 
+    MQOpenGL.MQFont2DType Font3D_Type 'get set' : 
+    MQOpenGL.BOOLTYPE Font3D_Enable 'get set' : 
+    MQOpenGL.MQFont2DType Font2D_Type 'get set' : 
+    MQOpenGL.BOOLTYPE Font2D_Enable 'get set' : 
+    Byte Aux_Buffer_Number 'get set' : 
+    Byte Stencil_Buffer_Depth 'get set' : 
+    MQOpenGL.DEPTHBITS Z_Buffer_Depth 'get set' : 
+    Byte Accum_Buffer_Depth 'get set' : 
+    Byte Alpha_Bit 'get set' : 
+    MQOpenGL.COLORBITS Color_Bit 'get set' : 
+  Methods:
+    get_Color_Bit(): PrivateScope, Public, HideBySig, SpecialName
+    set_Color_Bit(COLORBITS): PrivateScope, Public, HideBySig, SpecialName
+    get_Alpha_Bit(): PrivateScope, Public, HideBySig, SpecialName
+    set_Alpha_Bit(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Accum_Buffer_Depth(): PrivateScope, Public, HideBySig, SpecialName
+    set_Accum_Buffer_Depth(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Z_Buffer_Depth(): PrivateScope, Public, HideBySig, SpecialName
+    set_Z_Buffer_Depth(DEPTHBITS): PrivateScope, Public, HideBySig, SpecialName
+    get_Stencil_Buffer_Depth(): PrivateScope, Public, HideBySig, SpecialName
+    set_Stencil_Buffer_Depth(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Aux_Buffer_Number(): PrivateScope, Public, HideBySig, SpecialName
+    set_Aux_Buffer_Number(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Font2D_Enable(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font2D_Enable(BOOLTYPE): PrivateScope, Public, HideBySig, SpecialName
+    get_Font2D_Type(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font2D_Type(MQFont2DType): PrivateScope, Public, HideBySig, SpecialName
+    get_Font3D_Enable(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font3D_Enable(BOOLTYPE): PrivateScope, Public, HideBySig, SpecialName
+    get_Font3D_Type(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font3D_Type(MQFont2DType): PrivateScope, Public, HideBySig, SpecialName
+    get_Font3D_Extrution(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font3D_Extrution(Single): PrivateScope, Public, HideBySig, SpecialName
+    get_Font3D_DrawMode(): PrivateScope, Public, HideBySig, SpecialName
+    set_Font3D_DrawMode(OUTLINEFONTDRAWMODE): PrivateScope, Public, HideBySig, SpecialName
+    get_Enable_OptionalUI(): PrivateScope, Public, HideBySig, SpecialName
+    set_Enable_OptionalUI(BOOLTYPE): PrivateScope, Public, HideBySig, SpecialName
+    get_TrackBall_MButton(): PrivateScope, Public, HideBySig, SpecialName
+    set_TrackBall_MButton(MouseButtons): PrivateScope, Public, HideBySig, SpecialName
+    get_Translate_MButton(): PrivateScope, Public, HideBySig, SpecialName
+    set_Translate_MButton(MouseButtons): PrivateScope, Public, HideBySig, SpecialName
+    get_Zoom_MButton(): PrivateScope, Public, HideBySig, SpecialName
+    set_Zoom_MButton(MouseButtons): PrivateScope, Public, HideBySig, SpecialName
+    get_Zoom_KBKey(): PrivateScope, Public, HideBySig, SpecialName
+    set_Zoom_KBKey(OPTIONALUIKBKEY): PrivateScope, Public, HideBySig, SpecialName
+    MakeMQOpenGLControlCurrent(): PrivateScope, Public, HideBySig
+    MakeMQOpenGLControlNotCurrent(): PrivateScope, Public, HideBySig
+    MQOpenGLControlSwapBuffers(): PrivateScope, Public, HideBySig
+    Draw_2D_Text(String): PrivateScope, Public, HideBySig
+    Draw_3D_Text(String): PrivateScope, Public, HideBySig
+Struct MQOpenGL.COLORBITS: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.COLORBITS COLOR_BIT_32 = 2 : Public, Static, Literal, HasDefault
+    MQOpenGL.COLORBITS COLOR_BIT_24 = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.COLORBITS COLOR_BIT_16 = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.DEPTHBITS: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.DEPTHBITS DEPTH_BIT_32 = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.DEPTHBITS DEPTH_BIT_16 = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.BOOLTYPE: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.BOOLTYPE True = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.BOOLTYPE False = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.FONTBOLD: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.FONTBOLD BLACK = 3 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTBOLD BOLD = 2 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTBOLD NORMAL = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTBOLD DONTCARE = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.FONTCHARSET: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.FONTCHARSET SYMBOL_SET = 5 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTCHARSET DEFAULT_SET = 4 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTCHARSET RUSSIAN_SET = 3 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTCHARSET GREEK_SET = 2 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTCHARSET CHINESEBIG5_SET = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTCHARSET ANSI_SET = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.FONTPITCH: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.FONTPITCH VARIABLE = 2 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTPITCH FIXED = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.FONTPITCH DEFAULT = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.OUTLINEFONTDRAWMODE: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.OUTLINEFONTDRAWMODE FONT_POLYGONS = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.OUTLINEFONTDRAWMODE FONT_LINES = 0 : Public, Static, Literal, HasDefault
+Struct MQOpenGL.OPTIONALUIKBKEY: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MQOpenGL.OPTIONALUIKBKEY SHIFTKEY = 1 : Public, Static, Literal, HasDefault
+    MQOpenGL.OPTIONALUIKBKEY CTRLKEY = 0 : Public, Static, Literal, HasDefault

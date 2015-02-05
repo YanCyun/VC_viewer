@@ -1,0 +1,76 @@
+﻿Build started 2015/2/5 下午 03:29:30.
+     1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\VC_viewer2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         All outputs are up-to-date.
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt src\MQTriangleMesh.cpp /clr:nostdlib 
+         MQTriangleMesh.cpp
+     1>src\MQTriangleMesh.cpp(325): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(325): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(325): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(326): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(326): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(327): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(327): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(327): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(329): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(329): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(329): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(330): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(330): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(333): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(333): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(333): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(335): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(335): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(335): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(356): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(356): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(356): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(357): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(357): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(360): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(360): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(360): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(361): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(361): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(364): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(364): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(364): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(365): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(365): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+         All outputs are up-to-date.
+       CoreResGen:
+         No resources are out of date with respect to their source files. Skipping resource generation.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe" /INCREMENTAL:NO /NOLOGO /ASSEMBLYRESOURCE:Release\VC_viewer2010.Form1.resources /MANIFEST /ManifestFile:"Release\VC_viewer2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Release\app.res
+         Release\AssemblyInfo.obj
+         Release\MQBasicUI.obj
+         Release\MQDotNETUtility.obj
+         Release\MQglm.obj
+         Release\MQtrackball.obj
+         Release\MQTriangleMesh.obj
+         Release\stdafx.obj
+         Release\VC_viewer2010.obj
+         "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         VC_viewer2010.vcxproj -> C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe;#1" /manifest Release\VC_viewer2010.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\VC_viewer2010.unsuccessfulbuild".
+         Touching "Release\VC_viewer2010.lastbuildstate".
+     1>Done Building Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.55
