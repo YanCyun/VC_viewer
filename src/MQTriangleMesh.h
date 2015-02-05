@@ -20,7 +20,7 @@ public:
 
 	list<int>	NeighborVertex;
 	double	LapX, LapY, LapZ;
-	double  R,G,B;
+	double  R,G,B; //Laplacian to Color
 
 public:
 
@@ -118,7 +118,7 @@ public:
 	vector<MQTexcoord>   Texcoord;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
-	map< pair<int,int>, HalfEdge* > Edges;
+	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 	list<list<int>> Holes;
 
 public:

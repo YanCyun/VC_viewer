@@ -218,6 +218,7 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 		this->Vertex[i].LapY = this->Vertex[i].Y - mCenterY;
 		this->Vertex[i].LapZ = this->Vertex[i].Z - mCenterZ;
 
+		//Find Laplacian  max & min , use for CalculateLaplacianToColor
 		double min_lap = min(Vertex[i].LapX,min(Vertex[i].LapY,Vertex[i].LapZ));
 		double max_lap = max(Vertex[i].LapX,max(Vertex[i].LapY,Vertex[i].LapZ));
 
@@ -244,13 +245,12 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 }
 
 void MQTriangleMesh::FindHole(void){
+
 	int first,second;
 	map<int,int>  singleEdge ;
-	
+
+	//Find Single Edge
 	for(int i = 1; i <= this->TriangleNum; i++){
-		//printf("%d,",this->Edges.count(pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V2)));
-		//printf("%d,",this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V2)]->nextHalfEdge.first);
-		//printf("%d,",this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V3)]->nextHalfEdge.first);
 				
 		first = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.first;
 		second = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.second;
@@ -273,17 +273,18 @@ void MQTriangleMesh::FindHole(void){
 		}
 	}
 
+	//Attach Edge & Find Hole 
 	map<int,int>::iterator it;
 	list<int> hole;
 	int fist_point,search_point,temp;
 	Holes.clear();
 	while(!singleEdge.empty()){
 		it = singleEdge.begin();
-		fist_point = it->first;
+		fist_point = it->first;  //hole start point
 		hole.push_back(fist_point);
 		search_point = singleEdge[fist_point];
 		singleEdge.erase(fist_point);
-
+		//attach edge 
 		while(search_point != fist_point){
 			hole.push_back(search_point);
 			temp = search_point;
@@ -293,6 +294,7 @@ void MQTriangleMesh::FindHole(void){
 		Holes.push_back(hole);	
 		hole.clear();
 	}
+
 	printf("Hole count:%d\n",Holes.size());
 
 	list<int> hole_point;
@@ -301,7 +303,8 @@ void MQTriangleMesh::FindHole(void){
 	for(hole_it=Holes.begin();hole_it!= Holes.end();hole_it++){
 		printf("Hole point size:%d\n",hole_it->size());
 		for(point_it = hole_it->begin();point_it != hole_it->end();point_it++){
-			printf("%d,",*point_it);
+			if(point_it != hole_it->begin()) printf(",");
+			printf("%d",*point_it);
 		}
 		printf("\n");
 	}

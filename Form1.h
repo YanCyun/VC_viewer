@@ -237,22 +237,20 @@ namespace VC_viewer2010 {
 			// 
 			// toolStripButton1
 			// 
-			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton1.Image")));
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
-			this->toolStripButton1->Size = System::Drawing::Size(23, 22);
-			this->toolStripButton1->Text = L"toolStripButton1";
+			this->toolStripButton1->Size = System::Drawing::Size(73, 22);
+			this->toolStripButton1->Text = L"Draw2D";
 			this->toolStripButton1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::toolStripButton1_MouseDown);
 			// 
 			// toolStripButton2
 			// 
-			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton2.Image")));
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(23, 22);
-			this->toolStripButton2->Text = L"toolStripButton2";
+			this->toolStripButton2->Size = System::Drawing::Size(94, 22);
+			this->toolStripButton2->Text = L"CheckHoles";
 			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
 			// 
 			// Form1
