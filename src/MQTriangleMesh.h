@@ -41,23 +41,6 @@ public:
 	{}
 };
 
-class MQTexcoord
-{
-public:
-
-	double S, T;         //parametric coordinates
-
-public:
-
-	MQTexcoord()
-	{
-		S = T = 0.0;
-	}
-
-	~MQTexcoord()
-	{}
-};
-
 class MQTriangle
 {
 public:
@@ -114,10 +97,12 @@ public:
 	int TexcoordNum;
 	int TriangleNum;
 	double minLap,maxLap;
+	double boundary;
 	vector<MQVertex>   Vertex;
-	vector<MQTexcoord>   Texcoord;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
+	pair<float,float> boundaryX;
+	pair<float,float> boundaryY;
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 	list<list<int>> Holes;
 
@@ -130,6 +115,7 @@ public:
 	void UpdateVertexNeigborVertex(void);
 	void UpdateVertexLaplacianCoordinate(void);
 	void CalculateLaplacianToColor(void);
+	void FindBoundary(void);
 	void FindHole(void);
 
 public:

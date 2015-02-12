@@ -51,7 +51,7 @@ void MQBasicUI::InitialSetup(int Width, int Height)
 	//setup viewing frustum
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(10.0, GLdouble(Width)/GLdouble(Height), 1.0, 128.0);
+	gluPerspective(45.0, GLdouble(Width)/GLdouble(Height), 1.0, 1024.0);
 	glGetDoublev(GL_PROJECTION_MATRIX, this->ProjectionMatrix);
 
 	//trackball's tbInit() requires MODELVIEW matrix mode is set
@@ -72,7 +72,7 @@ void MQBasicUI::ViewportResize(int Width, int Height)
 	//update viewing frustum
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(10.0, (GLdouble)(Width)/(GLdouble)(Height), 1.0, 128.0);
+	gluPerspective(45.0, (GLdouble)(Width)/(GLdouble)(Height), 1.0, 1024.0);
 	glGetDoublev(GL_PROJECTION_MATRIX, this->ProjectionMatrix);
 
 	//MODELVIEW matrix mode
@@ -159,11 +159,17 @@ void MQBasicUI::MouseUp()
 		this->Mode = this->NONE;
 }
 
+void MQBasicUI::SetScale(double x,double y){
+	this->ScaleX = x;
+	this->ScaleY = y;
+}
+
 void MQBasicUI::Paint()
 {
-	gluLookAt(0.0, 0.0, 1.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, 0.0, 256.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glTranslatef((float)this->TranslateStrX, (float)this->TranslateStrY, 0.0f);
+	glScalef((float)this->ScaleX,(float)this->ScaleY,1.0f);
 	this->TrackBall.tbMatrix();
 }
 
@@ -182,7 +188,7 @@ void MQBasicUI::ProjectTo3D(int X, int Y, double &OX, double &OY, double &OZ)
 	glLoadIdentity();
 
 	glPushMatrix();
-		gluLookAt(0.0, 0.0, -10.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		gluLookAt(0.0, 0.0, 5.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 		glTranslatef((float)this->TranslateStrX, (float)this->TranslateStrY, 0.0f);
 		this->TrackBall.tbMatrix();
 		glGetDoublev(GL_MODELVIEW_MATRIX, this->ModelViewMatrix);

@@ -128,7 +128,7 @@ namespace VC_viewer2010 {
 			this->mqOpenGLControl1->Location = System::Drawing::Point(0, 24);
 			this->mqOpenGLControl1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->mqOpenGLControl1->Name = L"mqOpenGLControl1";
-			this->mqOpenGLControl1->Size = System::Drawing::Size(362, 340);
+			this->mqOpenGLControl1->Size = System::Drawing::Size(496, 450);
 			this->mqOpenGLControl1->TabIndex = 0;
 			this->mqOpenGLControl1->Load += gcnew System::EventHandler(this, &Form1::mqOpenGLControl1_Load);
 			this->mqOpenGLControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::mqOpenGLControl1_Paint);
@@ -144,7 +144,7 @@ namespace VC_viewer2010 {
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(362, 24);
+			this->menuStrip1->Size = System::Drawing::Size(496, 24);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -208,10 +208,10 @@ namespace VC_viewer2010 {
 			// statusStrip1
 			// 
 			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
-			this->statusStrip1->Location = System::Drawing::Point(0, 342);
+			this->statusStrip1->Location = System::Drawing::Point(0, 452);
 			this->statusStrip1->Name = L"statusStrip1";
 			this->statusStrip1->Padding = System::Windows::Forms::Padding(1, 0, 10, 0);
-			this->statusStrip1->Size = System::Drawing::Size(362, 22);
+			this->statusStrip1->Size = System::Drawing::Size(496, 22);
 			this->statusStrip1->TabIndex = 2;
 			this->statusStrip1->Text = L"statusStrip1";
 			// 
@@ -231,7 +231,7 @@ namespace VC_viewer2010 {
 				this->toolStripButton2});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(362, 25);
+			this->toolStrip1->Size = System::Drawing::Size(496, 25);
 			this->toolStrip1->TabIndex = 3;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
@@ -257,7 +257,7 @@ namespace VC_viewer2010 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(362, 364);
+			this->ClientSize = System::Drawing::Size(496, 474);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->statusStrip1);
 			this->Controls->Add(this->mqOpenGLControl1);
@@ -266,6 +266,7 @@ namespace VC_viewer2010 {
 			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->statusStrip1->ResumeLayout(false);
@@ -284,7 +285,7 @@ namespace VC_viewer2010 {
 		if(this->openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
 			this->TMesh->ReadObjFile(MQString2string(this->openFileDialog1->FileName).c_str());
-			this->toolStripStatusLabel1->Text = this->TMesh->VertexNum + " vertices, " + this->TMesh->TriangleNum + " triangles";
+			this->toolStripStatusLabel1->Text = this->TMesh->VertexNum + " vertices, " + this->TMesh->TriangleNum + " triangles, " + this->TMesh->TexcoordNum +" texcoords";
 		}
 	}
 
@@ -336,7 +337,8 @@ namespace VC_viewer2010 {
 		
 		if(!this->toolStripButton1->Checked)	this->TMesh->Draw(this->ColR, this->ColG, this->ColB);
 		else{
-			this->TMesh->CalculateLaplacianToColor();
+			
+			this->BasicUI->SetScale(128.0 / this->TMesh->boundary,128.0 / this->TMesh->boundary);
 			this->TMesh->Draw2D();
 		}
 		
@@ -460,6 +462,8 @@ private: System::Void toolStripButton1_MouseDown(System::Object^  sender, System
 private: System::Void toolStripButton2_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 this->TMesh->FindHole();
+		 }
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

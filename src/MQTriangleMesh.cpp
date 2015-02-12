@@ -67,12 +67,11 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	}
 
 	this->TexcoordNum = (int)(_model->numtexcoords);
-	this->Texcoord.resize( (this->TexcoordNum)+1 );
 
 	for(int i = 1; i <= this->TexcoordNum; i++)
 	{
-		this->Texcoord[i].S = _model->texcoords[2*i];
-		this->Texcoord[i].T = _model->texcoords[2*i+1];
+		this->Vertex[i].S = _model->texcoords[2*i];
+		this->Vertex[i].T = _model->texcoords[2*i+1];
 	}
 
 	this->TriangleNum = (int)(_model->numtriangles);
@@ -160,6 +159,8 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexLaplacianCoordinate();
+	this->CalculateLaplacianToColor();
+	this->FindBoundary();
 
 	return true;
 }
@@ -244,6 +245,35 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 
 }
 
+void MQTriangleMesh::FindBoundary(void){
+
+	for(int i = 1 ; i <= this->TexcoordNum ; i++){
+		if(i == 1){
+			boundaryX.first = boundaryX.second = this->Vertex[i].S;
+			boundaryY.first = boundaryY.second = this->Vertex[i].T;
+		}
+		else{
+			if(boundaryX.first > this->Vertex[i].S) boundaryX.first = this->Vertex[i].S;
+			if(boundaryX.second < this->Vertex[i].S) boundaryX.second = this->Vertex[i].S;
+			if(boundaryY.first > this->Vertex[i].T) boundaryY.first = this->Vertex[i].T;
+			if(boundaryY.second < this->Vertex[i].T) boundaryY.second = this->Vertex[i].T;
+		}
+	}
+
+	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first);
+
+	double centerX = (boundaryX.first + boundaryX.second)/2.0;
+	double centerY = (boundaryY.first + boundaryY.second)/2.0;
+
+	for(int i = 1 ; i <= this->TexcoordNum ; i++){
+		this->Vertex[i].S = this->Vertex[i].S - centerX;
+		this->Vertex[i].T = this->Vertex[i].T - centerY;
+	}
+	
+
+}
+
+
 void MQTriangleMesh::FindHole(void){
 
 	int first,second;
@@ -295,7 +325,7 @@ void MQTriangleMesh::FindHole(void){
 		hole.clear();
 	}
 
-	printf("Hole count:%d\n",Holes.size());
+	printf("Holes size:%d\n",Holes.size());
 
 	list<int> hole_point;
 	list<list<int>>::iterator hole_it;
@@ -326,15 +356,15 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 		int t3 = this->TriangleTex[i].T3;
 
 		glNormal3f(this->Vertex[v1].NX, this->Vertex[v1].NY, this->Vertex[v1].NZ);
-		glTexCoord2f(this->Texcoord[t1].S, this->Texcoord[t1].T);
+		glTexCoord2f(this->Vertex[t1].S, this->Vertex[t1].T);
 		glVertex3f(this->Vertex[v1].X, this->Vertex[v1].Y, this->Vertex[v1].Z);
 
 		glNormal3f(this->Vertex[v2].NX, this->Vertex[v2].NY, this->Vertex[v2].NZ);
-		glTexCoord2f(this->Texcoord[t2].S, this->Texcoord[t2].T);
+		glTexCoord2f(this->Vertex[t2].S, this->Vertex[t2].T);
 		glVertex3f(this->Vertex[v2].X, this->Vertex[v2].Y, this->Vertex[v2].Z);
 
 		glNormal3f(this->Vertex[v3].NX, this->Vertex[v3].NY, this->Vertex[v3].NZ);
-		glTexCoord2f(this->Texcoord[t3].S, this->Texcoord[t3].T);
+		glTexCoord2f(this->Vertex[t3].S, this->Vertex[t3].T);
 		glVertex3f(this->Vertex[v3].X, this->Vertex[v3].Y, this->Vertex[v3].Z);
 	}
 	glEnd();
@@ -342,30 +372,25 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 
 void MQTriangleMesh::Draw2D(void)
 {
-	glColor3ub(0, 255, 0);
 	glBegin(GL_TRIANGLES);
 	
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
-		int v1 = this->Triangle[i].V1;
-		int v2 = this->Triangle[i].V2;
-		int v3 = this->Triangle[i].V3;
-
 		int t1 = this->TriangleTex[i].T1;
 		int t2 = this->TriangleTex[i].T2;
 		int t3 = this->TriangleTex[i].T3;
 
 		glNormal3f(0.0, 0.0, 1.0);
 		glColor3ub(this->Vertex[t1].R,this->Vertex[t1].G,this->Vertex[t1].B);
-		glVertex3f(this->Texcoord[t1].S, this->Texcoord[t1].T, 0.0);
+		glVertex3f(this->Vertex[t1].S, this->Vertex[t1].T, 0.0);
 		
 		glNormal3f(0.0, 0.0, 1.0);
 		glColor3ub(this->Vertex[t2].R,this->Vertex[t2].G,this->Vertex[t2].B);
-		glVertex3f(this->Texcoord[t2].S, this->Texcoord[t2].T, 0.0);
+		glVertex3f(this->Vertex[t2].S, this->Vertex[t2].T, 0.0);
 
 		glNormal3f(0.0, 0.0, 1.0);
 		glColor3ub(this->Vertex[t3].R,this->Vertex[t3].G,this->Vertex[t3].B);
-		glVertex3f(this->Texcoord[t3].S, this->Texcoord[t3].T, 0.0);
+		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
 	glEnd();
 }

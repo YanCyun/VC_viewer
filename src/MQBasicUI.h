@@ -15,6 +15,8 @@ class MQBasicUI
 	double TranslateLstX, TranslateLstY;
 	double TranslateDifX, TranslateDifY, TranslateDepth;
 
+	double ScaleX,ScaleY;
+
 	double ZoomStr, ZoomLstY, ZoomDifY;
 
 	int    Viewport[4];
@@ -29,6 +31,7 @@ class MQBasicUI
 	void MouseMove(int X, int Y);
 	void MouseUp();
 	void Paint();
+	void SetScale(double x,double y);
 
 	//X, Y are input OpenGL window coordinates. OX, OY, OZ are output 3D coordinates
 	//The OpenGL window should be "MakeCurrent"
@@ -43,6 +46,7 @@ class MQBasicUI
 		this->TranslateStrX = 0.0;
 		this->TranslateStrY = 0.0;
 		this->ZoomStr = 0.0;
+		this->ScaleX = this->ScaleY = 1.0;
 
 		//public
 		this->Mode = this->NONE;
