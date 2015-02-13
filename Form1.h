@@ -70,6 +70,7 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStrip^  toolStrip1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton2;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton3;
 
 	private:
 		/// <summary>
@@ -103,6 +104,7 @@ namespace VC_viewer2010 {
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -227,8 +229,8 @@ namespace VC_viewer2010 {
 			// 
 			// toolStrip1
 			// 
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->toolStripButton1, 
-				this->toolStripButton2});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->toolStripButton1, 
+				this->toolStripButton3, this->toolStripButton2});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(496, 25);
@@ -252,6 +254,15 @@ namespace VC_viewer2010 {
 			this->toolStripButton2->Size = System::Drawing::Size(94, 22);
 			this->toolStripButton2->Text = L"CheckHoles";
 			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
+			// 
+			// toolStripButton3
+			// 
+			this->toolStripButton3->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton3.Image")));
+			this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton3->Name = L"toolStripButton3";
+			this->toolStripButton3->Size = System::Drawing::Size(86, 22);
+			this->toolStripButton3->Text = L"DrawPoint";
+			this->toolStripButton3->Click += gcnew System::EventHandler(this, &Form1::toolStripButton3_Click);
 			// 
 			// Form1
 			// 
@@ -335,11 +346,16 @@ namespace VC_viewer2010 {
 		glPushMatrix();
 		this->BasicUI->Paint();
 		
-		if(!this->toolStripButton1->Checked)	this->TMesh->Draw(this->ColR, this->ColG, this->ColB);
-		else{
-			
-			this->BasicUI->SetScale(128.0 / this->TMesh->boundary,128.0 / this->TMesh->boundary);
+		if(this->toolStripButton1->Checked){
 			this->TMesh->Draw2D();
+		}
+		else if(this->toolStripButton3->Checked){
+			this->TMesh->DrawPoint();
+			
+		}
+		else{
+			this->TMesh->Draw(this->ColR, this->ColG, this->ColB);
+			//this->BasicUI->SetScale(128.0 / this->TMesh->boundary,128.0 / this->TMesh->boundary);
 		}
 		
 		glPopMatrix();
@@ -458,12 +474,23 @@ namespace VC_viewer2010 {
 	}
 private: System::Void toolStripButton1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 this->toolStripButton1->Checked = !this->toolStripButton1->Checked;
+			 if(this->toolStripButton1->Checked){
+				if(this->toolStripButton3->Checked) this->toolStripButton3->Checked = !this->toolStripButton3->Checked;
+			 }
 		 }
 private: System::Void toolStripButton2_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 this->TMesh->FindHole();
 		 }
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void toolStripButton3_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 this->toolStripButton3->Checked = !this->toolStripButton3->Checked;
+			 if(this->toolStripButton3->Checked) {
+				 if(this->toolStripButton1->Checked) this->toolStripButton1->Checked = !this->toolStripButton1->Checked;
+			 }
+
 		 }
 };
 }

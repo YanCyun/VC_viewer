@@ -161,6 +161,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	this->UpdateVertexLaplacianCoordinate();
 	this->CalculateLaplacianToColor();
 	this->FindBoundary();
+	this->UpdatePointStruct();
 
 	return true;
 }
@@ -234,6 +235,83 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 	}
 }
 
+void MQTriangleMesh::UpdatePointStruct(void){
+
+	double centerX = (boundaryX.second+boundaryX.first)/2.0;
+	double centerY = (boundaryY.second+boundaryY.first)/2.0;
+	
+	double starX = centerX - boundary/2.0;
+	double starY = centerY - boundary/2.0;
+
+	double maxl,minl = 0;
+
+	double pointDistance = boundary/imageSize;
+
+	this->ImagePixel.resize(imageSize);
+
+	for(int i = 0 ; i < imageSize ; i++){
+		this->ImagePixel[i].resize(imageSize);
+		for(int j = 0 ; j < imageSize ; j++){
+			this->ImagePixel[i][j].X = starX + i*pointDistance;
+			this->ImagePixel[i][j].Y = starY + j*pointDistance;
+			this->PointInTriange(this->ImagePixel[i][j]);
+			if(this->ImagePixel[i][j].Triangle != 0){
+				double max_l = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
+				double min_l = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
+				if(maxl == 0 && minl ==0){
+					maxl = max_l;
+					minl = min_l;
+				}
+				else{
+					if(minl > min_l)  minl = min_l;
+					if(maxl < max_l)  maxl = max_l;
+				}
+			}
+		}
+	}
+	
+	double normalize_number = 255.0 / (maxl-minl);
+
+	for(int i = 0 ; i < imageSize ; i++){
+		for(int j = 0 ; j < imageSize ; j++){
+			if(this->ImagePixel[i][j].Triangle == 0) continue;
+			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minl) *  normalize_number;
+			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minl) *  normalize_number;
+			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minl) *  normalize_number;
+		}
+	}
+	
+	printf("UpdatePointStruct Done\n");
+
+}
+
+void MQTriangleMesh::PointInTriange(MQImagePixel &p){
+
+	double a1,a2,a3;
+
+	for(int i = 1 ; i <= this->TriangleNum ; i++){
+		
+		a1 = (Vertex[TriangleTex[i].T1].S - p.X) * (Vertex[TriangleTex[i].T2].T - p.Y) - (Vertex[TriangleTex[i].T1].T - p.Y) * (Vertex[TriangleTex[i].T2].S - p.X);//x1y1-y1y2
+		if(a1 < 0) continue;
+		a2 = (Vertex[TriangleTex[i].T2].S - p.X) * (Vertex[TriangleTex[i].T3].T - p.Y) - (Vertex[TriangleTex[i].T2].T - p.Y) * (Vertex[TriangleTex[i].T3].S - p.X);
+		if(a2 < 0) continue;
+		a3 = (Vertex[TriangleTex[i].T3].S - p.X) * (Vertex[TriangleTex[i].T1].T - p.Y) - (Vertex[TriangleTex[i].T3].T - p.Y) * (Vertex[TriangleTex[i].T1].S - p.X);
+		if(a3 < 0) continue;
+
+		p.Triangle = i;
+
+		double sum_a = a1+a2+a3;
+		p.LapX = Vertex[TriangleTex[i].T1].LapX * a2/sum_a + Vertex[TriangleTex[i].T2].LapX * a3/sum_a + Vertex[TriangleTex[i].T3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
+		p.LapY = Vertex[TriangleTex[i].T1].LapY * a2/sum_a + Vertex[TriangleTex[i].T2].LapY * a3/sum_a + Vertex[TriangleTex[i].T3].LapY * a1/sum_a;
+		p.LapZ = Vertex[TriangleTex[i].T1].LapZ * a2/sum_a + Vertex[TriangleTex[i].T2].LapZ * a3/sum_a + Vertex[TriangleTex[i].T3].LapZ * a1/sum_a;
+
+		return ;
+
+	}
+	p.Triangle = 0;
+
+}
+
 void MQTriangleMesh::CalculateLaplacianToColor(void)
 {
 	double normalize_number = 255.0 / (maxLap-minLap);
@@ -262,14 +340,6 @@ void MQTriangleMesh::FindBoundary(void){
 
 	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first);
 
-	double centerX = (boundaryX.first + boundaryX.second)/2.0;
-	double centerY = (boundaryY.first + boundaryY.second)/2.0;
-
-	for(int i = 1 ; i <= this->TexcoordNum ; i++){
-		this->Vertex[i].S = this->Vertex[i].S - centerX;
-		this->Vertex[i].T = this->Vertex[i].T - centerY;
-	}
-	
 
 }
 
@@ -393,4 +463,19 @@ void MQTriangleMesh::Draw2D(void)
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
 	glEnd();
+}
+
+void MQTriangleMesh::DrawPoint(void)
+{
+	glBegin(GL_POINTS);
+	for(int i = 0; i < this->imageSize; i++){
+		for(int j = 0; j < this->imageSize;j++){
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(this->ImagePixel[i][j].R,this->ImagePixel[i][j].G,this->ImagePixel[i][j].B);
+			glVertex3f(this->ImagePixel[i][j].X, this->ImagePixel[i][j].Y, 0.0);
+		}
+	}
+	glEnd();
+
+	
 }

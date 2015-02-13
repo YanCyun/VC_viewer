@@ -88,6 +88,15 @@ struct HalfEdge
 	int  face;
 };
 
+struct MQImagePixel
+{
+	double X,Y;
+	double LapX,LapY,LapZ;
+	double R,G,B;
+	int Triangle;
+
+};
+
 
 class MQTriangleMesh
 {
@@ -96,11 +105,13 @@ public:
 	int VertexNum;
 	int TexcoordNum;
 	int TriangleNum;
+	int imageSize;
 	double minLap,maxLap;
 	double boundary;
 	vector<MQVertex>   Vertex;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
+	vector<vector<MQImagePixel>> ImagePixel;
 	pair<float,float> boundaryX;
 	pair<float,float> boundaryY;
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
@@ -111,10 +122,15 @@ public:
 	bool ReadObjFile(const char *FileName);
 	void Draw(GLubyte Red, GLubyte Green, GLubyte Blue);
 	void Draw2D(void);
+	void DrawPoint(void);
 	
+	void UpdatePointStruct(void);
 	void UpdateVertexNeigborVertex(void);
 	void UpdateVertexLaplacianCoordinate(void);
+	
 	void CalculateLaplacianToColor(void);
+	void PointInTriange(MQImagePixel &p);
+
 	void FindBoundary(void);
 	void FindHole(void);
 
@@ -124,6 +140,7 @@ public:
 	{
 		VertexNum = 0;
 		TriangleNum = 0;
+		imageSize = 512;
 	}
 
 	virtual ~MQTriangleMesh()

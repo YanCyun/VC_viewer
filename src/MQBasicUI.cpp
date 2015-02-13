@@ -166,7 +166,7 @@ void MQBasicUI::SetScale(double x,double y){
 
 void MQBasicUI::Paint()
 {
-	gluLookAt(0.0, 0.0, 256.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, 0.0, 5.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glTranslatef((float)this->TranslateStrX, (float)this->TranslateStrY, 0.0f);
 	glScalef((float)this->ScaleX,(float)this->ScaleY,1.0f);
