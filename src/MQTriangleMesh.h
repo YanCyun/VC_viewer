@@ -64,22 +64,7 @@ public:
 };
 
 
-class MQTriangleTex
-{
-public:
-
-	int    T1, T2, T3;
-
-public:
-
-	MQTriangleTex()
-	{
-		T1 = T2 = T3 = 0;
-	}
-
-	~MQTriangleTex()
-	{}
-};
+struct MQTriangleTex{ int T1, T2, T3; };
 
 struct HalfEdge
 {
@@ -94,7 +79,6 @@ struct MQImagePixel
 	double LapX,LapY,LapZ;
 	double R,G,B;
 	int Triangle;
-
 };
 
 
@@ -106,15 +90,20 @@ public:
 	int TexcoordNum;
 	int TriangleNum;
 	int imageSize;
+
 	double minLap,maxLap;
 	double boundary;
+
 	vector<MQVertex>   Vertex;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
+
 	pair<float,float> boundaryX;
 	pair<float,float> boundaryY;
+
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
+
 	list<list<int>> Holes;
 
 public:
@@ -129,7 +118,7 @@ public:
 	void UpdateVertexLaplacianCoordinate(void);
 	
 	void CalculateLaplacianToColor(void);
-	void PointInTriange(MQImagePixel &p);
+	void PointInTriange(MQImagePixel &p,int tri);
 
 	void FindBoundary(void);
 	void FindHole(void);

@@ -350,8 +350,7 @@ namespace VC_viewer2010 {
 			this->TMesh->Draw2D();
 		}
 		else if(this->toolStripButton3->Checked){
-			this->TMesh->DrawPoint();
-			
+			this->TMesh->DrawPoint();	
 		}
 		else{
 			this->TMesh->Draw(this->ColR, this->ColG, this->ColB);

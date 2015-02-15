@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include <algorithm> 
+#include <time.h>
 
 void _CalculateNormal(double v[3][3], double out[3])
 {
@@ -157,11 +158,18 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 
 	delete [] _NormalTable;
 
+	clock_t t_start,t_end;
+	t_start = clock();
+
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexLaplacianCoordinate();
 	this->CalculateLaplacianToColor();
 	this->FindBoundary();
 	this->UpdatePointStruct();
+
+	t_end = clock();
+	double t_duration = (double)(t_end - t_start);
+	printf("%.0fms\n",t_duration);
 
 	return true;
 }
@@ -237,47 +245,53 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 
 void MQTriangleMesh::UpdatePointStruct(void){
 
-	double centerX = (boundaryX.second+boundaryX.first)/2.0;
-	double centerY = (boundaryY.second+boundaryY.first)/2.0;
+	//set start coordinate
+	double starX = this->boundaryX.first;
+	double starY = this->boundaryY.first;
+
+	double maxLap_img,minLap_img = 0;
 	
-	double starX = centerX - boundary/2.0;
-	double starY = centerY - boundary/2.0;
-
-	double maxl,minl = 0;
-
+	//set distance between each point
 	double pointDistance = boundary/imageSize;
 
+	int tri;
+	
 	this->ImagePixel.resize(imageSize);
 
 	for(int i = 0 ; i < imageSize ; i++){
+		this->ImagePixel[i].clear();
 		this->ImagePixel[i].resize(imageSize);
 		for(int j = 0 ; j < imageSize ; j++){
 			this->ImagePixel[i][j].X = starX + i*pointDistance;
 			this->ImagePixel[i][j].Y = starY + j*pointDistance;
-			this->PointInTriange(this->ImagePixel[i][j]);
+			
+			if(j > 0) tri =  this->ImagePixel[i][j-1].Triangle;
+			else tri = 0;
+			this->PointInTriange(this->ImagePixel[i][j],tri);
+
 			if(this->ImagePixel[i][j].Triangle != 0){
-				double max_l = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
-				double min_l = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
-				if(maxl == 0 && minl ==0){
-					maxl = max_l;
-					minl = min_l;
+				double max_lap = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
+				double min_lap = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
+				if(maxLap_img == 0 && minLap_img ==0){
+					maxLap_img = max_lap;
+					minLap_img = min_lap;
 				}
 				else{
-					if(minl > min_l)  minl = min_l;
-					if(maxl < max_l)  maxl = max_l;
+					if(minLap_img > min_lap)  minLap_img = min_lap;
+					if(maxLap_img < max_lap)  maxLap_img = max_lap;
 				}
 			}
 		}
 	}
 	
-	double normalize_number = 255.0 / (maxl-minl);
+	double normalize_number = 255.0 / (maxLap_img-minLap_img);
 
 	for(int i = 0 ; i < imageSize ; i++){
 		for(int j = 0 ; j < imageSize ; j++){
 			if(this->ImagePixel[i][j].Triangle == 0) continue;
-			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minl) *  normalize_number;
-			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minl) *  normalize_number;
-			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minl) *  normalize_number;
+			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
+			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
+			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
 		}
 	}
 	
@@ -285,9 +299,27 @@ void MQTriangleMesh::UpdatePointStruct(void){
 
 }
 
-void MQTriangleMesh::PointInTriange(MQImagePixel &p){
+void MQTriangleMesh::PointInTriange(MQImagePixel &p,int tri)
+{
 
 	double a1,a2,a3;
+	double sum_a;
+	if(tri != 0){
+		a1 = (Vertex[TriangleTex[tri].T1].S - p.X) * (Vertex[TriangleTex[tri].T2].T - p.Y) - (Vertex[TriangleTex[tri].T1].T - p.Y) * (Vertex[TriangleTex[tri].T2].S - p.X);//x1y1-y1y2
+		a2 = (Vertex[TriangleTex[tri].T2].S - p.X) * (Vertex[TriangleTex[tri].T3].T - p.Y) - (Vertex[TriangleTex[tri].T2].T - p.Y) * (Vertex[TriangleTex[tri].T3].S - p.X);
+		a3 = (Vertex[TriangleTex[tri].T3].S - p.X) * (Vertex[TriangleTex[tri].T1].T - p.Y) - (Vertex[TriangleTex[tri].T3].T - p.Y) * (Vertex[TriangleTex[tri].T1].S - p.X);
+
+		if(a1>=0 && a2>=0 && a3>=0){
+			p.Triangle = tri;
+
+			sum_a = a1+a2+a3;
+			p.LapX = Vertex[TriangleTex[tri].T1].LapX * a2/sum_a + Vertex[TriangleTex[tri].T2].LapX * a3/sum_a + Vertex[TriangleTex[tri].T3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
+			p.LapY = Vertex[TriangleTex[tri].T1].LapY * a2/sum_a + Vertex[TriangleTex[tri].T2].LapY * a3/sum_a + Vertex[TriangleTex[tri].T3].LapY * a1/sum_a;
+			p.LapZ = Vertex[TriangleTex[tri].T1].LapZ * a2/sum_a + Vertex[TriangleTex[tri].T2].LapZ * a3/sum_a + Vertex[TriangleTex[tri].T3].LapZ * a1/sum_a;
+			
+			return;
+		}
+	}
 
 	for(int i = 1 ; i <= this->TriangleNum ; i++){
 		
@@ -300,7 +332,7 @@ void MQTriangleMesh::PointInTriange(MQImagePixel &p){
 
 		p.Triangle = i;
 
-		double sum_a = a1+a2+a3;
+		sum_a = a1+a2+a3;
 		p.LapX = Vertex[TriangleTex[i].T1].LapX * a2/sum_a + Vertex[TriangleTex[i].T2].LapX * a3/sum_a + Vertex[TriangleTex[i].T3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
 		p.LapY = Vertex[TriangleTex[i].T1].LapY * a2/sum_a + Vertex[TriangleTex[i].T2].LapY * a3/sum_a + Vertex[TriangleTex[i].T3].LapY * a1/sum_a;
 		p.LapZ = Vertex[TriangleTex[i].T1].LapZ * a2/sum_a + Vertex[TriangleTex[i].T2].LapZ * a3/sum_a + Vertex[TriangleTex[i].T3].LapZ * a1/sum_a;
@@ -323,7 +355,8 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 
 }
 
-void MQTriangleMesh::FindBoundary(void){
+void MQTriangleMesh::FindBoundary(void)
+{
 
 	for(int i = 1 ; i <= this->TexcoordNum ; i++){
 		if(i == 1){
@@ -340,11 +373,10 @@ void MQTriangleMesh::FindBoundary(void){
 
 	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first);
 
-
 }
 
-
-void MQTriangleMesh::FindHole(void){
+void MQTriangleMesh::FindHole(void)
+{
 
 	int first,second;
 	map<int,int>  singleEdge ;
@@ -355,20 +387,17 @@ void MQTriangleMesh::FindHole(void){
 		first = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.first;
 		second = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.second;
 		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			//printf("[%d,%d]\n",this->Triangle[i].V2,this->Triangle[i].V1);
 			singleEdge[this->Triangle[i].V2] = this->Triangle[i].V1;
 		}
 		first = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge.first;
 		second = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge.second;
 		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			//printf("[%d,%d]\n",this->Triangle[i].V3,this->Triangle[i].V2);
 			singleEdge[this->Triangle[i].V3] = this->Triangle[i].V2;
 		}
 
 		first = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge.first;
 		second = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge.second;
 		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			//printf("[%d,%d]\n",this->Triangle[i].V1,this->Triangle[i].V3);
 			singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
 		}
 	}

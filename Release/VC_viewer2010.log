@@ -1,4 +1,4 @@
-﻿Build started 2015/2/13 下午 05:18:35.
+﻿Build started 2015/2/15 下午 06:24:23.
      1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\VC_viewer2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -6,61 +6,59 @@
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
          All outputs are up-to-date.
-         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt VC_viewer2010.cpp src\MQTriangleMesh.cpp /clr:nostdlib 
-         VC_viewer2010.cpp
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt src\MQTriangleMesh.cpp /clr:nostdlib 
          MQTriangleMesh.cpp
-     1>src\MQTriangleMesh.cpp(330): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(331): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(334): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(335): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(336): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(337): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(428): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(428): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(428): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(430): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(430): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(430): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(432): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(432): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(432): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(436): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(436): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(436): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(454): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(454): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(454): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(455): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(455): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(363): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(364): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(367): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(368): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(369): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(370): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(457): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(457): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(457): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
      1>src\MQTriangleMesh.cpp(459): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
      1>src\MQTriangleMesh.cpp(459): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(462): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(462): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(462): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(459): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(461): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(461): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(461): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(462): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(462): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
      1>src\MQTriangleMesh.cpp(463): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
      1>src\MQTriangleMesh.cpp(463): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(474): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(474): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(474): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(475): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(475): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-         Generating Code...
-     1>c:\users\yancyun\desktop\vc_viewer2010\src\mqtrianglemesh.cpp(261): warning C4700: uninitialized local variable 'maxl' used
+     1>src\MQTriangleMesh.cpp(463): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(465): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(465): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(465): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(466): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(466): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(467): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(467): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(467): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(483): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(483): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(483): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(484): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(484): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(487): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(487): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(487): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(488): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(488): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(491): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(491): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(491): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(492): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(492): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(503): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(503): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(503): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(504): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>src\MQTriangleMesh.cpp(504): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\yancyun\desktop\vc_viewer2010\src\mqtrianglemesh.cpp(275): warning C4700: uninitialized local variable 'maxLap_img' used
          All outputs are up-to-date.
        CoreResGen:
          No resources are out of date with respect to their source files. Skipping resource generation.
@@ -87,4 +85,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.38
+Time Elapsed 00:00:01.68
