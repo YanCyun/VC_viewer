@@ -79,6 +79,18 @@ struct MQImagePixel
 	double LapX,LapY,LapZ;
 	double R,G,B;
 	int Triangle;
+	bool isHole;
+
+	MQImagePixel(){
+		X = Y = 0.0;
+		LapX = LapY = LapZ = 0.0;
+		R = G = B = 0.0;
+		Triangle = 0;
+		isHole = false;
+	}
+
+	~MQImagePixel()	
+	{}
 };
 
 
@@ -106,6 +118,28 @@ public:
 
 	list<list<int>> Holes;
 
+	//data
+	int sample_w, sample_h;
+	void* sample_data;
+	double** sample_red;
+	double** sample_green;
+	double** sample_blue;
+
+	int texture_w, texture_h;
+	void * texture_data;
+	double** texture_red;
+	double** texture_green;
+	double** texture_blue;
+	int** original_pos_x;
+	int** original_pos_y;
+
+	double** red;
+	double** green;
+	double** blue;
+	vector<int> candidate_x;
+	vector<int> candidate_y;
+
+
 public:
 
 	bool ReadObjFile(const char *FileName);
@@ -118,10 +152,16 @@ public:
 	void UpdateVertexLaplacianCoordinate(void);
 	
 	void CalculateLaplacianToColor(void);
-	void PointInTriange(MQImagePixel &p,int tri);
+	void PointInTriange(MQImagePixel *p,int tri);
 
 	void FindBoundary(void);
 	void FindHole(void);
+
+	void setTexture(int w , int h);
+	void generateTexture(int size,int startX,int startY);
+	void convertSample();
+	void initializeTexture(int size,int startX,int startY);
+	void findBestMatch(int i, int j, int size);
 
 public:
 
