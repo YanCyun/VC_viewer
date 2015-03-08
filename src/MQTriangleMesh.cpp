@@ -160,7 +160,6 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 
 	clock_t t_start,t_end;
 	t_start = clock();
-
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexLaplacianCoordinate();
 	this->CalculateLaplacianToColor();
@@ -195,7 +194,7 @@ void MQTriangleMesh::UpdateVertexNeigborVertex(void)
 
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
-		//this->Vertex[i].NeighborVertex.sort();
+		this->Vertex[i].NeighborVertex.sort();
 		this->Vertex[i].NeighborVertex.unique();
 	}
 }
@@ -245,16 +244,16 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 
 void MQTriangleMesh::UpdatePointStruct(void){
 
-	//set start coordinate
+	//set start coordinate in left-top
 	double centerX = (boundaryX.first+boundaryX.second)/2;
 	double centerY = (boundaryY.first+boundaryY.second)/2;
-
-	double starX = centerX - boundary/2;
-	double starY = centerY + boundary/2;
+	double startX = centerX - boundary/2;
+	double startY = centerY + boundary/2;
 
 	double maxLap_img = 0;
 	double minLap_img = 0;
-	//set distance between each point
+
+	//set each point distance 
 	double pointDistance = boundary/imageSize;
 
 	int tri;
@@ -271,8 +270,9 @@ void MQTriangleMesh::UpdatePointStruct(void){
 		tempHoles.clear();
 		checkHole = false;
 		for(int j = 0 ; j < imageSize ; j++){
-			this->ImagePixel[i][j].X = starX + j*pointDistance;
-			this->ImagePixel[i][j].Y = starY - i*pointDistance;
+			//set each pixel coordinate
+			this->ImagePixel[i][j].X = startX + j*pointDistance;
+			this->ImagePixel[i][j].Y = startY - i*pointDistance;
 			
 			if(j > 0) tri =  this->ImagePixel[i][j-1].Triangle;
 			else{
@@ -280,6 +280,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			}
 			this->PointInTriange(&this->ImagePixel[i][j],tri);
 			
+			//if this pixel in the triangle 
 			if(this->ImagePixel[i][j].Triangle != 0){
 				//get hole pixels
 				if(checkHole){
@@ -290,7 +291,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 				else{
 					checkHole = true;
 				}				
-				//get pixel lap range
+				//get pixel laplacian range
 				double max_lap = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
 				double min_lap = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
 				if(maxLap_img == 0 && minLap_img ==0){
@@ -304,36 +305,34 @@ void MQTriangleMesh::UpdatePointStruct(void){
 
 			}
 			else{
-				if(checkHole){
-					tempHoles.push_back(j);
-				}
+				if(checkHole) tempHoles.push_back(j);
 			}
-
 		}
 	}
 	
 	double normalize_number = 255.0 / (maxLap_img-minLap_img);
-
+	//laplacian to color 
 	for(int i = 0 ; i < imageSize ; i++){
 		for(int j = 0 ; j < imageSize ; j++){
 			if(this->ImagePixel[i][j].Triangle == 0) continue;
 			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
-			//printf("%f\n",this->ImagePixel[i][j].R);
 		}
 	}
 	
 	//fill hole
 	bool checknext = false;
-	this->convertSample();
-	for(int i = 0 ; i < imageSize ; i+= imageSize/4 ){
-		for(int j = 0 ; j < imageSize ; j+= imageSize/4){
-			for(int y = i ; y < i+imageSize/4 ; y++){
-				for(int x = j ; x < j+imageSize/4 ; x++){
+	int split_size = 4;
+	int window_size = 11;
+	for(int i = 0 ; i < imageSize ; i+= imageSize/split_size ){
+		for(int j = 0 ; j < imageSize ; j+= imageSize/split_size){
+			for(int y = i ; y < i+imageSize/split_size ; y++){
+				for(int x = j ; x < j+imageSize/split_size ; x++){
 					if(ImagePixel[y][x].isHole){
-						this->setTexture(imageSize/4,imageSize/4);
-						this->generateTexture(5,j,i);
+						this->convertSample();
+						this->setTexture(imageSize/split_size,imageSize/split_size);
+						this->generateTexture(window_size,j,i);
 						checknext = true;
 						break;
 					}
@@ -352,6 +351,7 @@ void MQTriangleMesh::PointInTriange(MQImagePixel *p,int tri)
 
 	double a1,a2,a3;
 	double sum_a;
+	//if neighborhood pixel in the triangle
 	if(tri != 0){
 		a1 = (Vertex[TriangleTex[tri].T1].S - p->X) * (Vertex[TriangleTex[tri].T2].T - p->Y) - (Vertex[TriangleTex[tri].T1].T - p->Y) * (Vertex[TriangleTex[tri].T2].S - p->X);//x1y1-y1y2
 		a2 = (Vertex[TriangleTex[tri].T2].S - p->X) * (Vertex[TriangleTex[tri].T3].T - p->Y) - (Vertex[TriangleTex[tri].T2].T - p->Y) * (Vertex[TriangleTex[tri].T3].S - p->X);
@@ -425,29 +425,13 @@ void MQTriangleMesh::FindBoundary(void)
 
 void MQTriangleMesh::FindHole(void)
 {
-
-	int first,second;
 	map<int,int>  singleEdge ;
 
 	//Find Single Edge
-	for(int i = 1; i <= this->TriangleNum; i++){
-				
-		first = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.first;
-		second = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge.second;
-		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			singleEdge[this->Triangle[i].V2] = this->Triangle[i].V1;
-		}
-		first = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge.first;
-		second = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge.second;
-		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			singleEdge[this->Triangle[i].V3] = this->Triangle[i].V2;
-		}
-
-		first = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge.first;
-		second = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge.second;
-		if(this->Edges.count(pair<int,int>(first,second)) <= 0){
-			singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
-		}
+	for(int i = 1; i <= this->TriangleNum; i++){				
+		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V2] = this->Triangle[i].V1;	
+		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V3] = this->Triangle[i].V2;
+		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
 	}
 
 	//Attach Edge & Find Hole 
@@ -473,7 +457,6 @@ void MQTriangleMesh::FindHole(void)
 	}
 
 	printf("Holes size:%d\n",Holes.size());
-
 	list<int> hole_point;
 	list<list<int>>::iterator hole_it;
 	list<int>::iterator point_it;
@@ -517,14 +500,14 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 
 	cout<<"Performing exhaustive search...\n";
 
-	red = new double*[size];
-	green = new double*[size];
-	blue = new double*[size];
-	for(int x=0; x<size; x++)
+	red = new double*[size/2+1];
+	green = new double*[size/2+1];
+	blue = new double*[size/2+1];
+	for(int y=0; y<size/2+1; y++)
 	{
-		red[x] = new double[size/2+1];
-		blue[x] = new double[size/2+1];
-		green[x] = new double[size/2+1];
+		red[y] = new double[size];
+		blue[y] = new double[size];
+		green[y] = new double[size];
 	}
 
 	for(i=0; i<texture_h; i++)
@@ -593,7 +576,7 @@ void MQTriangleMesh::initializeTexture(int size,int startX, int startY)
 }
 
 void MQTriangleMesh::convertSample()
-	// convert the sample from the stream of bytes to 2d array of pixels
+// convert the sample from the stream of bytes to 2d array of pixels
 {
 	int i, j;
 
@@ -627,7 +610,7 @@ void MQTriangleMesh::convertSample()
 }
 
 void MQTriangleMesh::findBestMatch(int j, int i, int size)
-	// find the best match for the texture image at pixel (i, j) using a window of size x size
+// find the best match for the texture image at pixel (i, j) using a window of size x size
 {
 	int actualw, actualh;
 	int actualx, actualy;
@@ -685,13 +668,14 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 				//replace with random
 				actualx = rand()%(sample_w-size+1)+size/2;
 				actualy = rand()%(sample_h-size/2)+size/2;
-				while(sample_red[actualy][actualx] == -1){
-					actualx = rand()%(sample_w-size+1)+size/2;
-					actualy = rand()%(sample_h-size/2)+size/2;
-				}
+				
+			}
+			while(sample_red[actualy][actualx] == -1){
+				actualx = rand()%(sample_w-size+1)+size/2;
+				actualy = rand()%(sample_h-size/2)+size/2;
 			}
 			add = true;
-			for(int c=0; c<candidate_x.size(); c++)
+			for(size_t c=0; c<candidate_x.size(); c++)
 			{
 				if(candidate_x[c] == actualx && candidate_y[c] == actualy)
 					// already on candidate list
@@ -707,7 +691,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 			}
 		}
 	}
-	for(int c=0; c<candidate_x.size(); c++)
+	for(size_t c=0; c<candidate_x.size(); c++)
 	{
 		tempd = 0;
 		for(y=candidate_y[c]-size/2, ti=0; y<candidate_y[c]+1; y++, ti++)

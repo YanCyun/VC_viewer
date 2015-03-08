@@ -118,7 +118,7 @@ public:
 
 	list<list<int>> Holes;
 
-	//data
+	//fill hole data
 	int sample_w, sample_h;
 	void* sample_data;
 	double** sample_red;
