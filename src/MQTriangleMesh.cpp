@@ -322,9 +322,10 @@ void MQTriangleMesh::UpdatePointStruct(void){
 	}
 	
 	//fill hole
-	bool checknext = false;
-	int split_size = 4;
 	int window_size = 11;
+	/*bool checknext = false;
+	int split_size = 4;
+	
 	for(int i = 0 ; i < imageSize ; i+= imageSize/split_size ){
 		for(int j = 0 ; j < imageSize ; j+= imageSize/split_size){
 			for(int y = i ; y < i+imageSize/split_size ; y++){
@@ -341,7 +342,11 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			}
 			checknext = false;
 		}	
-	}
+	}*/
+	this->convertSample();
+	this->setTexture(imageSize,imageSize);
+	this->generateTexture(window_size,0,0);
+
 	printf("UpdatePointStruct Done\n");
 
 }
@@ -519,11 +524,36 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 		}
 		for(j=0; j<texture_w; j++)
 		{		
-			if(ImagePixel[i+startY][j+startX].isHole){	
+			if(ImagePixel[i+startY][j+startX].isHole && ImagePixel[i+startY][j+startX].R == 0){	
+
 				findBestMatch(j, i, size);
 				ImagePixel[i+startY][j+startX].R = texture_red[i][j];
 				ImagePixel[i+startY][j+startX].G = texture_green[i][j];
 				ImagePixel[i+startY][j+startX].B = texture_blue[i][j];
+
+				bool filldone = false;
+				int temp_x = j;
+				int temp_y = i;
+				while(true){
+					for(int y = temp_y-1;y <= temp_y+1;y++){
+						for(int x = temp_x-1;x<= temp_x+1;x++){
+							if(ImagePixel[y+startY][x+startX].isHole && ImagePixel[y+startY][x+startX].R == 0){
+								findBestMatch(x, y, size);
+								ImagePixel[y+startY][x+startX].R = texture_red[y][x];
+								ImagePixel[y+startY][x+startX].G = texture_green[y][x];
+								ImagePixel[y+startY][x+startX].B = texture_blue[y][x];
+								temp_x = x;
+								temp_y = y;
+								filldone = true;
+								break;
+							}
+						}
+						if(filldone) break;
+					}
+					if(filldone) filldone = false;
+					else break;
+				}
+
 			}
 		}
 	}
@@ -660,8 +690,12 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 			y = (actualh+texture_h)%texture_h;
 			// get the coordinates for the pixel in the sample image from which
 			// the texture pixel came from and shift appropriately
+
 			actualx = original_pos_x[y][x]+j-actualw;
 			actualy = original_pos_y[y][x]+i-actualh;
+			//actualx = original_pos_x[y][x];
+			//actualy = original_pos_y[y][x];
+
 			// check if neighborhood of candidate lies completely in sample
 			if(actualx < size/2 || actualx >= sample_w-size/2 || actualy < size/2 || actualy >= sample_h-size/2)
 			{
