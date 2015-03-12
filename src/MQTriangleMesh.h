@@ -80,6 +80,8 @@ struct MQImagePixel
 	double R,G,B;
 	int Triangle;
 	bool isHole;
+	list<int> neighborHole;
+	int position;
 
 	MQImagePixel(){
 		X = Y = 0.0;
@@ -87,10 +89,13 @@ struct MQImagePixel
 		R = G = B = 0.0;
 		Triangle = 0;
 		isHole = false;
+		position = 0;
 	}
 
 	~MQImagePixel()	
 	{}
+
+	friend bool operator <(const MQImagePixel& p1,const MQImagePixel& p2){ return p1.neighborHole.size() < p2.neighborHole.size();}
 };
 
 
@@ -110,13 +115,14 @@ public:
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
-
+	
 	pair<float,float> boundaryX;
 	pair<float,float> boundaryY;
 
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 
 	list<list<int>> Holes;
+	list<MQImagePixel> HolePixels;
 
 	//fill hole data
 	int sample_w, sample_h;

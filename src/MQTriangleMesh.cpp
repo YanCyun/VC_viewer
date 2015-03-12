@@ -311,38 +311,35 @@ void MQTriangleMesh::UpdatePointStruct(void){
 	}
 	
 	double normalize_number = 255.0 / (maxLap_img-minLap_img);
-	//laplacian to color 
+	
 	for(int i = 0 ; i < imageSize ; i++){
 		for(int j = 0 ; j < imageSize ; j++){
+			if(i > 0 && i < imageSize-1 && j >0 && j < imageSize-1){
+				if(this->ImagePixel[i][j].isHole){
+					ImagePixel[i][j].position = i*imageSize + j;
+					this->HolePixels.push_back(ImagePixel[i][j]);
+					
+					for(int y = i-1 ; y <= i+1 ;y++){
+						for(int x = j-1 ; x <= j+1 ; x++){
+							if(y == i && x == j) continue;
+							if(this->ImagePixel[y][x].isHole){
+								this->ImagePixel[i][j].neighborHole.push_back(y*imageSize+x);
+							}
+						}
+					}
+				}
+			}
 			if(this->ImagePixel[i][j].Triangle == 0) continue;
+			//laplacian to color 
 			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
 		}
 	}
+	this->HolePixels.sort();
 	
 	//fill hole
 	int window_size = 11;
-	/*bool checknext = false;
-	int split_size = 4;
-	
-	for(int i = 0 ; i < imageSize ; i+= imageSize/split_size ){
-		for(int j = 0 ; j < imageSize ; j+= imageSize/split_size){
-			for(int y = i ; y < i+imageSize/split_size ; y++){
-				for(int x = j ; x < j+imageSize/split_size ; x++){
-					if(ImagePixel[y][x].isHole){
-						this->convertSample();
-						this->setTexture(imageSize/split_size,imageSize/split_size);
-						this->generateTexture(window_size,j,i);
-						checknext = true;
-						break;
-					}
-				}
-				if(checknext) break;
-			}
-			checknext = false;
-		}	
-	}*/
 	this->convertSample();
 	this->setTexture(imageSize,imageSize);
 	this->generateTexture(window_size,0,0);
@@ -515,7 +512,29 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 		green[y] = new double[size];
 	}
 
-	for(i=0; i<texture_h; i++)
+	list<int>::iterator it;
+	MQImagePixel temp;
+	while(HolePixels.size()> 0){
+		temp = HolePixels.front();
+		i = temp.position / imageSize;
+		j = temp.position % imageSize;
+		
+		findBestMatch(j, i, size);
+		
+		ImagePixel[i][j].R = texture_red[i][j];
+		ImagePixel[i][j].G = texture_green[i][j];
+		ImagePixel[i][j].B = texture_blue[i][j];
+
+		for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
+			ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
+		}
+		HolePixels.pop_front();
+		HolePixels.sort();
+
+
+	}
+	
+	/*for(i=0; i<texture_h; i++)
 	{
 		if(i>=double(a*texture_h)/100)
 		{
@@ -556,7 +575,7 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 
 			}
 		}
-	}
+	}*/
 	cout<<"100% done\n";
 	cout<<"Texture generation complete\n\n";
 
@@ -693,8 +712,10 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 
 			actualx = original_pos_x[y][x]+j-actualw;
 			actualy = original_pos_y[y][x]+i-actualh;
-			//actualx = original_pos_x[y][x];
-			//actualy = original_pos_y[y][x];
+			if(sample_red[actualy][actualx] == -1){
+				actualx = original_pos_x[y][x]-(j-actualw);
+				actualy = original_pos_y[y][x]-(i-actualh);
+			}
 
 			// check if neighborhood of candidate lies completely in sample
 			if(actualx < size/2 || actualx >= sample_w-size/2 || actualy < size/2 || actualy >= sample_h-size/2)
@@ -791,6 +812,31 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 
 void MQTriangleMesh::Draw2D(void)
 {
+	glPolygonMode(GL_FRONT,GL_LINE);
+	glBegin(GL_TRIANGLES);
+
+	for(int i = 1; i <= this->TriangleNum; i++)
+	{
+		int t1 = this->TriangleTex[i].T1;
+		int t2 = this->TriangleTex[i].T2;
+		int t3 = this->TriangleTex[i].T3;
+
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[t1].S, this->Vertex[t1].T, 0.0);
+
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[t2].S, this->Vertex[t2].T, 0.0);
+
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
+	}
+	glEnd();
+
+
+	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);
 	
 	for(int i = 1; i <= this->TriangleNum; i++)
@@ -812,6 +858,7 @@ void MQTriangleMesh::Draw2D(void)
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
 	glEnd();
+	
 }
 
 void MQTriangleMesh::DrawPoint(void)
