@@ -163,6 +163,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexLaplacianCoordinate();
 	this->CalculateLaplacianToColor();
+	this->FindHole();
 	this->FindBoundary();
 	this->UpdatePointStruct();
 	t_end = clock();
@@ -290,7 +291,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 				}
 				else{
 					checkHole = true;
-				}				
+				}	
 				//get pixel laplacian range
 				double max_lap = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
 				double min_lap = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
@@ -305,26 +306,29 @@ void MQTriangleMesh::UpdatePointStruct(void){
 
 			}
 			else{
-				if(checkHole) tempHoles.push_back(j);
+				if(this->ImagePixel[i][j].X >= hole_boundaryX.first && this->ImagePixel[i][j].X <= hole_boundaryX.second &&
+					this->ImagePixel[i][j].Y >= hole_boundaryY.first && this->ImagePixel[i][j].Y <= hole_boundaryY.second ){
+						if(checkHole) tempHoles.push_back(j);
+						//ImagePixel[i][j].isHole = true;
+				}
 			}
 		}
 	}
+
 	
 	double normalize_number = 255.0 / (maxLap_img-minLap_img);
 	
 	for(int i = 0 ; i < imageSize ; i++){
 		for(int j = 0 ; j < imageSize ; j++){
-			if(i > 0 && i < imageSize-1 && j >0 && j < imageSize-1){
-				if(this->ImagePixel[i][j].isHole){
-					ImagePixel[i][j].position = i*imageSize + j;
-					this->HolePixels.push_back(ImagePixel[i][j]);
-					
-					for(int y = i-1 ; y <= i+1 ;y++){
-						for(int x = j-1 ; x <= j+1 ; x++){
-							if(y == i && x == j) continue;
-							if(this->ImagePixel[y][x].isHole){
-								this->ImagePixel[i][j].neighborHole.push_back(y*imageSize+x);
-							}
+			if(this->ImagePixel[i][j].isHole){
+				//hole's index in ImagePixel; 2d to 1d
+				ImagePixel[i][j].position = i*imageSize + j;
+				this->HolePixels.push_back(ImagePixel[i][j]);					
+				for(int y = i-1 ; y <= i+1 ;y++){
+					for(int x = j-1 ; x <= j+1 ; x++){
+						if(y == i && x == j) continue;
+						if(this->ImagePixel[y][x].isHole){
+							this->ImagePixel[i][j].neighborHole.push_back(y*imageSize+x);
 						}
 					}
 				}
@@ -336,13 +340,29 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
 		}
 	}
-	this->HolePixels.sort();
+	sort(this->HolePixels.begin(),this->HolePixels.end());
+
+	vector<MQImagePixel>::iterator holepixel_it;
+	for(holepixel_it = HolePixels.begin();holepixel_it != HolePixels.end();holepixel_it++){
+		int x = holepixel_it->position % imageSize;
+		int y = holepixel_it->position / imageSize;
+		if(holepixel_it == HolePixels.begin()){
+			hole_boundaryX.first = hole_boundaryX.second = x;
+			hole_boundaryY.first = hole_boundaryY.second = y;
+		}
+		else{
+			if(hole_boundaryX.first > x) hole_boundaryX.first = x;
+			if(hole_boundaryX.second < x) hole_boundaryX.second = x;
+			if(hole_boundaryY.first > y) hole_boundaryY.first = y;
+			if(hole_boundaryY.second < y) hole_boundaryY.second = y;
+		}
+	}
 	
 	//fill hole
 	int window_size = 11;
 	this->convertSample();
 	this->setTexture(imageSize,imageSize);
-	this->generateTexture(window_size,0,0);
+	this->generateTexture(window_size);
 
 	printf("UpdatePointStruct Done\n");
 
@@ -421,6 +441,21 @@ void MQTriangleMesh::FindBoundary(void)
 		}
 	}
 
+	list<int>::iterator hole_it;
+	list<list<int>>::iterator begin = Holes_uv.begin();
+	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++){
+		if(hole_it == begin->begin()){
+			hole_boundaryX.first = hole_boundaryX.second = this->Vertex[*hole_it].S;
+			hole_boundaryY.first = hole_boundaryY.second = this->Vertex[*hole_it].T;
+		}
+		else{
+			if(hole_boundaryX.first > this->Vertex[*hole_it].S) hole_boundaryX.first = this->Vertex[*hole_it].S;
+			if(hole_boundaryX.second < this->Vertex[*hole_it].S) hole_boundaryX.second = this->Vertex[*hole_it].S;
+			if(hole_boundaryY.first > this->Vertex[*hole_it].T) hole_boundaryY.first = this->Vertex[*hole_it].T;
+			if(hole_boundaryY.second < this->Vertex[*hole_it].T) hole_boundaryY.second = this->Vertex[*hole_it].T;
+		}
+	}
+
 	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first) *1.05;
 
 }
@@ -428,12 +463,22 @@ void MQTriangleMesh::FindBoundary(void)
 void MQTriangleMesh::FindHole(void)
 {
 	map<int,int>  singleEdge ;
+	map<int,int>  singleEdge_uv;
 
 	//Find Single Edge
 	for(int i = 1; i <= this->TriangleNum; i++){				
-		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V2] = this->Triangle[i].V1;	
-		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V3] = this->Triangle[i].V2;
-		if(this->Edges.count(this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge) <= 0)		singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
+		if(!this->Edges[this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge])	{
+			singleEdge[this->Triangle[i].V2] = this->Triangle[i].V1;
+			singleEdge_uv[this->TriangleTex[i].T2] = this->TriangleTex[i].T1;
+		}
+		if(!this->Edges[this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge]){
+			singleEdge[this->Triangle[i].V3] = this->Triangle[i].V2;
+			singleEdge_uv[this->TriangleTex[i].T3] = this->TriangleTex[i].T2;
+		}
+		if(!this->Edges[this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge]){
+			singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
+			singleEdge_uv[this->TriangleTex[i].T1] = this->TriangleTex[i].T3;
+		}
 	}
 
 	//Attach Edge & Find Hole 
@@ -457,11 +502,66 @@ void MQTriangleMesh::FindHole(void)
 		Holes.push_back(hole);	
 		hole.clear();
 	}
+	list<int> hole_uv;
+	Holes_uv.clear();
+	while(!singleEdge_uv.empty()){
+		it = singleEdge_uv.begin();
+		fist_point = it->first;  //hole start point
+		hole_uv.push_back(fist_point);
+		search_point = singleEdge_uv[fist_point];
+		singleEdge_uv.erase(fist_point);
+		//attach edge 
+		while(search_point != fist_point){
+			hole_uv.push_back(search_point);
+			temp = search_point;
+			search_point = singleEdge_uv[search_point];
+			singleEdge_uv.erase(temp);			
+		}
+		Holes_uv.push_back(hole_uv);	
+		hole_uv.clear();
+	}
 
 	printf("Holes size:%d\n",Holes.size());
-	list<int> hole_point;
+	printf("Holes_uv size:%d\n",Holes_uv.size());
+
+	vector<double> hole_length;
+	//list<int> hole_point;
 	list<list<int>>::iterator hole_it;
+	list<list<int>>::iterator hole_uv_it;
 	list<int>::iterator point_it;
+	//calculate length with each hole
+	for(hole_uv_it=Holes_uv.begin();hole_uv_it!= Holes_uv.end();hole_uv_it++){
+		double start_s = -1.0;
+		double start_t = -1.0;
+		double length = 0.0;
+		for(point_it = hole_uv_it->begin();point_it != hole_uv_it->end();point_it++){
+			if(start_s == -1.0){
+				start_s = Vertex[*point_it].S;
+				start_t = Vertex[*point_it].T;
+			}
+			else{
+				length += sqrt(pow(Vertex[*point_it].S - start_s,2) + pow(Vertex[*point_it].T - start_t,2));
+				start_s = Vertex[*point_it].S;
+				start_t = Vertex[*point_it].T;
+			}
+		}
+		length += sqrt(pow(Vertex[*hole_uv_it->begin()].S - start_s,2) + pow(Vertex[*hole_uv_it->begin()].T - start_t,2));
+		hole_length.push_back(length);
+	}
+	//find maximum lenth hole and erase it;
+	double max_hole = *max_element(hole_length.begin(),hole_length.end()); 
+	printf("%f\n",max_hole);
+	vector<double>::iterator length_it;
+	for(hole_it = Holes.begin(),hole_uv_it = Holes_uv.begin(),length_it = hole_length.begin();length_it != hole_length.end();hole_it++,hole_uv_it++,length_it++){
+		if(*length_it == max_hole){
+			Holes.erase(hole_it);
+			Holes_uv.erase(hole_uv_it);
+			break;
+		}
+	}
+	printf("Holes size:%d\n",Holes.size());
+	printf("Holes_uv size:%d\n",Holes_uv.size());
+	//print hole point
 	for(hole_it=Holes.begin();hole_it!= Holes.end();hole_it++){
 		printf("Hole point size:%d\n",hole_it->size());
 		for(point_it = hole_it->begin();point_it != hole_it->end();point_it++){
@@ -470,6 +570,15 @@ void MQTriangleMesh::FindHole(void)
 		}
 		printf("\n");
 	}
+	for(hole_uv_it=Holes_uv.begin();hole_uv_it!= Holes_uv.end();hole_uv_it++){
+		printf("Hole_uv point size:%d\n",hole_uv_it->size());
+		for(point_it = hole_uv_it->begin();point_it != hole_uv_it->end();point_it++){
+			if(point_it != hole_uv_it->begin()) printf(",");
+			printf("%d",*point_it);
+		}
+		printf("\n");
+	}
+
 }
 
 void MQTriangleMesh::setTexture(int w,int h){
@@ -491,13 +600,13 @@ void MQTriangleMesh::setTexture(int w,int h){
 	}
 }
 
-void MQTriangleMesh::generateTexture(int size,int startX,int startY)
+void MQTriangleMesh::generateTexture(int size)
 	// generate the texture from the sample using a search window of size x size
 {
 	int i, j, a=0;
 
 	cout<<"Initializing texture...";
-	initializeTexture(size,startX,startY);
+	initializeTexture(size);
 	cout<<"done\n";
 
 	cout<<"Performing exhaustive search...\n";
@@ -511,16 +620,23 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 		blue[y] = new double[size];
 		green[y] = new double[size];
 	}
-
+	//隨機
+	/*
 	list<int>::iterator it;
+	int index = 0;
 	MQImagePixel temp;
 	while(HolePixels.size()> 0){
-		temp = HolePixels.front();
+		index = rand()%HolePixels.size();
+		temp = HolePixels[index];
+		while(temp.neighborHole.size() == 8){
+			index = rand()%HolePixels.size();
+			temp = HolePixels[index];
+		}
 		i = temp.position / imageSize;
 		j = temp.position % imageSize;
-		
+
 		findBestMatch(j, i, size);
-		
+
 		ImagePixel[i][j].R = texture_red[i][j];
 		ImagePixel[i][j].G = texture_green[i][j];
 		ImagePixel[i][j].B = texture_blue[i][j];
@@ -528,13 +644,108 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 		for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
 			ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
 		}
-		HolePixels.pop_front();
-		HolePixels.sort();
+		HolePixels.erase(HolePixels.begin()+index);
+		sort(this->HolePixels.begin(),this->HolePixels.end());
+	}*/
+	//bounding box
+	
+	int startX = (int)hole_boundaryX.first;
+	int endX = (int)hole_boundaryX.second;
+	int startY = (int)hole_boundaryY.first;
+	int endY = (int)hole_boundaryY.second;
+	int dir = 1;
+	int fix;
+	bool useX = true;
+	bool useY = false;
+	while(startX <= endX && startY <= endY){
+		if(useX){
+			if(dir>0){
+				fix = startY;
+				for(int j = startX; j <= endX ; j+=dir){
+					if(ImagePixel[fix][j].isHole){
+						findBestMatch(j, fix, size);
+						ImagePixel[fix][j].R = texture_red[fix][j];
+						ImagePixel[fix][j].G = texture_green[fix][j];
+						ImagePixel[fix][j].B = texture_blue[fix][j];
+					}
+				}
+			}
+			else{
+				fix = endY;
+				for(int j = endX; j >= startX ; j+=dir){
+					if(ImagePixel[fix][j].isHole){
+						findBestMatch(j, fix, size);
+						ImagePixel[fix][j].R = texture_red[fix][j];
+						ImagePixel[fix][j].G = texture_green[fix][j];
+						ImagePixel[fix][j].B = texture_blue[fix][j];
+					}
+				}
+			}
+			if(dir > 0) startY += 1;
+			if(dir < 0) endY -= 1 ;
 
+			useX = false;
+			useY = true;
+		}
+		if(useY){
+			if(dir>0){
+				fix = endX;
+				for(int i = startY; i <= endY ; i+=dir){
+					if(ImagePixel[i][fix].isHole){
+						findBestMatch(fix, i, size);
+						ImagePixel[i][fix].R = texture_red[i][fix];
+						ImagePixel[i][fix].G = texture_green[i][fix];
+						ImagePixel[i][fix].B = texture_blue[i][fix];
+					}
+				}
+			}
+			else{
+				fix = startX;
+				for(int i = endY; i >= startY ; i+=dir){
+					if(ImagePixel[i][fix].isHole){
+						findBestMatch(fix, i, size);
+						ImagePixel[i][fix].R = texture_red[i][fix];
+						ImagePixel[i][fix].G = texture_green[i][fix];
+						ImagePixel[i][fix].B = texture_blue[i][fix];
+					}
+				}
+			}
+			
+			if(dir > 0) endX -= 1;
+			if(dir < 0) startX += 1 ;
 
+			useX = true;
+			useY = false;
+			dir *= -1;
+		}
 	}
 	
-	/*for(i=0; i<texture_h; i++)
+	//取鄰居最多像素
+	/*
+	list<int>::iterator it;
+	MQImagePixel temp;
+	while(HolePixels.size()> 0){
+		temp = HolePixels[0];
+
+		i = temp.position / imageSize;
+		j = temp.position % imageSize;
+
+		findBestMatch(j, i, size);
+
+		ImagePixel[i][j].R = texture_red[i][j];
+		ImagePixel[i][j].G = texture_green[i][j];
+		ImagePixel[i][j].B = texture_blue[i][j];
+
+		for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
+			ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
+		}
+		HolePixels.erase(HolePixels.begin());
+		sort(this->HolePixels.begin(),this->HolePixels.end());
+	}
+	*/
+	//成長式
+	/*
+	for(i=0; i<texture_h; i++)
 	{
 		if(i>=double(a*texture_h)/100)
 		{
@@ -543,12 +754,12 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 		}
 		for(j=0; j<texture_w; j++)
 		{		
-			if(ImagePixel[i+startY][j+startX].isHole && ImagePixel[i+startY][j+startX].R == 0){	
+			if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == 0){	
 
 				findBestMatch(j, i, size);
-				ImagePixel[i+startY][j+startX].R = texture_red[i][j];
-				ImagePixel[i+startY][j+startX].G = texture_green[i][j];
-				ImagePixel[i+startY][j+startX].B = texture_blue[i][j];
+				ImagePixel[i][j].R = texture_red[i][j];
+				ImagePixel[i][j].G = texture_green[i][j];
+				ImagePixel[i][j].B = texture_blue[i][j];
 
 				bool filldone = false;
 				int temp_x = j;
@@ -556,11 +767,11 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 				while(true){
 					for(int y = temp_y-1;y <= temp_y+1;y++){
 						for(int x = temp_x-1;x<= temp_x+1;x++){
-							if(ImagePixel[y+startY][x+startX].isHole && ImagePixel[y+startY][x+startX].R == 0){
+							if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == 0){
 								findBestMatch(x, y, size);
-								ImagePixel[y+startY][x+startX].R = texture_red[y][x];
-								ImagePixel[y+startY][x+startX].G = texture_green[y][x];
-								ImagePixel[y+startY][x+startX].B = texture_blue[y][x];
+								ImagePixel[y][x].R = texture_red[y][x];
+								ImagePixel[y][x].G = texture_green[y][x];
+								ImagePixel[y][x].B = texture_blue[y][x];
 								temp_x = x;
 								temp_y = y;
 								filldone = true;
@@ -572,17 +783,14 @@ void MQTriangleMesh::generateTexture(int size,int startX,int startY)
 					if(filldone) filldone = false;
 					else break;
 				}
-
 			}
 		}
-	}*/
-	cout<<"100% done\n";
-	cout<<"Texture generation complete\n\n";
-
+	}
+	*/
 	return;
 }
 
-void MQTriangleMesh::initializeTexture(int size,int startX, int startY)
+void MQTriangleMesh::initializeTexture(int size)
 	// initialize output texture with random pixels from the sample
 {
 	int i, j;
@@ -599,7 +807,7 @@ void MQTriangleMesh::initializeTexture(int size,int startX, int startY)
 	{
 		for(j=0; j<texture_w; j++)
 		{
-			if(ImagePixel[i+startY][j+startX].isHole){
+			if(ImagePixel[i][j].isHole){
 				w = rand() % valid_w_length + dw;
 				h = rand() % valid_h_length + dh;
 				while(sample_red[w][h] == -1){
@@ -613,11 +821,11 @@ void MQTriangleMesh::initializeTexture(int size,int startX, int startY)
 				original_pos_y[i][j] = h;
 			}
 			else{
-				texture_red[i][j] = sample_red[i+startY][j+startX];
-				texture_green[i][j] = sample_green[i+startY][j+startX];
-				texture_blue[i][j] = sample_blue[i+startY][j+startX];
-				original_pos_x[i][j] = j+startX;
-				original_pos_y[i][j] = i+startY;
+				texture_red[i][j] = sample_red[i][j];
+				texture_green[i][j] = sample_green[i][j];
+				texture_blue[i][j] = sample_blue[i][j];
+				original_pos_x[i][j] = j;
+				original_pos_y[i][j] = i;
 			}
 		}
 	}
@@ -782,8 +990,33 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 {
-	glColor3ub(Red, Green, Blue);
+	
+	if(Holes.size()>0){
+		glBegin(GL_LINES);
+		list<int>::iterator hole_it;
+		list<list<int>>::iterator begin = Holes.begin();
+		for(hole_it = begin->begin(); hole_it != begin->end();hole_it++){
 
+			if(hole_it == begin->begin()){
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+			}
+			else{
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+			}
+		}
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[*begin->begin()].X, this->Vertex[*begin->begin()].Y,this->Vertex[*begin->begin()].Z);
+		glEnd();
+	}
+	glColor3ub(Red, Green, Blue);
 	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
@@ -813,8 +1046,8 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 void MQTriangleMesh::Draw2D(void)
 {
 	glPolygonMode(GL_FRONT,GL_LINE);
+	
 	glBegin(GL_TRIANGLES);
-
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
 		int t1 = this->TriangleTex[i].T1;
@@ -834,8 +1067,55 @@ void MQTriangleMesh::Draw2D(void)
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
 	glEnd();
+	//Draw hole bounding box
+	/*
+	glBegin(GL_QUADS);
 
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.first, 0.0);
 
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.first, 0.0);
+
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.second, 0.0);
+
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,0);
+		glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.second, 0.0);
+
+	glEnd();
+	*/
+	//Draw hole
+	/*
+	glBegin(GL_LINES);
+	list<int>::iterator hole_it;
+	list<list<int>>::iterator begin = Holes_uv.begin();
+	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++){
+		
+
+		if(hole_it == begin->begin()){
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,255,255);
+			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+		}
+		else{
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,255,255);
+			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,255,255);
+			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+		}
+	}
+	glNormal3f(0.0, 0.0, 1.0);
+	glColor3ub(255,255,255);
+	glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
+	glEnd();
+	*/
 	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);
 	

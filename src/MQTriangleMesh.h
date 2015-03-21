@@ -115,14 +115,18 @@ public:
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
+	vector<MQImagePixel> HolePixels;
 	
-	pair<float,float> boundaryX;
-	pair<float,float> boundaryY;
+	pair<double,double> boundaryX;
+	pair<double,double> boundaryY;
+	pair<double,double> hole_boundaryX;
+	pair<double,double> hole_boundaryY;
 
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 
 	list<list<int>> Holes;
-	list<MQImagePixel> HolePixels;
+	list<list<int>> Holes_uv;
+	
 
 	//fill hole data
 	int sample_w, sample_h;
@@ -164,9 +168,9 @@ public:
 	void FindHole(void);
 
 	void setTexture(int w , int h);
-	void generateTexture(int size,int startX,int startY);
+	void generateTexture(int size);
 	void convertSample();
-	void initializeTexture(int size,int startX,int startY);
+	void initializeTexture(int size);
 	void findBestMatch(int i, int j, int size);
 
 public:
