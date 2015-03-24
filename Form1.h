@@ -103,8 +103,8 @@ namespace VC_viewer2010 {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
-			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -130,7 +130,7 @@ namespace VC_viewer2010 {
 			this->mqOpenGLControl1->Location = System::Drawing::Point(0, 24);
 			this->mqOpenGLControl1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->mqOpenGLControl1->Name = L"mqOpenGLControl1";
-			this->mqOpenGLControl1->Size = System::Drawing::Size(496, 450);
+			this->mqOpenGLControl1->Size = System::Drawing::Size(384, 338);
 			this->mqOpenGLControl1->TabIndex = 0;
 			this->mqOpenGLControl1->Load += gcnew System::EventHandler(this, &Form1::mqOpenGLControl1_Load);
 			this->mqOpenGLControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::mqOpenGLControl1_Paint);
@@ -146,7 +146,7 @@ namespace VC_viewer2010 {
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(496, 24);
+			this->menuStrip1->Size = System::Drawing::Size(384, 24);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -210,10 +210,10 @@ namespace VC_viewer2010 {
 			// statusStrip1
 			// 
 			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
-			this->statusStrip1->Location = System::Drawing::Point(0, 452);
+			this->statusStrip1->Location = System::Drawing::Point(0, 340);
 			this->statusStrip1->Name = L"statusStrip1";
 			this->statusStrip1->Padding = System::Windows::Forms::Padding(1, 0, 10, 0);
-			this->statusStrip1->Size = System::Drawing::Size(496, 22);
+			this->statusStrip1->Size = System::Drawing::Size(384, 22);
 			this->statusStrip1->TabIndex = 2;
 			this->statusStrip1->Text = L"statusStrip1";
 			// 
@@ -233,7 +233,7 @@ namespace VC_viewer2010 {
 				this->toolStripButton3, this->toolStripButton2});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(496, 25);
+			this->toolStrip1->Size = System::Drawing::Size(384, 25);
 			this->toolStrip1->TabIndex = 3;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
@@ -246,15 +246,6 @@ namespace VC_viewer2010 {
 			this->toolStripButton1->Text = L"Draw2D";
 			this->toolStripButton1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::toolStripButton1_MouseDown);
 			// 
-			// toolStripButton2
-			// 
-			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton2.Image")));
-			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
-			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(94, 22);
-			this->toolStripButton2->Text = L"CheckHoles";
-			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
-			// 
 			// toolStripButton3
 			// 
 			this->toolStripButton3->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton3.Image")));
@@ -264,11 +255,20 @@ namespace VC_viewer2010 {
 			this->toolStripButton3->Text = L"DrawPoint";
 			this->toolStripButton3->Click += gcnew System::EventHandler(this, &Form1::toolStripButton3_Click);
 			// 
+			// toolStripButton2
+			// 
+			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton2.Image")));
+			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton2->Name = L"toolStripButton2";
+			this->toolStripButton2->Size = System::Drawing::Size(94, 22);
+			this->toolStripButton2->Text = L"CheckHoles";
+			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(496, 474);
+			this->ClientSize = System::Drawing::Size(384, 362);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->statusStrip1);
 			this->Controls->Add(this->mqOpenGLControl1);

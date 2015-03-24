@@ -21,6 +21,7 @@ public:
 	list<int>	NeighborVertex;
 	double	LapX, LapY, LapZ;
 	double  R,G,B; //Laplacian to Color
+	double	Lap_length;
 
 public:
 
@@ -78,6 +79,7 @@ struct MQImagePixel
 	double X,Y;
 	double LapX,LapY,LapZ;
 	double R,G,B;
+	double	Lap_length;
 	int Triangle;
 	bool isHole;
 	list<int> neighborHole;

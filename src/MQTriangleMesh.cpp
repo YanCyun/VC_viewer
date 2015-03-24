@@ -228,15 +228,20 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 		this->Vertex[i].LapY = this->Vertex[i].Y - mCenterY;
 		this->Vertex[i].LapZ = this->Vertex[i].Z - mCenterZ;
 
+		this->Vertex[i].Lap_length = sqrt(pow(this->Vertex[i].LapX,2)+pow(this->Vertex[i].LapY,2)+pow(this->Vertex[i].LapZ,2));
+
 		//Find Laplacian  max & min , use for CalculateLaplacianToColor
 		double min_lap = min(Vertex[i].LapX,min(Vertex[i].LapY,Vertex[i].LapZ));
 		double max_lap = max(Vertex[i].LapX,max(Vertex[i].LapY,Vertex[i].LapZ));
 
 		if(i == 1){ 
+			//minLap = maxLap = this->Vertex[i].Lap_length;
 			minLap = min_lap;
 			maxLap = max_lap;
 		}
 		else{
+			//if(minLap > this->Vertex[i].Lap_length) minLap = this->Vertex[i].Lap_length;
+			//if(maxLap < this->Vertex[i].Lap_length) maxLap = this->Vertex[i].Lap_length;
 			if(minLap > min_lap)  minLap = min_lap;
 			if(maxLap < max_lap)  maxLap = max_lap;
 		}
@@ -296,10 +301,13 @@ void MQTriangleMesh::UpdatePointStruct(void){
 				double max_lap = max(ImagePixel[i][j].LapX,max(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
 				double min_lap = min(ImagePixel[i][j].LapX,min(ImagePixel[i][j].LapY,ImagePixel[i][j].LapZ));
 				if(maxLap_img == 0 && minLap_img ==0){
-					maxLap_img = max_lap;
-					minLap_img = min_lap;
+					maxLap_img = minLap_img = ImagePixel[i][j].Lap_length;
+					//maxLap_img = max_lap;
+					//minLap_img = min_lap;
 				}
 				else{
+					//if(minLap_img > ImagePixel[i][j].Lap_length) minLap_img = ImagePixel[i][j].Lap_length;
+					//if(maxLap_img < ImagePixel[i][j].Lap_length) maxLap_img = ImagePixel[i][j].Lap_length;
 					if(minLap_img > min_lap)  minLap_img = min_lap;
 					if(maxLap_img < max_lap)  maxLap_img = max_lap;
 				}
@@ -335,6 +343,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			}
 			if(this->ImagePixel[i][j].Triangle == 0) continue;
 			//laplacian to color 
+			//this->ImagePixel[i][j].R = (this->ImagePixel[i][j].Lap_length - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
@@ -383,9 +392,10 @@ void MQTriangleMesh::PointInTriange(MQImagePixel *p,int tri)
 			p->Triangle = tri;
 
 			sum_a = a1+a2+a3;
-			p->LapX = Vertex[TriangleTex[tri].T1].LapX * a2/sum_a + Vertex[TriangleTex[tri].T2].LapX * a3/sum_a + Vertex[TriangleTex[tri].T3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
-			p->LapY = Vertex[TriangleTex[tri].T1].LapY * a2/sum_a + Vertex[TriangleTex[tri].T2].LapY * a3/sum_a + Vertex[TriangleTex[tri].T3].LapY * a1/sum_a;
-			p->LapZ = Vertex[TriangleTex[tri].T1].LapZ * a2/sum_a + Vertex[TriangleTex[tri].T2].LapZ * a3/sum_a + Vertex[TriangleTex[tri].T3].LapZ * a1/sum_a;
+			p->Lap_length = Vertex[Triangle[tri].V1].Lap_length * a2/sum_a + Vertex[Triangle[tri].V2].Lap_length * a3/sum_a + Vertex[Triangle[tri].V3].Lap_length * a1/sum_a;
+			p->LapX = Vertex[Triangle[tri].V1].LapX * a2/sum_a + Vertex[Triangle[tri].V2].LapX * a3/sum_a + Vertex[Triangle[tri].V3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
+			p->LapY = Vertex[Triangle[tri].V1].LapY * a2/sum_a + Vertex[Triangle[tri].V2].LapY * a3/sum_a + Vertex[Triangle[tri].V3].LapY * a1/sum_a;
+			p->LapZ = Vertex[Triangle[tri].V1].LapZ * a2/sum_a + Vertex[Triangle[tri].V2].LapZ * a3/sum_a + Vertex[Triangle[tri].V3].LapZ * a1/sum_a;
 			
 			return;
 		}
@@ -403,9 +413,10 @@ void MQTriangleMesh::PointInTriange(MQImagePixel *p,int tri)
 		p->Triangle = i;
 
 		sum_a = a1+a2+a3;
-		p->LapX = Vertex[TriangleTex[i].T1].LapX * a2/sum_a + Vertex[TriangleTex[i].T2].LapX * a3/sum_a + Vertex[TriangleTex[i].T3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
-		p->LapY = Vertex[TriangleTex[i].T1].LapY * a2/sum_a + Vertex[TriangleTex[i].T2].LapY * a3/sum_a + Vertex[TriangleTex[i].T3].LapY * a1/sum_a;
-		p->LapZ = Vertex[TriangleTex[i].T1].LapZ * a2/sum_a + Vertex[TriangleTex[i].T2].LapZ * a3/sum_a + Vertex[TriangleTex[i].T3].LapZ * a1/sum_a;
+		p->Lap_length = Vertex[Triangle[i].V1].Lap_length * a2/sum_a + Vertex[Triangle[i].V2].Lap_length * a3/sum_a + Vertex[Triangle[i].V3].Lap_length * a1/sum_a;
+		p->LapX = Vertex[Triangle[i].V1].LapX * a2/sum_a + Vertex[Triangle[i].V2].LapX * a3/sum_a + Vertex[Triangle[i].V3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
+		p->LapY = Vertex[Triangle[i].V1].LapY * a2/sum_a + Vertex[Triangle[i].V2].LapY * a3/sum_a + Vertex[Triangle[i].V3].LapY * a1/sum_a;
+		p->LapZ = Vertex[Triangle[i].V1].LapZ * a2/sum_a + Vertex[Triangle[i].V2].LapZ * a3/sum_a + Vertex[Triangle[i].V3].LapZ * a1/sum_a;
 
 		return ;
 
@@ -418,6 +429,8 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 {
 	double normalize_number = 255.0 / (maxLap-minLap);
 	for(int i = 1; i <= this->VertexNum; i++){	
+
+		//this->Vertex[i].R = (this->Vertex[i].Lap_length - minLap) *  normalize_number;
 		this->Vertex[i].R = (this->Vertex[i].LapX - minLap) *  normalize_number;
 		this->Vertex[i].G = (this->Vertex[i].LapY - minLap) *  normalize_number;
 		this->Vertex[i].B = (this->Vertex[i].LapZ - minLap) *  normalize_number;
@@ -441,21 +454,23 @@ void MQTriangleMesh::FindBoundary(void)
 		}
 	}
 
-	list<int>::iterator hole_it;
-	list<list<int>>::iterator begin = Holes_uv.begin();
-	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++){
-		if(hole_it == begin->begin()){
-			hole_boundaryX.first = hole_boundaryX.second = this->Vertex[*hole_it].S;
-			hole_boundaryY.first = hole_boundaryY.second = this->Vertex[*hole_it].T;
-		}
-		else{
-			if(hole_boundaryX.first > this->Vertex[*hole_it].S) hole_boundaryX.first = this->Vertex[*hole_it].S;
-			if(hole_boundaryX.second < this->Vertex[*hole_it].S) hole_boundaryX.second = this->Vertex[*hole_it].S;
-			if(hole_boundaryY.first > this->Vertex[*hole_it].T) hole_boundaryY.first = this->Vertex[*hole_it].T;
-			if(hole_boundaryY.second < this->Vertex[*hole_it].T) hole_boundaryY.second = this->Vertex[*hole_it].T;
+
+	if(Holes.size() > 0){
+		list<int>::iterator hole_it;
+		list<list<int>>::iterator begin = Holes_uv.begin();
+		for(hole_it = begin->begin(); hole_it != begin->end();hole_it++){
+			if(hole_it == begin->begin()){
+				hole_boundaryX.first = hole_boundaryX.second = this->Vertex[*hole_it].S;
+				hole_boundaryY.first = hole_boundaryY.second = this->Vertex[*hole_it].T;
+			}
+			else{
+				if(hole_boundaryX.first > this->Vertex[*hole_it].S) hole_boundaryX.first = this->Vertex[*hole_it].S;
+				if(hole_boundaryX.second < this->Vertex[*hole_it].S) hole_boundaryX.second = this->Vertex[*hole_it].S;
+				if(hole_boundaryY.first > this->Vertex[*hole_it].T) hole_boundaryY.first = this->Vertex[*hole_it].T;
+				if(hole_boundaryY.second < this->Vertex[*hole_it].T) hole_boundaryY.second = this->Vertex[*hole_it].T;
+			}
 		}
 	}
-
 	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first) *1.05;
 
 }
@@ -611,10 +626,10 @@ void MQTriangleMesh::generateTexture(int size)
 
 	cout<<"Performing exhaustive search...\n";
 
-	red = new double*[size/2+1];
-	green = new double*[size/2+1];
-	blue = new double*[size/2+1];
-	for(int y=0; y<size/2+1; y++)
+	red = new double*[size];
+	green = new double*[size];
+	blue = new double*[size];
+	for(int y=0; y<size; y++)
 	{
 		red[y] = new double[size];
 		blue[y] = new double[size];
@@ -632,11 +647,11 @@ void MQTriangleMesh::generateTexture(int size)
 			index = rand()%HolePixels.size();
 			temp = HolePixels[index];
 		}
-		i = temp.position / imageSize;
-		j = temp.position % imageSize;
-
+		i = (int)temp.position / imageSize;
+		j = (int)temp.position % imageSize;
+		//printf("%d,%d\n",i,j);
 		findBestMatch(j, i, size);
-
+		
 		ImagePixel[i][j].R = texture_red[i][j];
 		ImagePixel[i][j].G = texture_green[i][j];
 		ImagePixel[i][j].B = texture_blue[i][j];
@@ -646,9 +661,10 @@ void MQTriangleMesh::generateTexture(int size)
 		}
 		HolePixels.erase(HolePixels.begin()+index);
 		sort(this->HolePixels.begin(),this->HolePixels.end());
-	}*/
+	}
+	*/
 	//bounding box
-	
+	/*
 	int startX = (int)hole_boundaryX.first;
 	int endX = (int)hole_boundaryX.second;
 	int startY = (int)hole_boundaryY.first;
@@ -719,9 +735,9 @@ void MQTriangleMesh::generateTexture(int size)
 			dir *= -1;
 		}
 	}
-	
+	*/
 	//取鄰居最多像素
-	/*
+	
 	list<int>::iterator it;
 	MQImagePixel temp;
 	while(HolePixels.size()> 0){
@@ -742,7 +758,7 @@ void MQTriangleMesh::generateTexture(int size)
 		HolePixels.erase(HolePixels.begin());
 		sort(this->HolePixels.begin(),this->HolePixels.end());
 	}
-	*/
+	
 	//成長式
 	/*
 	for(i=0; i<texture_h; i++)
@@ -878,6 +894,89 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 	int r, g, b;
 	int x, y;
 	bool add;
+
+	// make local texture window
+	for(y=0, ti = i-size/2; y < size; y++, ti++)
+	{
+		for(x=0, tj = j-size/2; x < size; x++, tj++)
+		{
+			if(ti < 0)
+				ti += texture_h;
+			else if(ti >= texture_h)
+				ti -= texture_h;
+			if(tj < 0)
+				tj += texture_w;
+			else if(tj >= texture_w)
+				tj -= texture_w;
+			red[y][x] = texture_red[ti][tj];
+			green[y][x] = texture_green[ti][tj];
+			blue[y][x] = texture_blue[ti][tj];
+		}
+	}
+	// get candidates;
+	candidate_x.clear();
+	candidate_y.clear();
+	for(actualh = i-size/2; actualh <= i+size/2; actualh++)
+	{
+		for(actualw = j-size/2; actualw <= j+size/2; actualw++)
+		{
+			x = (actualw+texture_w)%texture_w;
+			y = (actualh+texture_h)%texture_h;
+			
+			if(texture_red[y][x] == -1.0) continue;
+			actualx = original_pos_x[y][x];
+			actualy = original_pos_y[y][x];
+			
+			add = true;
+			for(size_t c=0; c<candidate_x.size(); c++)
+			{
+				if(candidate_x[c] == actualx && candidate_y[c] == actualy)
+					// already on candidate list
+				{
+					add = false;
+					break;
+				}
+			}
+			if(add)
+			{
+				candidate_x.push_back(actualx);
+				candidate_y.push_back(actualy);
+				
+			}
+		}
+	}
+	for(size_t c=0; c<candidate_x.size(); c++)
+	{
+		
+		tempd = 0;
+		
+		for(ti=0; ti < size; ti++)
+		{
+			for(tj=0; tj<size; tj++)
+			{
+				if(tempd > bestd)	break;
+				if(red[ti][tj] == -1) continue;
+				r = int(red[ti][tj]-sample_red[candidate_y[c]][candidate_x[c]]);
+				g = int(green[ti][tj]-sample_green[candidate_y[c]][candidate_x[c]]);
+				b = int(blue[ti][tj]-sample_blue[candidate_y[c]][candidate_x[c]]);
+				tempd += r*r + g*g + b*b;
+			}
+		}
+		if(tempd < bestd)
+		{
+			bestw = candidate_x[c];
+			besth = candidate_y[c];
+			bestd = tempd;
+			
+		}
+	}
+	texture_red[i][j] = sample_red[besth][bestw];
+	texture_green[i][j] = sample_green[besth][bestw];
+	texture_blue[i][j] = sample_blue[besth][bestw];
+	original_pos_x[i][j] = bestw;
+	original_pos_y[i][j] = besth;
+	return;
+	/*
 	// make local texture window
 	for(y=0, ti = i-size/2; y < size/2+1; y++, ti++)
 	{
@@ -931,7 +1030,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 				//replace with random
 				actualx = rand()%(sample_w-size+1)+size/2;
 				actualy = rand()%(sample_h-size/2)+size/2;
-				
+
 			}
 			while(sample_red[actualy][actualx] == -1){
 				actualx = rand()%(sample_w-size+1)+size/2;
@@ -985,7 +1084,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 	texture_blue[i][j] = sample_blue[besth][bestw];
 	original_pos_x[i][j] = bestw;
 	original_pos_y[i][j] = besth;
-	return;
+	return;*/
 }
 
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
@@ -1047,7 +1146,7 @@ void MQTriangleMesh::Draw2D(void)
 {
 	glPolygonMode(GL_FRONT,GL_LINE);
 	
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
 		int t1 = this->TriangleTex[i].T1;
@@ -1066,7 +1165,7 @@ void MQTriangleMesh::Draw2D(void)
 		glColor3ub(0,0,0);
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
-	glEnd();
+	glEnd();*/
 	//Draw hole bounding box
 	/*
 	glBegin(GL_QUADS);
@@ -1125,16 +1224,20 @@ void MQTriangleMesh::Draw2D(void)
 		int t2 = this->TriangleTex[i].T2;
 		int t3 = this->TriangleTex[i].T3;
 
+		int v1 = this->Triangle[i].V1;
+		int v2 = this->Triangle[i].V2;
+		int v3 = this->Triangle[i].V3;
+
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(this->Vertex[t1].R,this->Vertex[t1].G,this->Vertex[t1].B);
+		glColor3ub(this->Vertex[v1].R,this->Vertex[v1].G,this->Vertex[v1].B);
 		glVertex3f(this->Vertex[t1].S, this->Vertex[t1].T, 0.0);
 		
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(this->Vertex[t2].R,this->Vertex[t2].G,this->Vertex[t2].B);
+		glColor3ub(this->Vertex[v2].R,this->Vertex[v2].G,this->Vertex[v2].B);
 		glVertex3f(this->Vertex[t2].S, this->Vertex[t2].T, 0.0);
 
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(this->Vertex[t3].R,this->Vertex[t3].G,this->Vertex[t3].B);
+		glColor3ub(this->Vertex[v3].R,this->Vertex[v3].G,this->Vertex[v3].B);
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
 	glEnd();
