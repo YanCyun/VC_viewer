@@ -71,6 +71,12 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton2;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton3;
+	private: System::Windows::Forms::ToolStripSplitButton^  toolStripSplitButton1;
+	private: System::Windows::Forms::ToolStripMenuItem^  randomToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  boundingBoxToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  neToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  growthToolStripMenuItem;
+
 
 	private:
 		/// <summary>
@@ -105,6 +111,11 @@ namespace VC_viewer2010 {
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSplitButton1 = (gcnew System::Windows::Forms::ToolStripSplitButton());
+			this->randomToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->boundingBoxToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->neToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->growthToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -130,7 +141,7 @@ namespace VC_viewer2010 {
 			this->mqOpenGLControl1->Location = System::Drawing::Point(0, 24);
 			this->mqOpenGLControl1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->mqOpenGLControl1->Name = L"mqOpenGLControl1";
-			this->mqOpenGLControl1->Size = System::Drawing::Size(384, 338);
+			this->mqOpenGLControl1->Size = System::Drawing::Size(496, 450);
 			this->mqOpenGLControl1->TabIndex = 0;
 			this->mqOpenGLControl1->Load += gcnew System::EventHandler(this, &Form1::mqOpenGLControl1_Load);
 			this->mqOpenGLControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::mqOpenGLControl1_Paint);
@@ -146,7 +157,7 @@ namespace VC_viewer2010 {
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(384, 24);
+			this->menuStrip1->Size = System::Drawing::Size(496, 24);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -210,10 +221,10 @@ namespace VC_viewer2010 {
 			// statusStrip1
 			// 
 			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
-			this->statusStrip1->Location = System::Drawing::Point(0, 340);
+			this->statusStrip1->Location = System::Drawing::Point(0, 452);
 			this->statusStrip1->Name = L"statusStrip1";
 			this->statusStrip1->Padding = System::Windows::Forms::Padding(1, 0, 10, 0);
-			this->statusStrip1->Size = System::Drawing::Size(384, 22);
+			this->statusStrip1->Size = System::Drawing::Size(496, 22);
 			this->statusStrip1->TabIndex = 2;
 			this->statusStrip1->Text = L"statusStrip1";
 			// 
@@ -229,11 +240,11 @@ namespace VC_viewer2010 {
 			// 
 			// toolStrip1
 			// 
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->toolStripButton1, 
-				this->toolStripButton3, this->toolStripButton2});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->toolStripButton1, 
+				this->toolStripButton3, this->toolStripButton2, this->toolStripSplitButton1});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(384, 25);
+			this->toolStrip1->Size = System::Drawing::Size(496, 25);
 			this->toolStrip1->TabIndex = 3;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
@@ -264,11 +275,51 @@ namespace VC_viewer2010 {
 			this->toolStripButton2->Text = L"CheckHoles";
 			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
 			// 
+			// toolStripSplitButton1
+			// 
+			this->toolStripSplitButton1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->randomToolStripMenuItem, 
+				this->boundingBoxToolStripMenuItem, this->neToolStripMenuItem, this->growthToolStripMenuItem});
+			this->toolStripSplitButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripSplitButton1.Image")));
+			this->toolStripSplitButton1->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
+			this->toolStripSplitButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripSplitButton1->Name = L"toolStripSplitButton1";
+			this->toolStripSplitButton1->Size = System::Drawing::Size(82, 22);
+			this->toolStripSplitButton1->Text = L"FillHole";
+			// 
+			// randomToolStripMenuItem
+			// 
+			this->randomToolStripMenuItem->Name = L"randomToolStripMenuItem";
+			this->randomToolStripMenuItem->Size = System::Drawing::Size(155, 22);
+			this->randomToolStripMenuItem->Text = L"Random";
+			this->randomToolStripMenuItem->TextImageRelation = System::Windows::Forms::TextImageRelation::ImageAboveText;
+			this->randomToolStripMenuItem->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::randomToolStripMenuItem_MouseDown);
+			// 
+			// boundingBoxToolStripMenuItem
+			// 
+			this->boundingBoxToolStripMenuItem->Name = L"boundingBoxToolStripMenuItem";
+			this->boundingBoxToolStripMenuItem->Size = System::Drawing::Size(155, 22);
+			this->boundingBoxToolStripMenuItem->Text = L"Bounding Box";
+			this->boundingBoxToolStripMenuItem->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::boundingBoxToolStripMenuItem_MouseDown);
+			// 
+			// neToolStripMenuItem
+			// 
+			this->neToolStripMenuItem->Name = L"neToolStripMenuItem";
+			this->neToolStripMenuItem->Size = System::Drawing::Size(155, 22);
+			this->neToolStripMenuItem->Text = L"Neigborhood";
+			this->neToolStripMenuItem->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::neToolStripMenuItem_MouseDown);
+			// 
+			// growthToolStripMenuItem
+			// 
+			this->growthToolStripMenuItem->Name = L"growthToolStripMenuItem";
+			this->growthToolStripMenuItem->Size = System::Drawing::Size(155, 22);
+			this->growthToolStripMenuItem->Text = L"Growth";
+			this->growthToolStripMenuItem->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::growthToolStripMenuItem_MouseDown);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(384, 362);
+			this->ClientSize = System::Drawing::Size(496, 474);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->statusStrip1);
 			this->Controls->Add(this->mqOpenGLControl1);
@@ -490,6 +541,22 @@ private: System::Void toolStripButton3_Click(System::Object^  sender, System::Ev
 				 if(this->toolStripButton1->Checked) this->toolStripButton1->Checked = !this->toolStripButton1->Checked;
 			 }
 
+		 }
+private: System::Void randomToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 this->TMesh->method = 1;
+			 this->TMesh->UpdatePointStruct();
+		 }
+private: System::Void boundingBoxToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 this->TMesh->method = 2;
+			 this->TMesh->UpdatePointStruct();
+		 }
+private: System::Void neToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 this->TMesh->method = 3;
+			 this->TMesh->UpdatePointStruct();
+		 }
+private: System::Void growthToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 this->TMesh->method = 4;
+			 this->TMesh->UpdatePointStruct();
 		 }
 };
 }

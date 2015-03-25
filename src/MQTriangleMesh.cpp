@@ -235,15 +235,15 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 		double max_lap = max(Vertex[i].LapX,max(Vertex[i].LapY,Vertex[i].LapZ));
 
 		if(i == 1){ 
-			//minLap = maxLap = this->Vertex[i].Lap_length;
-			minLap = min_lap;
-			maxLap = max_lap;
+			minLap = maxLap = this->Vertex[i].Lap_length;
+			//minLap = min_lap;
+			//maxLap = max_lap;
 		}
 		else{
-			//if(minLap > this->Vertex[i].Lap_length) minLap = this->Vertex[i].Lap_length;
-			//if(maxLap < this->Vertex[i].Lap_length) maxLap = this->Vertex[i].Lap_length;
-			if(minLap > min_lap)  minLap = min_lap;
-			if(maxLap < max_lap)  maxLap = max_lap;
+			if(minLap > this->Vertex[i].Lap_length) minLap = this->Vertex[i].Lap_length;
+			if(maxLap < this->Vertex[i].Lap_length) maxLap = this->Vertex[i].Lap_length;
+			//if(minLap > min_lap)  minLap = min_lap;
+			//if(maxLap < max_lap)  maxLap = max_lap;
 		}
 	}
 }
@@ -306,10 +306,10 @@ void MQTriangleMesh::UpdatePointStruct(void){
 					//minLap_img = min_lap;
 				}
 				else{
-					//if(minLap_img > ImagePixel[i][j].Lap_length) minLap_img = ImagePixel[i][j].Lap_length;
-					//if(maxLap_img < ImagePixel[i][j].Lap_length) maxLap_img = ImagePixel[i][j].Lap_length;
-					if(minLap_img > min_lap)  minLap_img = min_lap;
-					if(maxLap_img < max_lap)  maxLap_img = max_lap;
+					if(minLap_img > ImagePixel[i][j].Lap_length) minLap_img = ImagePixel[i][j].Lap_length;
+					if(maxLap_img < ImagePixel[i][j].Lap_length) maxLap_img = ImagePixel[i][j].Lap_length;
+					//if(minLap_img > min_lap)  minLap_img = min_lap;
+					//if(maxLap_img < max_lap)  maxLap_img = max_lap;
 				}
 
 			}
@@ -343,10 +343,10 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			}
 			if(this->ImagePixel[i][j].Triangle == 0) continue;
 			//laplacian to color 
-			//this->ImagePixel[i][j].R = (this->ImagePixel[i][j].Lap_length - minLap_img) *  normalize_number;
-			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
-			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
-			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
+			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].Lap_length - minLap_img) *  normalize_number;
+			//this->ImagePixel[i][j].R = (this->ImagePixel[i][j].LapX - minLap_img) *  normalize_number;
+			//this->ImagePixel[i][j].G = (this->ImagePixel[i][j].LapY - minLap_img) *  normalize_number;
+			//this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
 		}
 	}
 	sort(this->HolePixels.begin(),this->HolePixels.end());
@@ -356,18 +356,22 @@ void MQTriangleMesh::UpdatePointStruct(void){
 		int x = holepixel_it->position % imageSize;
 		int y = holepixel_it->position / imageSize;
 		if(holepixel_it == HolePixels.begin()){
-			hole_boundaryX.first = hole_boundaryX.second = x;
-			hole_boundaryY.first = hole_boundaryY.second = y;
+			pixel_boundaryX.first = pixel_boundaryX.second = x;
+			pixel_boundaryY.first = pixel_boundaryY.second = y;
 		}
 		else{
-			if(hole_boundaryX.first > x) hole_boundaryX.first = x;
-			if(hole_boundaryX.second < x) hole_boundaryX.second = x;
-			if(hole_boundaryY.first > y) hole_boundaryY.first = y;
-			if(hole_boundaryY.second < y) hole_boundaryY.second = y;
+			if(pixel_boundaryX.first > x) pixel_boundaryX.first = x;
+			if(pixel_boundaryX.second < x) pixel_boundaryX.second = x;
+			if(pixel_boundaryY.first > y) pixel_boundaryY.first = y;
+			if(pixel_boundaryY.second < y) pixel_boundaryY.second = y;
 		}
 	}
 	
-	//fill hole
+	this->FillHole();
+
+}
+
+void MQTriangleMesh::FillHole(){
 	int window_size = 11;
 	this->convertSample();
 	this->setTexture(imageSize,imageSize);
@@ -430,10 +434,10 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 	double normalize_number = 255.0 / (maxLap-minLap);
 	for(int i = 1; i <= this->VertexNum; i++){	
 
-		//this->Vertex[i].R = (this->Vertex[i].Lap_length - minLap) *  normalize_number;
-		this->Vertex[i].R = (this->Vertex[i].LapX - minLap) *  normalize_number;
-		this->Vertex[i].G = (this->Vertex[i].LapY - minLap) *  normalize_number;
-		this->Vertex[i].B = (this->Vertex[i].LapZ - minLap) *  normalize_number;
+		this->Vertex[i].R = (this->Vertex[i].Lap_length - minLap) *  normalize_number;
+		//this->Vertex[i].R = (this->Vertex[i].LapX - minLap) *  normalize_number;
+		//this->Vertex[i].G = (this->Vertex[i].LapY - minLap) *  normalize_number;
+		//this->Vertex[i].B = (this->Vertex[i].LapZ - minLap) *  normalize_number;
 	}
 
 }
@@ -635,174 +639,168 @@ void MQTriangleMesh::generateTexture(int size)
 		blue[y] = new double[size];
 		green[y] = new double[size];
 	}
-	//隨機
-	/*
-	list<int>::iterator it;
-	int index = 0;
-	MQImagePixel temp;
-	while(HolePixels.size()> 0){
-		index = rand()%HolePixels.size();
-		temp = HolePixels[index];
-		while(temp.neighborHole.size() == 8){
+
+	
+	
+	if(method == 1){//隨機
+		list<int>::iterator it;
+		int index = 0;
+		MQImagePixel temp;
+		while(HolePixels.size()> 0){
 			index = rand()%HolePixels.size();
 			temp = HolePixels[index];
-		}
-		i = (int)temp.position / imageSize;
-		j = (int)temp.position % imageSize;
-		//printf("%d,%d\n",i,j);
-		findBestMatch(j, i, size);
+			while(temp.neighborHole.size() == 8){
+				index = rand()%HolePixels.size();
+				temp = HolePixels[index];
+			}
+			i = (int)temp.position / imageSize;
+			j = (int)temp.position % imageSize;
+			//printf("%d,%d\n",i,j);
+			findBestMatch(j, i, size);
 		
-		ImagePixel[i][j].R = texture_red[i][j];
-		ImagePixel[i][j].G = texture_green[i][j];
-		ImagePixel[i][j].B = texture_blue[i][j];
+			ImagePixel[i][j].R = texture_red[i][j];
+			ImagePixel[i][j].G = texture_green[i][j];
+			ImagePixel[i][j].B = texture_blue[i][j];
 
-		for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
-			ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
-		}
-		HolePixels.erase(HolePixels.begin()+index);
-		sort(this->HolePixels.begin(),this->HolePixels.end());
+			for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
+				ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
+			}
+			HolePixels.erase(HolePixels.begin()+index);
+			sort(this->HolePixels.begin(),this->HolePixels.end());
+		}	
 	}
-	*/
-	//bounding box
-	/*
-	int startX = (int)hole_boundaryX.first;
-	int endX = (int)hole_boundaryX.second;
-	int startY = (int)hole_boundaryY.first;
-	int endY = (int)hole_boundaryY.second;
-	int dir = 1;
-	int fix;
-	bool useX = true;
-	bool useY = false;
-	while(startX <= endX && startY <= endY){
-		if(useX){
-			if(dir>0){
-				fix = startY;
-				for(int j = startX; j <= endX ; j+=dir){
-					if(ImagePixel[fix][j].isHole){
-						findBestMatch(j, fix, size);
-						ImagePixel[fix][j].R = texture_red[fix][j];
-						ImagePixel[fix][j].G = texture_green[fix][j];
-						ImagePixel[fix][j].B = texture_blue[fix][j];
-					}
-				}
-			}
-			else{
-				fix = endY;
-				for(int j = endX; j >= startX ; j+=dir){
-					if(ImagePixel[fix][j].isHole){
-						findBestMatch(j, fix, size);
-						ImagePixel[fix][j].R = texture_red[fix][j];
-						ImagePixel[fix][j].G = texture_green[fix][j];
-						ImagePixel[fix][j].B = texture_blue[fix][j];
-					}
-				}
-			}
-			if(dir > 0) startY += 1;
-			if(dir < 0) endY -= 1 ;
-
-			useX = false;
-			useY = true;
-		}
-		if(useY){
-			if(dir>0){
-				fix = endX;
-				for(int i = startY; i <= endY ; i+=dir){
-					if(ImagePixel[i][fix].isHole){
-						findBestMatch(fix, i, size);
-						ImagePixel[i][fix].R = texture_red[i][fix];
-						ImagePixel[i][fix].G = texture_green[i][fix];
-						ImagePixel[i][fix].B = texture_blue[i][fix];
-					}
-				}
-			}
-			else{
-				fix = startX;
-				for(int i = endY; i >= startY ; i+=dir){
-					if(ImagePixel[i][fix].isHole){
-						findBestMatch(fix, i, size);
-						ImagePixel[i][fix].R = texture_red[i][fix];
-						ImagePixel[i][fix].G = texture_green[i][fix];
-						ImagePixel[i][fix].B = texture_blue[i][fix];
-					}
-				}
-			}
-			
-			if(dir > 0) endX -= 1;
-			if(dir < 0) startX += 1 ;
-
-			useX = true;
-			useY = false;
-			dir *= -1;
-		}
-	}
-	*/
-	//取鄰居最多像素
-	
-	list<int>::iterator it;
-	MQImagePixel temp;
-	while(HolePixels.size()> 0){
-		temp = HolePixels[0];
-
-		i = temp.position / imageSize;
-		j = temp.position % imageSize;
-
-		findBestMatch(j, i, size);
-
-		ImagePixel[i][j].R = texture_red[i][j];
-		ImagePixel[i][j].G = texture_green[i][j];
-		ImagePixel[i][j].B = texture_blue[i][j];
-
-		for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
-			ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
-		}
-		HolePixels.erase(HolePixels.begin());
-		sort(this->HolePixels.begin(),this->HolePixels.end());
-	}
-	
-	//成長式
-	/*
-	for(i=0; i<texture_h; i++)
-	{
-		if(i>=double(a*texture_h)/100)
-		{
-			cout<<a<<"% done\n";
-			a+=10;
-		}
-		for(j=0; j<texture_w; j++)
-		{		
-			if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == 0){	
-
-				findBestMatch(j, i, size);
-				ImagePixel[i][j].R = texture_red[i][j];
-				ImagePixel[i][j].G = texture_green[i][j];
-				ImagePixel[i][j].B = texture_blue[i][j];
-
-				bool filldone = false;
-				int temp_x = j;
-				int temp_y = i;
-				while(true){
-					for(int y = temp_y-1;y <= temp_y+1;y++){
-						for(int x = temp_x-1;x<= temp_x+1;x++){
-							if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == 0){
-								findBestMatch(x, y, size);
-								ImagePixel[y][x].R = texture_red[y][x];
-								ImagePixel[y][x].G = texture_green[y][x];
-								ImagePixel[y][x].B = texture_blue[y][x];
-								temp_x = x;
-								temp_y = y;
-								filldone = true;
-								break;
-							}
+	if(method == 2){//bounding box
+		int startX = (int)pixel_boundaryX.first;
+		int endX = (int)pixel_boundaryX.second;
+		int startY = (int)pixel_boundaryY.first;
+		int endY = (int)pixel_boundaryY.second;
+		int dir = 1;
+		int fix;
+		bool useX = true;
+		bool useY = false;
+		while(startX <= endX && startY <= endY){
+			if(useX){
+				if(dir>0){
+					fix = startY;
+					for(int j = startX; j <= endX ; j+=dir){
+						if(ImagePixel[fix][j].isHole){
+							findBestMatch(j, fix, size);
+							ImagePixel[fix][j].R = texture_red[fix][j];
+							ImagePixel[fix][j].G = texture_green[fix][j];
+							ImagePixel[fix][j].B = texture_blue[fix][j];
 						}
-						if(filldone) break;
 					}
-					if(filldone) filldone = false;
-					else break;
+				}
+				else{
+					fix = endY;
+					for(int j = endX; j >= startX ; j+=dir){
+						if(ImagePixel[fix][j].isHole){
+							findBestMatch(j, fix, size);
+							ImagePixel[fix][j].R = texture_red[fix][j];
+							ImagePixel[fix][j].G = texture_green[fix][j];
+							ImagePixel[fix][j].B = texture_blue[fix][j];
+						}
+					}
+				}
+				if(dir > 0) startY += 1;
+				if(dir < 0) endY -= 1 ;
+
+				useX = false;
+				useY = true;
+			}
+			if(useY){
+				if(dir>0){
+					fix = endX;
+					for(int i = startY; i <= endY ; i+=dir){
+						if(ImagePixel[i][fix].isHole){
+							findBestMatch(fix, i, size);
+							ImagePixel[i][fix].R = texture_red[i][fix];
+							ImagePixel[i][fix].G = texture_green[i][fix];
+							ImagePixel[i][fix].B = texture_blue[i][fix];
+						}
+					}
+				}
+				else{
+					fix = startX;
+					for(int i = endY; i >= startY ; i+=dir){
+						if(ImagePixel[i][fix].isHole){
+							findBestMatch(fix, i, size);
+							ImagePixel[i][fix].R = texture_red[i][fix];
+							ImagePixel[i][fix].G = texture_green[i][fix];
+							ImagePixel[i][fix].B = texture_blue[i][fix];
+						}
+					}
+				}
+			
+				if(dir > 0) endX -= 1;
+				if(dir < 0) startX += 1 ;
+
+				useX = true;
+				useY = false;
+				dir *= -1;
+			}
+		}
+	}
+	if(method == 3){//取鄰居最多像素	
+		list<int>::iterator it;
+		MQImagePixel temp;
+		while(HolePixels.size()> 0){
+			temp = HolePixels[0];
+
+			i = temp.position / imageSize;
+			j = temp.position % imageSize;
+
+			findBestMatch(j, i, size);
+
+			ImagePixel[i][j].R = texture_red[i][j];
+			ImagePixel[i][j].G = texture_green[i][j];
+			ImagePixel[i][j].B = texture_blue[i][j];
+
+			for(it = temp.neighborHole.begin(); it !=temp.neighborHole.end();it++){
+				ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp.position);
+			}
+			HolePixels.erase(HolePixels.begin());
+			sort(this->HolePixels.begin(),this->HolePixels.end());
+		}
+	}
+	if(method == 4){//成長式
+		for(i=0; i<texture_h; i++)
+		{
+			for(j=0; j<texture_w; j++)
+			{		
+				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == 0){	
+
+					findBestMatch(j, i, size);
+					ImagePixel[i][j].R = texture_red[i][j];
+					ImagePixel[i][j].G = texture_green[i][j];
+					ImagePixel[i][j].B = texture_blue[i][j];
+
+					bool filldone = false;
+					int temp_x = j;
+					int temp_y = i;
+					while(true){
+						for(int y = temp_y-1;y <= temp_y+1;y++){
+							for(int x = temp_x-1;x<= temp_x+1;x++){
+								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == 0){
+									findBestMatch(x, y, size);
+									ImagePixel[y][x].R = texture_red[y][x];
+									ImagePixel[y][x].G = texture_green[y][x];
+									ImagePixel[y][x].B = texture_blue[y][x];
+									temp_x = x;
+									temp_y = y;
+									filldone = true;
+									break;
+								}
+							}
+							if(filldone) break;
+						}
+						if(filldone) filldone = false;
+						else break;
+					}
 				}
 			}
 		}
 	}
-	*/
 	return;
 }
 
@@ -895,7 +893,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 	int x, y;
 	bool add;
 
-	// make local texture window
+	//make local texture window
 	for(y=0, ti = i-size/2; y < size; y++, ti++)
 	{
 		for(x=0, tj = j-size/2; x < size; x++, tj++)
@@ -913,7 +911,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 			blue[y][x] = texture_blue[ti][tj];
 		}
 	}
-	// get candidates;
+	//get candidates;
 	candidate_x.clear();
 	candidate_y.clear();
 	for(actualh = i-size/2; actualh <= i+size/2; actualh++)

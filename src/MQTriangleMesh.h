@@ -109,6 +109,7 @@ public:
 	int TexcoordNum;
 	int TriangleNum;
 	int imageSize;
+	int method;//1:隨機 2:Boounding Box 3:取鄰居最多 4:成長式
 
 	double minLap,maxLap;
 	double boundary;
@@ -123,6 +124,8 @@ public:
 	pair<double,double> boundaryY;
 	pair<double,double> hole_boundaryX;
 	pair<double,double> hole_boundaryY;
+	pair<double,double> pixel_boundaryX;
+	pair<double,double> pixel_boundaryY;
 
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 
@@ -168,6 +171,7 @@ public:
 
 	void FindBoundary(void);
 	void FindHole(void);
+	void FillHole(void);
 
 	void setTexture(int w , int h);
 	void generateTexture(int size);
@@ -179,6 +183,7 @@ public:
 
 	MQTriangleMesh()
 	{
+		method = 1;
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;
