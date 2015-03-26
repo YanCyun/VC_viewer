@@ -109,7 +109,7 @@ public:
 	int TexcoordNum;
 	int TriangleNum;
 	int imageSize;
-	int method;//1:隨機 2:Boounding Box 3:取鄰居最多 4:成長式
+	
 
 	double minLap,maxLap;
 	double boundary;
@@ -171,10 +171,10 @@ public:
 
 	void FindBoundary(void);
 	void FindHole(void);
-	void FillHole(void);
+	void FillHole(int method);
 
 	void setTexture(int w , int h);
-	void generateTexture(int size);
+	void generateTexture(int size,int method);
 	void convertSample();
 	void initializeTexture(int size);
 	void findBestMatch(int i, int j, int size);
@@ -183,7 +183,6 @@ public:
 
 	MQTriangleMesh()
 	{
-		method = 1;
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;

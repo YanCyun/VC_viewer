@@ -285,6 +285,7 @@ namespace VC_viewer2010 {
 			this->toolStripSplitButton1->Name = L"toolStripSplitButton1";
 			this->toolStripSplitButton1->Size = System::Drawing::Size(82, 22);
 			this->toolStripSplitButton1->Text = L"FillHole";
+			this->toolStripSplitButton1->ButtonClick += gcnew System::EventHandler(this, &Form1::toolStripSplitButton1_ButtonClick);
 			// 
 			// randomToolStripMenuItem
 			// 
@@ -543,19 +544,22 @@ private: System::Void toolStripButton3_Click(System::Object^  sender, System::Ev
 
 		 }
 private: System::Void randomToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 this->TMesh->method = 1;
 			 this->TMesh->UpdatePointStruct();
+			 this->TMesh->FillHole(1);
 		 }
 private: System::Void boundingBoxToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 this->TMesh->method = 2;
 			 this->TMesh->UpdatePointStruct();
+			 this->TMesh->FillHole(2);
 		 }
 private: System::Void neToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 this->TMesh->method = 3;
 			 this->TMesh->UpdatePointStruct();
+			 this->TMesh->FillHole(3);
 		 }
 private: System::Void growthToolStripMenuItem_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 this->TMesh->method = 4;
+			 this->TMesh->UpdatePointStruct();
+			 this->TMesh->FillHole(4);
+		 }
+private: System::Void toolStripSplitButton1_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
 			 this->TMesh->UpdatePointStruct();
 		 }
 };

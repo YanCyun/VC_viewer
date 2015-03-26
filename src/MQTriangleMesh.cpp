@@ -169,7 +169,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	t_end = clock();
 	
 	double t_duration = (double)(t_end - t_start);
-	printf("%.0fms\n",t_duration);
+	printf("Read file finish %.3fs\n",t_duration/1000.0f);
 
 	return true;
 }
@@ -349,8 +349,10 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			//this->ImagePixel[i][j].B = (this->ImagePixel[i][j].LapZ - minLap_img) *  normalize_number;
 		}
 	}
+	//sort by hole pixel neighborhood amount
 	sort(this->HolePixels.begin(),this->HolePixels.end());
 
+	//Find hole pixel bounding box coordinate
 	vector<MQImagePixel>::iterator holepixel_it;
 	for(holepixel_it = HolePixels.begin();holepixel_it != HolePixels.end();holepixel_it++){
 		int x = holepixel_it->position % imageSize;
@@ -367,17 +369,16 @@ void MQTriangleMesh::UpdatePointStruct(void){
 		}
 	}
 	
-	this->FillHole();
 
 }
 
-void MQTriangleMesh::FillHole(){
+void MQTriangleMesh::FillHole(int method){
+
 	int window_size = 11;
 	this->convertSample();
 	this->setTexture(imageSize,imageSize);
-	this->generateTexture(window_size);
-
-	printf("UpdatePointStruct Done\n");
+	this->generateTexture(window_size,method);
+	printf("Fill Done\n\n");
 
 }
 
@@ -386,22 +387,22 @@ void MQTriangleMesh::PointInTriange(MQImagePixel *p,int tri)
 
 	double a1,a2,a3;
 	double sum_a;
-	//if neighborhood pixel in the triangle
+	//if neighborhood pixel in any triangle
 	if(tri != 0){
 		a1 = (Vertex[TriangleTex[tri].T1].S - p->X) * (Vertex[TriangleTex[tri].T2].T - p->Y) - (Vertex[TriangleTex[tri].T1].T - p->Y) * (Vertex[TriangleTex[tri].T2].S - p->X);//x1y1-y1y2
 		a2 = (Vertex[TriangleTex[tri].T2].S - p->X) * (Vertex[TriangleTex[tri].T3].T - p->Y) - (Vertex[TriangleTex[tri].T2].T - p->Y) * (Vertex[TriangleTex[tri].T3].S - p->X);
 		a3 = (Vertex[TriangleTex[tri].T3].S - p->X) * (Vertex[TriangleTex[tri].T1].T - p->Y) - (Vertex[TriangleTex[tri].T3].T - p->Y) * (Vertex[TriangleTex[tri].T1].S - p->X);
 
 		if(a1>=0 && a2>=0 && a3>=0){
-			p->Triangle = tri;
 
+			p->Triangle = tri;
 			sum_a = a1+a2+a3;
 			p->Lap_length = Vertex[Triangle[tri].V1].Lap_length * a2/sum_a + Vertex[Triangle[tri].V2].Lap_length * a3/sum_a + Vertex[Triangle[tri].V3].Lap_length * a1/sum_a;
 			p->LapX = Vertex[Triangle[tri].V1].LapX * a2/sum_a + Vertex[Triangle[tri].V2].LapX * a3/sum_a + Vertex[Triangle[tri].V3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
 			p->LapY = Vertex[Triangle[tri].V1].LapY * a2/sum_a + Vertex[Triangle[tri].V2].LapY * a3/sum_a + Vertex[Triangle[tri].V3].LapY * a1/sum_a;
 			p->LapZ = Vertex[Triangle[tri].V1].LapZ * a2/sum_a + Vertex[Triangle[tri].V2].LapZ * a3/sum_a + Vertex[Triangle[tri].V3].LapZ * a1/sum_a;
-			
 			return;
+
 		}
 	}
 
@@ -444,7 +445,7 @@ void MQTriangleMesh::CalculateLaplacianToColor(void)
 
 void MQTriangleMesh::FindBoundary(void)
 {
-
+	//Find uv bounding box
 	for(int i = 1 ; i <= this->TexcoordNum ; i++){
 		if(i == 1){
 			boundaryX.first = boundaryX.second = this->Vertex[i].S;
@@ -457,8 +458,11 @@ void MQTriangleMesh::FindBoundary(void)
 			if(boundaryY.second < this->Vertex[i].T) boundaryY.second = this->Vertex[i].T;
 		}
 	}
+	//scale bounding box x1.05
+	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first) *1.05;
 
 
+	//Find uv hole bounding box
 	if(Holes.size() > 0){
 		list<int>::iterator hole_it;
 		list<list<int>>::iterator begin = Holes_uv.begin();
@@ -475,12 +479,14 @@ void MQTriangleMesh::FindBoundary(void)
 			}
 		}
 	}
-	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first) *1.05;
+	
 
 }
 
 void MQTriangleMesh::FindHole(void)
 {
+	printf("---------------Hole Info---------------\n");
+
 	map<int,int>  singleEdge ;
 	map<int,int>  singleEdge_uv;
 
@@ -540,9 +546,6 @@ void MQTriangleMesh::FindHole(void)
 		hole_uv.clear();
 	}
 
-	printf("Holes size:%d\n",Holes.size());
-	printf("Holes_uv size:%d\n",Holes_uv.size());
-
 	vector<double> hole_length;
 	//list<int> hole_point;
 	list<list<int>>::iterator hole_it;
@@ -569,7 +572,6 @@ void MQTriangleMesh::FindHole(void)
 	}
 	//find maximum lenth hole and erase it;
 	double max_hole = *max_element(hole_length.begin(),hole_length.end()); 
-	printf("%f\n",max_hole);
 	vector<double>::iterator length_it;
 	for(hole_it = Holes.begin(),hole_uv_it = Holes_uv.begin(),length_it = hole_length.begin();length_it != hole_length.end();hole_it++,hole_uv_it++,length_it++){
 		if(*length_it == max_hole){
@@ -578,6 +580,7 @@ void MQTriangleMesh::FindHole(void)
 			break;
 		}
 	}
+
 	printf("Holes size:%d\n",Holes.size());
 	printf("Holes_uv size:%d\n",Holes_uv.size());
 	//print hole point
@@ -597,7 +600,7 @@ void MQTriangleMesh::FindHole(void)
 		}
 		printf("\n");
 	}
-
+	printf("---------------------------------------\n");
 }
 
 void MQTriangleMesh::setTexture(int w,int h){
@@ -619,16 +622,14 @@ void MQTriangleMesh::setTexture(int w,int h){
 	}
 }
 
-void MQTriangleMesh::generateTexture(int size)
+void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Boounding Box 3:取鄰居最多 4:成長式
 	// generate the texture from the sample using a search window of size x size
 {
 	int i, j, a=0;
 
-	cout<<"Initializing texture...";
+	cout<<"\nInitializing texture...";
 	initializeTexture(size);
 	cout<<"done\n";
-
-	cout<<"Performing exhaustive search...\n";
 
 	red = new double*[size];
 	green = new double*[size];
@@ -643,6 +644,7 @@ void MQTriangleMesh::generateTexture(int size)
 	
 	
 	if(method == 1){//隨機
+		cout<<"Start fill hole for random...\n";
 		list<int>::iterator it;
 		int index = 0;
 		MQImagePixel temp;
@@ -667,9 +669,10 @@ void MQTriangleMesh::generateTexture(int size)
 			}
 			HolePixels.erase(HolePixels.begin()+index);
 			sort(this->HolePixels.begin(),this->HolePixels.end());
-		}	
+		}
 	}
 	if(method == 2){//bounding box
+		cout<<"Start fill hole for bounding box...\n";
 		int startX = (int)pixel_boundaryX.first;
 		int endX = (int)pixel_boundaryX.second;
 		int startY = (int)pixel_boundaryY.first;
@@ -680,7 +683,7 @@ void MQTriangleMesh::generateTexture(int size)
 		bool useY = false;
 		while(startX <= endX && startY <= endY){
 			if(useX){
-				if(dir>0){
+				if(dir>0){//left
 					fix = startY;
 					for(int j = startX; j <= endX ; j+=dir){
 						if(ImagePixel[fix][j].isHole){
@@ -691,7 +694,7 @@ void MQTriangleMesh::generateTexture(int size)
 						}
 					}
 				}
-				else{
+				else{//right
 					fix = endY;
 					for(int j = endX; j >= startX ; j+=dir){
 						if(ImagePixel[fix][j].isHole){
@@ -709,7 +712,7 @@ void MQTriangleMesh::generateTexture(int size)
 				useY = true;
 			}
 			if(useY){
-				if(dir>0){
+				if(dir>0){//down
 					fix = endX;
 					for(int i = startY; i <= endY ; i+=dir){
 						if(ImagePixel[i][fix].isHole){
@@ -720,7 +723,7 @@ void MQTriangleMesh::generateTexture(int size)
 						}
 					}
 				}
-				else{
+				else{//up
 					fix = startX;
 					for(int i = endY; i >= startY ; i+=dir){
 						if(ImagePixel[i][fix].isHole){
@@ -741,7 +744,8 @@ void MQTriangleMesh::generateTexture(int size)
 			}
 		}
 	}
-	if(method == 3){//取鄰居最多像素	
+	if(method == 3){//取鄰居最多像素
+		cout<<"\nStart fill hole for most pixel neighborhood...";
 		list<int>::iterator it;
 		MQImagePixel temp;
 		while(HolePixels.size()> 0){
@@ -764,6 +768,7 @@ void MQTriangleMesh::generateTexture(int size)
 		}
 	}
 	if(method == 4){//成長式
+		cout<<"Start fill hole for growth...\n";
 		for(i=0; i<texture_h; i++)
 		{
 			for(j=0; j<texture_w; j++)
@@ -814,8 +819,6 @@ void MQTriangleMesh::initializeTexture(int size)
 	int valid_h_length = sample_h-size/2;
 	int dw = size/2;
 	int dh = size/2;
-
-	//srand(time(NULL));
 
 	for (i=0; i<texture_h; i++)
 	{
@@ -1144,6 +1147,7 @@ void MQTriangleMesh::Draw2D(void)
 {
 	glPolygonMode(GL_FRONT,GL_LINE);
 	
+	//Draw Triangle Line
 	/*glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
@@ -1213,6 +1217,7 @@ void MQTriangleMesh::Draw2D(void)
 	glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
 	glEnd();
 	*/
+	//Draw uv
 	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);
 	
