@@ -97,7 +97,6 @@ struct MQImagePixel
 	~MQImagePixel()	
 	{}
 
-	friend bool operator <(const MQImagePixel& p1,const MQImagePixel& p2){ return p1.neighborHole.size() < p2.neighborHole.size();}
 };
 
 
@@ -118,14 +117,14 @@ public:
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
-	vector<MQImagePixel> HolePixels;
+	vector<MQImagePixel*> HolePixels;
 	
 	pair<double,double> boundaryX;
 	pair<double,double> boundaryY;
 	pair<double,double> hole_boundaryX;
 	pair<double,double> hole_boundaryY;
-	pair<double,double> pixel_boundaryX;
-	pair<double,double> pixel_boundaryY;
+	pair<int,int> pixel_boundaryX;
+	pair<int,int> pixel_boundaryY;
 
 	map< pair<int,int>, HalfEdge* > Edges; // pair<EdgeStartVertex,EdgeEndVertex>
 
@@ -185,7 +184,7 @@ public:
 	{
 		VertexNum = 0;
 		TriangleNum = 0;
-		imageSize = 512;
+		imageSize = 128;
 	}
 
 	virtual ~MQTriangleMesh()
