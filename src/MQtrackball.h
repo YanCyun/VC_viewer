@@ -67,7 +67,6 @@ class MQtrackball
       int   tb_width;
       int   tb_height;
       bool  tb_tracking;
-
    public:
 
       void tbInit(void);
@@ -82,6 +81,7 @@ class MQtrackball
 
       void tbMotion(int x, int y);
 
+	  void reset();
 
       MQtrackball(void)
       {

@@ -172,7 +172,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	t_end = clock();
 	
 	double t_duration = (double)(t_end - t_start);
-	printf("Read file finish %.2fs\n",t_duration/1000.0f);
+	printf("Read file finish %.2fs\n\n",t_duration/1000.0f);
 
 	return true;
 }
@@ -270,6 +270,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 	bool checkHole = false;
 	vector<int> tempHoles;
 	vector<int>::iterator hole_it;
+	
 	//測試JPG補洞
 	fstream file;
 	file.open("test.txt", ios::in);
@@ -281,6 +282,9 @@ void MQTriangleMesh::UpdatePointStruct(void){
 	this->ImagePixel.resize(imageSize);
 
 	for(int i = 0 ; i < imageSize ; i++){
+		//進度
+		fflush(stdout);
+		printf("\rUpdatePixel:%.0f%%",((float)i/imageSize)*100);
 		this->ImagePixel[i].clear();
 		this->ImagePixel[i].resize(imageSize);
 		for(int j = 0 ; j < imageSize ; j++){
@@ -292,12 +296,15 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			if(this->ImagePixel[i][j].R == -1 ) 
 				this->ImagePixel[i][j].isHole = true;
 		}
-	}
-	
+	}	
+	printf("\rUpdatePixel:100%%\n");
 
 	/*
 	this->ImagePixel.resize(imageSize);
 	for(int i = 0 ; i < imageSize ; i++){
+		//進度
+		fflush(stdout);
+		printf("\rUpdatePixel:%.0f%%",((float)i/imageSize)*100);
 		this->ImagePixel[i].clear();
 		this->ImagePixel[i].resize(imageSize);
 		tempHoles.clear();
@@ -349,7 +356,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			}
 		}
 	}
-	
+	printf("\rUpdatePixel:100%%\n");
 	*/
 	double normalize_number = 255.0 / (maxLap_img-minLap_img);
 	
@@ -402,6 +409,7 @@ void MQTriangleMesh::UpdatePointStruct(void){
 			
 		}
 	}
+	fflush(stdout);
 }
 
 void MQTriangleMesh::FillHole(int method){
@@ -493,7 +501,6 @@ void MQTriangleMesh::FindBoundary(void)
 	}
 	//將Bounding Box 範圍放大1.05倍
 	boundary = max(boundaryX.second-boundaryX.first,boundaryY.second-boundaryY.first) *1.05;
-
 
 	///找到UV洞的像素的Bounding Box 範圍
 	if(Holes.size() > 0){
@@ -661,7 +668,7 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 {
 	int i, j, a=0;
 
-	cout<<"\nInitializing texture...";
+	cout<<"Initializing texture...";
 	initializeTexture(size);
 	cout<<"done\n";
 
@@ -681,7 +688,11 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 		vector<MQImagePixel>::iterator it_hole;
 		int index = 0;
 		MQImagePixel* temp;
+		int hole_count = HolePixels.size();
 		while(HolePixels.size()> 0){
+			//進度
+			fflush(stdout);
+			printf("\rFillHole:%.0f%%",(1.0f-((float)HolePixels.size()/hole_count))*100);
 			do{
 				index = rand()%HolePixels.size();
 				temp = HolePixels[index];			
@@ -699,6 +710,7 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 			}
 			HolePixels.erase(HolePixels.begin()+index);
 		}
+		printf("\n");
 	}
 	if(method == 2){//bounding box
 		cout<<"Start fill hole for bounding box...\n";
@@ -708,9 +720,15 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 		int endY = pixel_boundaryY.second;
 		int dir = 1;
 		int fix;
+		int total_count = (endX-startX) * (endY - startY);
+		int counter = 0;
 		bool useX = true;
 		bool useY = false;
 		while(startX <= endX && startY <= endY){
+			counter++;
+			//進度
+			fflush(stdout);
+			printf("\rFillHole:%.0f%%",((float)counter/total_count)*100);
 			if(useX){
 				if(dir>0){//up,left->right
 					fix = startY;
@@ -772,13 +790,18 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 				dir *= -1;
 			}
 		}
+		printf("\n");
 	}
 	if(method == 3){//取鄰居最多像素
 		cout<<"Start fill hole for most neighborhood have pixel ...\n";
 		list<int>::iterator it;
 		vector<MQImagePixel*>::iterator it_hole;
 		MQImagePixel* temp;
+		int hole_count = HolePixels.size();
 		while(HolePixels.size()> 0){
+			//進度
+			fflush(stdout);
+			printf("\rFillHole:%.0f%%",(1.0f-((float)HolePixels.size()/hole_count))*100);
 			temp = HolePixels[0];
 			i = temp->position / imageSize;
 			j = temp->position % imageSize;
@@ -795,11 +818,15 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 			HolePixels.erase(HolePixels.begin());
 			sort(this->HolePixels.begin(),this->HolePixels.end(),my_sort);
 		}
+		printf("\n");
 	}
 	if(method == 4){//成長式
 		cout<<"Start fill hole for growth...\n";
 		for(i=0; i<texture_h; i++)
 		{
+			//進度
+			fflush(stdout);
+			printf("\rFillHole:%.0f%%",((float)(i+1)/texture_h)*100);
 			for(j=0; j<texture_w; j++)
 			{		
 				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1){	
@@ -834,6 +861,7 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 				}
 			}
 		}
+		printf("\n");
 	}
 	return;
 }
@@ -841,17 +869,9 @@ void MQTriangleMesh::generateTexture(int size,int method)//method 1:隨機 2:Booun
 void MQTriangleMesh::initializeTexture(int size)
 	// initialize output texture with random pixels from the sample
 {
-	int i, j;
-	int w, h;
-
-	int valid_w_length = sample_w-size+1;
-	int valid_h_length = sample_h-size/2;
-	int dw = size/2;
-	int dh = size/2;
-
-	for (i=0; i<texture_h; i++)
+	for (int i=0; i<texture_h; i++)
 	{
-		for(j=0; j<texture_w; j++)
+		for(int j=0; j<texture_w; j++)
 		{
 			texture_red[i][j] = sample_red[i][j];
 			texture_green[i][j] = sample_green[i][j];
@@ -994,6 +1014,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)
 	original_pos_x[i][j] = bestw;
 	original_pos_y[i][j] = besth;
 	return;
+	
 	/*
 	// make local texture window
 	for(y=0, ti = i-size/2; y < size/2+1; y++, ti++)
@@ -1282,6 +1303,5 @@ void MQTriangleMesh::DrawPoint(void)
 		}
 	}
 	glEnd();
-
 	
 }

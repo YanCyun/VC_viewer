@@ -11,19 +11,20 @@ class MQBasicUI
 
 	MQtrackball TrackBall;
 
-	double TranslateStrX, TranslateStrY;
+	
 	double TranslateLstX, TranslateLstY;
 	double TranslateDifX, TranslateDifY, TranslateDepth;
-
+	double TranslateStrX, TranslateStrY;
 	double ScaleX,ScaleY;
 
 	double ZoomStr, ZoomLstY, ZoomDifY;
 
 	int    Viewport[4];
 	double ModelViewMatrix[16], ProjectionMatrix[16];
+	
 
    public:
-
+	
 	enum {TRACKBALL, TRANSLATE, ZOOM, NONE} Mode;
 	void InitialSetup(int Width, int Height);
 	void ViewportResize(int Width, int Height);
@@ -31,7 +32,8 @@ class MQBasicUI
 	void MouseMove(int X, int Y);
 	void MouseUp();
 	void Paint();
-	void SetScale(double x,double y);
+	void set_position(double x,double y);
+	void set_zoom(double z);
 
 	//X, Y are input OpenGL window coordinates. OX, OY, OZ are output 3D coordinates
 	//The OpenGL window should be "MakeCurrent"

@@ -184,7 +184,7 @@ public:
 	{
 		VertexNum = 0;
 		TriangleNum = 0;
-		imageSize = 128;
+		imageSize = 512;
 	}
 
 	virtual ~MQTriangleMesh()

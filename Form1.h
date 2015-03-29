@@ -76,6 +76,8 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripMenuItem^  boundingBoxToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  neToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  growthToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton4;
+
 
 
 	private:
@@ -116,6 +118,7 @@ namespace VC_viewer2010 {
 			this->boundingBoxToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->neToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->growthToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->toolStripButton4 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -240,8 +243,8 @@ namespace VC_viewer2010 {
 			// 
 			// toolStrip1
 			// 
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->toolStripButton1, 
-				this->toolStripButton3, this->toolStripButton2, this->toolStripSplitButton1});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->toolStripButton1, 
+				this->toolStripButton3, this->toolStripButton2, this->toolStripSplitButton1, this->toolStripButton4});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(496, 25);
@@ -316,6 +319,16 @@ namespace VC_viewer2010 {
 			this->growthToolStripMenuItem->Text = L"Growth";
 			this->growthToolStripMenuItem->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::growthToolStripMenuItem_MouseDown);
 			// 
+			// toolStripButton4
+			// 
+			this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton4.Image")));
+			this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton4->Name = L"toolStripButton4";
+			this->toolStripButton4->Size = System::Drawing::Size(23, 22);
+			this->toolStripButton4->Text = L"toolStripButton4";
+			this->toolStripButton4->Click += gcnew System::EventHandler(this, &Form1::toolStripButton4_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
@@ -349,6 +362,8 @@ namespace VC_viewer2010 {
 		{
 			this->TMesh->ReadObjFile(MQString2string(this->openFileDialog1->FileName).c_str());
 			this->toolStripStatusLabel1->Text = this->TMesh->VertexNum + " vertices, " + this->TMesh->TriangleNum + " triangles, " + this->TMesh->TexcoordNum +" texcoords";
+
+			
 		}
 	}
 
@@ -397,8 +412,8 @@ namespace VC_viewer2010 {
 
 		glPushMatrix();
 		this->BasicUI->Paint();
-		
-		if(this->toolStripButton1->Checked){
+
+		if(this->toolStripButton1->Checked){	
 			this->TMesh->Draw2D();
 		}
 		else if(this->toolStripButton3->Checked){
@@ -408,7 +423,6 @@ namespace VC_viewer2010 {
 			this->TMesh->Draw(this->ColR, this->ColG, this->ColB);
 			//this->BasicUI->SetScale(128.0 / this->TMesh->boundary,128.0 / this->TMesh->boundary);
 		}
-		
 		glPopMatrix();
 	}
 
@@ -526,7 +540,15 @@ namespace VC_viewer2010 {
 private: System::Void toolStripButton1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 this->toolStripButton1->Checked = !this->toolStripButton1->Checked;
 			 if(this->toolStripButton1->Checked){
+				double position_x = -1 * (this->TMesh->boundaryX.first + this->TMesh->boundaryX.second)/2.0; 
+				double position_y = -1 * (this->TMesh->boundaryY.first + this->TMesh->boundaryY.second)/2.0; 
+				this->BasicUI->set_position(position_x,position_y);
+				double zoom = (this->TMesh->boundary * 1.5-5) * 25;
+				this->BasicUI->set_zoom(zoom);
 				if(this->toolStripButton3->Checked) this->toolStripButton3->Checked = !this->toolStripButton3->Checked;
+			 }
+			 else{
+				 if(!this->toolStripButton3->Checked) this->BasicUI->set_zoom(0);
 			 }
 		 }
 private: System::Void toolStripButton2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -540,6 +562,14 @@ private: System::Void toolStripButton3_Click(System::Object^  sender, System::Ev
 			 this->toolStripButton3->Checked = !this->toolStripButton3->Checked;
 			 if(this->toolStripButton3->Checked) {
 				 if(this->toolStripButton1->Checked) this->toolStripButton1->Checked = !this->toolStripButton1->Checked;
+				 double position_x = -1 * (this->TMesh->boundaryX.first + this->TMesh->boundaryX.second)/2.0; 
+				 double position_y = -1 * (this->TMesh->boundaryY.first + this->TMesh->boundaryY.second)/2.0; 
+				 this->BasicUI->set_position(position_x,position_y);
+				 double zoom = (this->TMesh->boundary * 1.5-5) * 25;
+				 this->BasicUI->set_zoom(zoom);
+			 }
+			 else{
+				 if(!this->toolStripButton1->Checked) this->BasicUI->set_zoom(0);
 			 }
 
 		 }
@@ -561,6 +591,9 @@ private: System::Void growthToolStripMenuItem_MouseDown(System::Object^  sender,
 		 }
 private: System::Void toolStripSplitButton1_ButtonClick(System::Object^  sender, System::EventArgs^  e) {
 			 this->TMesh->UpdatePointStruct();
+		 }
+private: System::Void toolStripButton4_Click(System::Object^  sender, System::EventArgs^  e) {			
+			 this->BasicUI->set_position(0.0,0.0);
 		 }
 };
 }

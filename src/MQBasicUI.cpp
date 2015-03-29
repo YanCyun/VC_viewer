@@ -1,7 +1,6 @@
 #include "MQBasicUI.h"
 #include "MQOpenGL.h"
 
-
 void MQBasicUI::InitialSetup(int Width, int Height)
 {
 	glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -159,20 +158,21 @@ void MQBasicUI::MouseUp()
 		this->Mode = this->NONE;
 }
 
-void MQBasicUI::SetScale(double x,double y){
-	this->ScaleX = x;
-	this->ScaleY = y;
+void MQBasicUI::set_position(double x,double y){
+	this->TranslateStrX = x;
+	this->TranslateStrY = y;
+	//if(x == 0 && y == 0) this->TrackBall.reset();
+}
+void MQBasicUI::set_zoom(double z){
+	this->ZoomStr = z;
 }
 
 void MQBasicUI::Paint()
 {
-	gluLookAt(0.0, 0.0, 5.0 + 0.02*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
+	gluLookAt(0.0, 0.0, 5.0 + 0.04*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	glTranslatef((float)this->TranslateStrX, (float)this->TranslateStrY, 0.0f);
-	glScalef((float)this->ScaleX,(float)this->ScaleY,1.0f);
 	this->TrackBall.tbMatrix();
 }
-
 void MQBasicUI::ProjectTo3D(int X, int Y, double &OX, double &OY, double &OZ)
 {
 	GLint    _GLWY;

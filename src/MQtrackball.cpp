@@ -2,7 +2,6 @@
 #include <math.h>
 #include "MQOpenGL.h"
 
-
 /*
  *  MODIFIED
  *
@@ -42,6 +41,7 @@ void MQtrackball::tbStopMotion(void)
 void MQtrackball::tbInit(void)
 {
   tb_angle = 0.0;
+  tb_lastposition[0] = tb_lastposition[1] =tb_lastposition[2] = 0.0;
   tb_axis[0] = tb_axis[1] = tb_axis[2] = 0.0;
 
   /* put the identity in the trackball transform */
@@ -86,7 +86,6 @@ void MQtrackball::tbMotion(int x, int y)
   dy = current_position[1] - tb_lastposition[1];
   dz = current_position[2] - tb_lastposition[2];
   tb_angle = 90.0 * sqrt(dx * dx + dy * dy + dz * dz);
-
   /* calculate the axis of rotation (cross product) */
   tb_axis[0] = tb_lastposition[1] * current_position[2] -
                tb_lastposition[2] * current_position[1];
@@ -99,4 +98,7 @@ void MQtrackball::tbMotion(int x, int y)
   tb_lastposition[0] = current_position[0];
   tb_lastposition[1] = current_position[1];
   tb_lastposition[2] = current_position[2];
+}
+
+void MQtrackball::reset(){
 }
