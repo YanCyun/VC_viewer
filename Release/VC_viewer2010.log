@@ -1,9 +1,9 @@
-﻿Build started 2015/4/1 下午 12:09:10.
+﻿Build started 2015/4/1 下午 12:31:54.
      1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\VC_viewer2010.lastbuildstate".
        InitializeBuildStatus:
-         Touching "Release\VC_viewer2010.unsuccessfulbuild".
+         Creating "Release\VC_viewer2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
@@ -143,6 +143,7 @@
      1>src\MQtrackball.cpp(23): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>src\MQtrackball.cpp(88): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          MQTriangleMesh.cpp
+     1>src\MQTriangleMesh.cpp(275): warning C4101: 'tri' : unreferenced local variable
      1>src\MQTriangleMesh.cpp(964): warning C4101: 'w' : unreferenced local variable
      1>src\MQTriangleMesh.cpp(964): warning C4101: 'h' : unreferenced local variable
      1>src\MQTriangleMesh.cpp(963): warning C4101: 'i' : unreferenced local variable
@@ -240,4 +241,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.28
+Time Elapsed 00:00:04.15

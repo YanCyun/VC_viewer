@@ -277,7 +277,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	bool checkHole = false;
 	vector<int> tempHoles;
 	vector<int>::iterator hole_it;
-	/*
+	
 	//代刚JPG干瑌
 	fstream file;
 	file.open("test.txt", ios::in);
@@ -306,8 +306,8 @@ void MQTriangleMesh::UpdatePointStruct(void)
 		}
 	}	
 	printf("\rUpdatePixel:100%%\n");
-	*/
 	
+	/*
 	this->ImagePixel.resize(imageSize);
 	for(int i = 0 ; i < imageSize ; i++)
 	{
@@ -370,7 +370,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 		}
 	}
 	printf("\rUpdatePixel:100%%\n");
-	
+	*/
 	double normalize_number = 255.0 / (maxLap_img-minLap_img);
 	
 	for(int i = 0 ; i < imageSize ; i++)
@@ -914,7 +914,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 			printf("\rFillHole:%.0f%%",((float)(i+1)/texture_h)*100);
 			for(j=0; j<texture_w; j++)
 			{		
-				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == 0)//代刚JPGㄏノ if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
+				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)//代刚JPGㄏノ if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 				{	
 					findBestMatch(j, i, size);
 					ImagePixel[i][j].R = texture_red[i][j];
@@ -930,7 +930,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 						{
 							for(int x = temp_x-1;x<= temp_x+1;x++)
 							{
-								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == 0)//代刚JPGㄏノ if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
+								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == -1)//代刚JPGㄏノ if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 								{
 									findBestMatch(x, y, size);
 									ImagePixel[y][x].R = texture_red[y][x];
@@ -1034,16 +1034,16 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 		for(j=0; j<imageSize; j++)
 		{
 
-			if(ImagePixel[i][j].Triangle == 0)
-			{
-				sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
-			}
-			else
-			{
+			//if(ImagePixel[i][j].Triangle == 0)
+			//{
+			//	sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
+			//}
+			//else
+			//{
 				sample_red[i][j] = ImagePixel[i][j].R;
 				sample_green[i][j] = ImagePixel[i][j].G;
 				sample_blue[i][j] = ImagePixel[i][j].B;
-			}
+			//}
 		}
 	}
 	return;
