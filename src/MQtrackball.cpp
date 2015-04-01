@@ -101,4 +101,15 @@ void MQtrackball::tbMotion(int x, int y)
 }
 
 void MQtrackball::reset(){
+
+	this->tbInit();
+
+	glPushMatrix();
+		glLoadIdentity();
+		glRotatef(tb_angle, tb_axis[0], tb_axis[1], tb_axis[2]);
+		glMultMatrixf((GLfloat*)tb_transform);
+		glGetFloatv(GL_MODELVIEW_MATRIX, (GLfloat*)tb_transform);
+	glPopMatrix();
+
+	glMultMatrixf((GLfloat*)tb_transform);
 }

@@ -34,6 +34,7 @@ class MQBasicUI
 	void Paint();
 	void set_position(double x,double y);
 	void set_zoom(double z);
+	void reset();
 
 	//X, Y are input OpenGL window coordinates. OX, OY, OZ are output 3D coordinates
 	//The OpenGL window should be "MakeCurrent"

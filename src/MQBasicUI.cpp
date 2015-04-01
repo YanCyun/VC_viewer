@@ -167,6 +167,10 @@ void MQBasicUI::set_zoom(double z){
 	this->ZoomStr = z;
 }
 
+void MQBasicUI::reset(){
+	this->TrackBall.reset();
+}
+
 void MQBasicUI::Paint()
 {
 	gluLookAt(0.0, 0.0, 5.0 + 0.04*(this->ZoomStr), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);

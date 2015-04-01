@@ -69,9 +69,18 @@ struct MQTriangleTex{ int T1, T2, T3; };
 
 struct HalfEdge
 {
-	pair<int,int> oppositeHalfEdge;
-	pair<int,int> nextHalfEdge;
+	HalfEdge* oppositeHalfEdge;
+	HalfEdge* nextHalfEdge;
 	int  face;
+
+	HalfEdge(){
+		oppositeHalfEdge = NULL;
+		nextHalfEdge = NULL;
+		face = 0;
+	}
+	~HalfEdge(){
+
+	}
 };
 
 struct MQImagePixel
@@ -108,16 +117,18 @@ public:
 	int TexcoordNum;
 	int TriangleNum;
 	int imageSize;
+	int window_size;
 	
 
 	double minLap,maxLap;
 	double boundary;
-
+	
 	vector<MQVertex>   Vertex;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
 	vector<MQImagePixel*> HolePixels;
+	vector<vector<float>> LaplaianLength;
 	
 	pair<double,double> boundaryX;
 	pair<double,double> boundaryY;
@@ -170,6 +181,7 @@ public:
 
 	void FindBoundary(void);
 	void FindHole(void);
+	void CheckHole(void);
 	void FillHole(int method);
 
 	void setTexture(int w , int h);
@@ -185,6 +197,7 @@ public:
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;
+		window_size = 5;
 	}
 
 	virtual ~MQTriangleMesh()
