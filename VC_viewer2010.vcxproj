@@ -97,8 +97,10 @@
     <ClCompile Include="src\MQBasicUI.cpp" />
     <ClCompile Include="src\MQDotNETUtility.cpp" />
     <ClCompile Include="src\MQglm.cpp" />
+    <ClCompile Include="src\MQPCA.cpp" />
     <ClCompile Include="src\MQtrackball.cpp" />
     <ClCompile Include="src\MQTriangleMesh.cpp" />
+    <ClCompile Include="src\MQUtility.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -114,8 +116,10 @@
     <ClInclude Include="src\MQDotNETUtility.h" />
     <ClInclude Include="src\MQglm.h" />
     <ClInclude Include="src\MQOpenGL.h" />
+    <ClInclude Include="src\MQPCA.h" />
     <ClInclude Include="src\MQtrackball.h" />
     <ClInclude Include="src\MQTriangleMesh.h" />
+    <ClInclude Include="src\MQUtility.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

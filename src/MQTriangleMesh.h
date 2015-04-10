@@ -14,14 +14,14 @@ class MQVertex
 {
 public:
 
-	double X, Y, Z;
-	double S, T;         //parametric coordinates
-	double NX, NY, NZ;   //normal
+	float X, Y, Z;
+	float S, T;         //parametric coordinates
+	float NX, NY, NZ;   //normal
 
 	list<int>	NeighborVertex;
-	double	LapX, LapY, LapZ;
-	double  R,G,B; //Laplacian to Color
-	double	Lap_length;
+	float	LapX, LapY, LapZ;
+	float  R,G,B; //Laplacian to Color
+	float	Lap_length;
 
 public:
 
@@ -47,7 +47,7 @@ class MQTriangle
 public:
 
 	int    V1, V2, V3;
-	double NX, NY, NZ;	//normal
+	float NX, NY, NZ;	//normal
 
 public:
 	void Normal2UnitVector();
@@ -73,39 +73,61 @@ struct HalfEdge
 	HalfEdge* nextHalfEdge;
 	int  face;
 
-	HalfEdge(){
+	HalfEdge()
+	{
 		oppositeHalfEdge = NULL;
 		nextHalfEdge = NULL;
 		face = 0;
 	}
-	~HalfEdge(){
-
-	}
+	~HalfEdge(){}
 };
 
 struct MQImagePixel
 {
-	double X,Y;
-	double LapX,LapY,LapZ;
-	double R,G,B;
-	double	Lap_length;
+	float X,Y;
+	float LapX,LapY,LapZ;
+	float R,G,B;
+	float Lap_length;
 	int Triangle;
 	bool isHole;
 	list<int> neighborHole;
 	int position;
 
-	MQImagePixel(){
+	vector<float> pca_data;
+
+	MQImagePixel()
+	{
 		X = Y = 0.0;
 		LapX = LapY = LapZ = 0.0;
+		Lap_length = 0 ;
 		R = G = B = 0.0;
 		Triangle = 0;
 		isHole = false;
 		position = 0;
 	}
 
-	~MQImagePixel()	
-	{}
+	~MQImagePixel(){}
 
+};
+
+struct LaplaianLength
+{
+	bool pca;
+	bool boundary;
+	bool hole;
+	vector<float> length;
+	int X,Y;
+	int neighbor_pca;
+
+	LaplaianLength()
+	{
+		pca = false;
+		boundary = false;
+		hole= false;
+		X = Y = 0;
+		neighbor_pca = 0;
+	}
+	~LaplaianLength(){}
 };
 
 
@@ -120,20 +142,24 @@ public:
 	int window_size;
 	
 
-	double minLap,maxLap;
-	double boundary;
+	float minLap,maxLap;
+	//vector<float> minLap,maxLap;
+	float boundary;
 	
 	vector<MQVertex>   Vertex;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
 	vector<MQImagePixel*> HolePixels;
-	vector<vector<float>> LaplaianLength;
+
+	vector<vector<LaplaianLength*>> LaplaianLengths; //PCA data
+	vector<LaplaianLength*> tempLaplaianLength;
+	int _SrcImgPixDim;
 	
-	pair<double,double> boundaryX;
-	pair<double,double> boundaryY;
-	pair<double,double> hole_boundaryX;
-	pair<double,double> hole_boundaryY;
+	pair<float,float> boundaryX;
+	pair<float,float> boundaryY;
+	pair<float,float> hole_boundaryX;
+	pair<float,float> hole_boundaryY;
 	pair<int,int> pixel_boundaryX;
 	pair<int,int> pixel_boundaryY;
 
@@ -146,21 +172,21 @@ public:
 	//fill hole data
 	int sample_w, sample_h;
 	void* sample_data;
-	double** sample_red;
-	double** sample_green;
-	double** sample_blue;
+	float** sample_red;
+	float** sample_green;
+	float** sample_blue;
 
 	int texture_w, texture_h;
 	void * texture_data;
-	double** texture_red;
-	double** texture_green;
-	double** texture_blue;
+	float** texture_red;
+	float** texture_green;
+	float** texture_blue;
 	int** original_pos_x;
 	int** original_pos_y;
 
-	double** red;
-	double** green;
-	double** blue;
+	float** red;
+	float** green;
+	float** blue;
 	vector<int> candidate_x;
 	vector<int> candidate_y;
 
@@ -197,7 +223,8 @@ public:
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;
-		window_size = 5;
+		window_size = 3;
+		_SrcImgPixDim = 3;
 	}
 
 	virtual ~MQTriangleMesh()

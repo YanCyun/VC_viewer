@@ -1,244 +1,70 @@
-﻿Build started 2015/4/1 下午 12:31:54.
-     1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (rebuild target(s)).
-     1>_PrepareForClean:
-         Deleting file "Release\VC_viewer2010.lastbuildstate".
-       InitializeBuildStatus:
+﻿Build started 2015/4/10 下午 04:40:46.
+     1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
          Creating "Release\VC_viewer2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
-         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Release\VC_viewer2010.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt stdafx.cpp /clr:nostdlib 
-         stdafx.cpp
-         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp src\MQBasicUI.cpp src\MQDotNETUtility.cpp src\MQglm.cpp src\MQtrackball.cpp src\MQTriangleMesh.cpp VC_viewer2010.cpp /clr:nostdlib 
-         AssemblyInfo.cpp
-         MQBasicUI.cpp
-         MQDotNETUtility.cpp
-         MQglm.cpp
-     1>src\MQglm.cpp(50): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-     1>src\MQglm.cpp(96): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-     1>src\MQglm.cpp(123): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
-     1>src\MQglm.cpp(124): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
-     1>src\MQglm.cpp(127): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>src\MQglm.cpp(137): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(146): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(164): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(165): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(166): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(168): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(169): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(170): warning C4305: '=' : truncation from 'double' to 'float'
-     1>src\MQglm.cpp(177): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-     1>src\MQglm.cpp(181): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(189): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(191): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-     1>src\MQglm.cpp(194): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(205): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(211): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(217): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(254): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(285): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(286): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-     1>src\MQglm.cpp(305): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(309): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(310): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(311): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(314): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(318): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(320): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(321): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(324): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(328): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(330): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(331): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(334): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(340): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(341): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(344): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(405): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(417): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(424): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(430): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(437): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(453): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(457): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(460): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(463): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(468): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(478): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(483): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(487): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(493): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(506): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(510): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(513): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(518): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(530): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : see declaration of 'sscanf'
-     1>src\MQglm.cpp(532): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(534): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(538): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(253) : see declaration of 'fscanf'
-     1>src\MQglm.cpp(611): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>src\MQglm.cpp(620): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup. See online help for details.
-                 d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(238) : see declaration of 'strdup'
-         MQtrackball.cpp
-     1>src\MQtrackball.cpp(19): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQtrackball.cpp(20): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQtrackball.cpp(22): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQtrackball.cpp(23): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQtrackball.cpp(88): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         All outputs are up-to-date.
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt src\MQTriangleMesh.cpp /clr:nostdlib 
          MQTriangleMesh.cpp
-     1>src\MQTriangleMesh.cpp(275): warning C4101: 'tri' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(964): warning C4101: 'w' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(964): warning C4101: 'h' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(963): warning C4101: 'i' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(963): warning C4101: 'j' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1055): warning C4101: 'actualy' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1055): warning C4101: 'actualx' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1054): warning C4101: 'actualh' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1054): warning C4101: 'actualw' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1062): warning C4101: 'add' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1198): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1198): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1198): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1204): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1204): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1204): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1207): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1207): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1207): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1212): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1212): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1212): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1227): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1227): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1227): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1228): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1228): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1229): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1229): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1229): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1231): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1231): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1231): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1232): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1232): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1233): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1233): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1233): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1235): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1235): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1235): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1236): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1236): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1237): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1237): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1237): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1331): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1331): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1331): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1332): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1332): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1335): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1335): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1335): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1336): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1336): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1339): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1339): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1339): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1340): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1340): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1354): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1354): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1354): warning C4244: 'argument' : conversion from 'double' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1355): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>src\MQTriangleMesh.cpp(1355): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-         VC_viewer2010.cpp
-         Generating Code...
-         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Yancyun\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
-         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+     1>src\MQTriangleMesh.cpp(69): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(70): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(71): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(78): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(79): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(230): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(585): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(277): warning C4101: 'tri' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(663): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(693): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(1121): warning C4101: 'w' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1121): warning C4101: 'h' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1120): warning C4101: 'i' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1120): warning C4101: 'j' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1212): warning C4101: 'actualy' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1212): warning C4101: 'actualx' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1211): warning C4101: 'actualh' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1211): warning C4101: 'actualw' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1219): warning C4101: 'add' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1486): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1486): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1486): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1490): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1490): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1490): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1494): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1494): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1494): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1509): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1509): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1509): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+         All outputs are up-to-date.
        CoreResGen:
-         "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /r:C:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Release\VC_viewer2010.Form1.resources
-         Processing resource file "Form1.resX" into "Release\VC_viewer2010.Form1.resources".
+         No resources are out of date with respect to their source files. Skipping resource generation.
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\app.res" app.rc 
+         All outputs are up-to-date.
        Link:
          d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe" /INCREMENTAL:NO /NOLOGO /ASSEMBLYRESOURCE:Release\VC_viewer2010.Form1.resources /MANIFEST /ManifestFile:"Release\VC_viewer2010.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Release\app.res
          Release\AssemblyInfo.obj
          Release\MQBasicUI.obj
          Release\MQDotNETUtility.obj
          Release\MQglm.obj
+         Release\MQPCA.obj
          Release\MQtrackball.obj
          Release\MQTriangleMesh.obj
+         Release\MQUtility.obj
          Release\stdafx.obj
          Release\VC_viewer2010.obj
          "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
          VC_viewer2010.vcxproj -> C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Yancyun\Desktop\VC_viewer2010\Release\VC_viewer2010.exe;#1" /manifest Release\VC_viewer2010.exe.intermediate.manifest
-       _CopyFilesMarkedCopyLocal:
-         Copying file from "C:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll" to "C:\Users\Yancyun\Desktop\VC_viewer2010\Release\MQOpenGLControl.dll".
        FinalizeBuildStatus:
          Deleting file "Release\VC_viewer2010.unsuccessfulbuild".
          Touching "Release\VC_viewer2010.lastbuildstate".
-     1>Done Building Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" (rebuild target(s)).
+     1>Done Building Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.15
+Time Elapsed 00:00:02.16
