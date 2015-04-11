@@ -436,8 +436,8 @@ void MQTriangleMesh::UpdatePointStruct(void)
 		}
 	}
 
-	int ex_dim = window_size*window_size;//設定鄰居Lap維度
-	int range = (window_size-1)/2;
+	int ex_dim = pca_size*pca_size;//設定鄰居Lap維度
+	int range = (pca_size-1)/2;
 
 	//分配記憶體
 	LaplaianLengths.resize(imageSize);
@@ -449,7 +449,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	}
 
 	//PCA資料準備
-	for(int i = range ; i < imageSize - window_size /2; i++)
+	for(int i = range ; i < imageSize -range; i++)
 	{
 		for(int j = range ; j < imageSize - range ; j++)
 		{
@@ -602,7 +602,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 
 void MQTriangleMesh::FillHole(int method)
 {
-	this->convertSample();
+	//this->convertSample();
 	this->setTexture(imageSize,imageSize);
 	this->generateTexture(window_size,method);
 }
@@ -1120,14 +1120,14 @@ void MQTriangleMesh::initializeTexture(int size)// initialize output texture wit
 {
 	int i, j;
 	int w, h;
-
+	/*
 	int valid_w_length = sample_w-size+1;
 	int valid_h_length = sample_h-size/2;
 	int dw = size/2;
 	int dh = size/2;
 
 	//srand(time(NULL));
-	/*
+	
 	for (i=0; i<texture_h; i++)
 	{
 		for(j=0; j<texture_w; j++)
@@ -1160,9 +1160,17 @@ void MQTriangleMesh::initializeTexture(int size)// initialize output texture wit
 	{
 		for(int j=0; j<texture_w; j++)
 		{
-			texture_red[i][j] = sample_red[i][j];
-			texture_green[i][j] = sample_green[i][j];
-			texture_blue[i][j] = sample_blue[i][j];
+			//if(ImagePixel[i][j].Triangle == 0)
+			//{
+			//	texture_red[i][j] = texture_green[i][j] = texture_blue[i][j] = -1.0;
+			//}
+			//else
+			//{
+			texture_red[i][j] = ImagePixel[i][j].R;
+			texture_green[i][j] = ImagePixel[i][j].G;
+			texture_blue[i][j] = ImagePixel[i][j].B;
+			//}
+
 			original_pos_x[i][j] = j;
 			original_pos_y[i][j] = i;
 		}
@@ -1212,13 +1220,15 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	int actualw, actualh;
 	int actualx, actualy;
 	int bestw, besth;
-	int bestd = 200000*size*size;
-	int tempd;
 	int ti, tj;
-	int r, g, b;
 	int x, y;
+
 	bool add;
-	
+
+	float bestd = 200000*size*size;
+	float tempd;
+	float r, g, b;
+
 	//make local texture window
 	for(y=0, ti = i-size/2; y < size; y++, ti++)
 	{
@@ -1229,46 +1239,51 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 
 			if(tj < 0)	tj += texture_w;				
 			else if(tj >= texture_w)	tj -= texture_w;
-				
+
 			red[y][x] = texture_red[ti][tj];
 			green[y][x] = texture_green[ti][tj];
 			blue[y][x] = texture_blue[ti][tj];
 
 		}
 	}
-	
-	for(int si = size/2 ; si < imageSize- size/2-1; si++)
+
+	for(int si = size/2+pca_size/2 ; si < imageSize- size/2-pca_size/2-1; si++)
 	{
-		for(int sj = size/2 ;  sj < imageSize-size/2-1; sj++)
+		for(int sj = size/2+pca_size/2 ;  sj < imageSize- size/2-pca_size/2-1; sj++)
 		{
-			if(sample_red[si][sj] == -1) continue;
+			if(texture_red[si][sj] == -1) continue;
 			tempd = 0;
+			bool isDone = true;
 			for(y = si - size/2,ti = 0 ; y <= si + size/2 ; y++,ti++)
 			{
 				for(x = sj - size/2,tj=0 ; x <= sj + size/2 ; x++,tj++)
 				{
-					
-					if(tempd > bestd && ti!= 0 && tj != 0)	break;
+					if(tempd > bestd)	break;
 					if(red[ti][tj] == -1) continue;
-					r = int(red[ti][tj]-sample_red[y][x]);
-					g = int(green[ti][tj]-sample_green[y][x]);
-					b = int(blue[ti][tj]-sample_blue[y][x]);
+					if(texture_red[y][x] == -1){
+						isDone = false;
+						break;
+					}
+					r = red[ti][tj]-texture_red[y][x];
+					g = green[ti][tj]-texture_green[y][x];
+					b = blue[ti][tj]-texture_blue[y][x];
 					tempd += r*r + g*g + b*b;
-					
 				}
-			}		
-			if(tempd < bestd || si == size/2 || sj == size/2)
+				if(!isDone) break;
+			}	
+			if(!isDone) continue;;
+			if(tempd < bestd)
 			{
 				bestw = sj;
 				besth = si;
 				bestd = tempd;		
-				
+
 			}
 		}
 	}
-	texture_red[i][j] = sample_red[besth][bestw];
-	texture_green[i][j] = sample_green[besth][bestw];
-	texture_blue[i][j] = sample_blue[besth][bestw];
+	texture_red[i][j] = texture_red[besth][bestw];
+	texture_green[i][j] = texture_green[besth][bestw];
+	texture_blue[i][j] = texture_blue[besth][bestw];
 	original_pos_x[i][j] = bestw;
 	original_pos_y[i][j] = besth;
 	return;

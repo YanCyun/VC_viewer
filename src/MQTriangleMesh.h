@@ -140,6 +140,7 @@ public:
 	int TriangleNum;
 	int imageSize;
 	int window_size;
+	int pca_size;
 	
 
 	float minLap,maxLap;
@@ -222,8 +223,9 @@ public:
 	{
 		VertexNum = 0;
 		TriangleNum = 0;
-		imageSize = 512;
-		window_size = 3;
+		imageSize = 256;
+		window_size = 5;
+		pca_size = 5;
 		_SrcImgPixDim = 3;
 	}
 
