@@ -602,8 +602,8 @@ void MQTriangleMesh::UpdatePointStruct(void)
 
 void MQTriangleMesh::FillHole(int method)
 {
-	//this->convertSample();
-	this->setTexture(imageSize,imageSize);
+	this->convertSample();
+	this->setTexture(imageSize);
 	this->generateTexture(window_size,method);
 }
 
@@ -715,7 +715,6 @@ void MQTriangleMesh::FindBoundary(void)
 		}
 	}
 	
-
 }
 
 void MQTriangleMesh::FindHole(void)
@@ -860,22 +859,26 @@ void MQTriangleMesh::CheckHole()
 	printf("---------------------------------------\n\n");
 }
 
-void MQTriangleMesh::setTexture(int w,int h)
+void MQTriangleMesh::setTexture(int window)
 {
-	texture_w = w;
-	texture_h = h;
-	texture_red = new float* [texture_w];
-	texture_green = new float* [texture_w];
-	texture_blue = new float* [texture_w];
-	original_pos_x = new int* [texture_w];
-	original_pos_y = new int* [texture_w];
-	for(int i=0; i<texture_w; i++)
+
+
+	texture_red = new float* [window];
+	texture_green = new float* [window];
+	texture_blue = new float* [window];
+	texture_lap = new float **[window];
+	original_pos_x = new int* [window];
+	original_pos_y = new int* [window];
+	for(int i=0; i<window; i++)
 	{
-		texture_red[i] = new float[texture_h];
-		texture_green[i] = new float[texture_h];
-		texture_blue[i] = new float[texture_h];
-		original_pos_x[i] = new int[texture_w];
-		original_pos_y[i] = new int[texture_w];
+		texture_red[i] = new float[window];
+		texture_green[i] = new float[window];
+		texture_blue[i] = new float[window];
+		texture_lap[i] = new float *[window];
+		for(int j = 0 ; j < window ; j++)
+			texture_lap[i][j] = new float[_SrcImgPixDim];
+		original_pos_x[i] = new int[window];
+		original_pos_y[i] = new int[window];
 	}
 }
 
@@ -886,15 +889,18 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 
 	cout<<"Initializing texture...\n";
 	initializeTexture(size);
-
+	
 	red = new float*[size];
 	green = new float*[size];
 	blue = new float*[size];
+	lap_sample = new float**[size];
 	for(int y=0; y<size; y++)
 	{
 		red[y] = new float[size];
 		blue[y] = new float[size];
 		green[y] = new float[size];
+		lap_sample[y] = new float*[size];
+		for(int x = 0; x < size ; x++) lap_sample[y][x] = new float[_SrcImgPixDim];
 	}
 	t_start = clock();
 	if(method == 1)//隨機
@@ -914,15 +920,11 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 			do{
 				index = rand()%HolePixels.size();
 				temp = HolePixels[index];	
-			}while(temp->neighborHole.size() == 8);
-
+			}while(temp->neighborHole.size() > 5);
+			//printf(",size:%d\n",temp->neighborHole.size());
 			i = (int)temp->position / imageSize;
 			j = (int)temp->position % imageSize;
 			findBestMatch(j, i, size);
-		
-			ImagePixel[i][j].R = texture_red[i][j];
-			ImagePixel[i][j].G = texture_green[i][j];
-			ImagePixel[i][j].B = texture_blue[i][j];
 
 			for(it = temp->neighborHole.begin(); it !=temp->neighborHole.end();it++)
 				ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp->position);
@@ -945,8 +947,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 		bool useX = true;
 		bool useY = false;
 		while(startX <= endX && startY <= endY)
-		{
-			
+		{ 
 			//進度
 			fflush(stdout);
 			printf("\rFillHole:%.0f%%",((float)counter/total_count)*100);
@@ -958,13 +959,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 					for(int j = startX; j <= endX ; j+=dir)
 					{
 						if(counter < total_count)counter++;
-						if(ImagePixel[fix][j].isHole)
-						{
-							findBestMatch(j, fix, size);
-							ImagePixel[fix][j].R = texture_red[fix][j];
-							ImagePixel[fix][j].G = texture_green[fix][j];
-							ImagePixel[fix][j].B = texture_blue[fix][j];
-						}
+						if(ImagePixel[fix][j].isHole)	findBestMatch(j, fix, size);
 					}
 				}
 				else//down,right->left
@@ -973,13 +968,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 					for(int j = endX; j >= startX ; j+=dir)
 					{
 						if(counter < total_count)counter++;
-						if(ImagePixel[fix][j].isHole)
-						{
-							findBestMatch(j, fix, size);
-							ImagePixel[fix][j].R = texture_red[fix][j];
-							ImagePixel[fix][j].G = texture_green[fix][j];
-							ImagePixel[fix][j].B = texture_blue[fix][j];
-						}
+						if(ImagePixel[fix][j].isHole)	findBestMatch(j, fix, size);
 					}
 				}
 				if(dir > 0) startY += 1;
@@ -996,13 +985,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 					for(int i = startY; i <= endY ; i+=dir)
 					{
 						if(counter < total_count)counter++;
-						if(ImagePixel[i][fix].isHole)
-						{
-							findBestMatch(fix, i, size);
-							ImagePixel[i][fix].R = texture_red[i][fix];
-							ImagePixel[i][fix].G = texture_green[i][fix];
-							ImagePixel[i][fix].B = texture_blue[i][fix];
-						}
+						if(ImagePixel[i][fix].isHole)	findBestMatch(fix, i, size);
 					}
 				}
 				else//left,down->up
@@ -1011,13 +994,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 					for(int i = endY; i >= startY ; i+=dir)
 					{
 						if(counter < total_count)counter++;
-						if(ImagePixel[i][fix].isHole)
-						{
-							findBestMatch(fix, i, size);
-							ImagePixel[i][fix].R = texture_red[i][fix];
-							ImagePixel[i][fix].G = texture_green[i][fix];
-							ImagePixel[i][fix].B = texture_blue[i][fix];
-						}
+						if(ImagePixel[i][fix].isHole)	findBestMatch(fix, i, size);
 					}
 				}
 			
@@ -1048,11 +1025,6 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 			j = temp->position % imageSize;
 
 			findBestMatch(j, i, size);
-
-			ImagePixel[i][j].R = texture_red[i][j];
-			ImagePixel[i][j].G = texture_green[i][j];
-			ImagePixel[i][j].B = texture_blue[i][j];
-
 			for(it = temp->neighborHole.begin(); it !=temp->neighborHole.end();it++){
 				ImagePixel[int(*it/imageSize)][int(*it%imageSize)].neighborHole.remove(temp->position);
 			}
@@ -1065,20 +1037,16 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 	if(method == 4)//成長式
 	{
 		cout<<"Start fill hole for growth...\n";
-		for(i=0; i<texture_h; i++)
+		for(i=0; i<imageSize; i++)
 		{
 			//進度
 			fflush(stdout);
-			printf("\rFillHole:%.0f%%",((float)(i+1)/texture_h)*100);
-			for(j=0; j<texture_w; j++)
+			printf("\rFillHole:%.0f%%",((float)(i+1)/imageSize)*100);
+			for(j=0; j<imageSize; j++)
 			{		
 				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 				{	
 					findBestMatch(j, i, size);
-					ImagePixel[i][j].R = texture_red[i][j];
-					ImagePixel[i][j].G = texture_green[i][j];
-					ImagePixel[i][j].B = texture_blue[i][j];
-
 					bool filldone = false;
 					int temp_x = j;
 					int temp_y = i;
@@ -1091,9 +1059,6 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == -1)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 								{
 									findBestMatch(x, y, size);
-									ImagePixel[y][x].R = texture_red[y][x];
-									ImagePixel[y][x].G = texture_green[y][x];
-									ImagePixel[y][x].B = texture_blue[y][x];
 									temp_x = x;
 									temp_y = y;
 									filldone = true;
@@ -1156,23 +1121,20 @@ void MQTriangleMesh::initializeTexture(int size)// initialize output texture wit
 	}
 	return;
 	*/
-	for (int i=0; i<texture_h; i++)
+	for (int i=pca_size/2; i<imageSize-pca_size/2; i++)
 	{
-		for(int j=0; j<texture_w; j++)
+		for(int j=pca_size/2; j<imageSize-pca_size/2; j++)
 		{
-			//if(ImagePixel[i][j].Triangle == 0)
-			//{
-			//	texture_red[i][j] = texture_green[i][j] = texture_blue[i][j] = -1.0;
-			//}
-			//else
-			//{
 			texture_red[i][j] = ImagePixel[i][j].R;
 			texture_green[i][j] = ImagePixel[i][j].G;
 			texture_blue[i][j] = ImagePixel[i][j].B;
-			//}
-
 			original_pos_x[i][j] = j;
 			original_pos_y[i][j] = i;
+
+			if(!ImagePixel[i][j].isHole)//	if(ImagePixel[i][j].Triangle != 0)
+				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
+			else	
+				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = 0.0f;
 		}
 	}
 	return;
@@ -1184,31 +1146,37 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 
 	int i, j;
 
-	sample_w = imageSize;
-	sample_h = imageSize;
 	sample_red = new float*[imageSize];
 	sample_green = new float*[imageSize];
 	sample_blue = new float*[imageSize];
+	sample_lap = new float **[imageSize];
 	for(i=0; i<imageSize; i++)
 	{
 		sample_red[i] = new float[imageSize];
 		sample_green[i] = new float[imageSize];
 		sample_blue[i] = new float[imageSize];
+		sample_lap[i] = new float*[imageSize];
+		for(int j = 0 ; j < imageSize ; j++) sample_lap[i][j] = new float[_SrcImgPixDim];
 	}
-	for (i=0; i<imageSize; i++)
+	for (i=pca_size/2; i<imageSize-pca_size/2; i++)
 	{
-		for(j=0; j<imageSize; j++)
+		for(j=pca_size/2; j<imageSize-pca_size/2; j++)
 		{
 
 			//if(ImagePixel[i][j].Triangle == 0)
 			//{
 			//	sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
+			//	for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = 0.0f;
 			//}
 			//else
 			//{
 				sample_red[i][j] = ImagePixel[i][j].R;
 				sample_green[i][j] = ImagePixel[i][j].G;
 				sample_blue[i][j] = ImagePixel[i][j].B;
+				if(!ImagePixel[i][j].isHole)	
+					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
+				else	
+					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = 0.0f;
 			//}
 		}
 	}
@@ -1234,16 +1202,16 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	{
 		for(x=0, tj = j-size/2; x < size; x++, tj++)
 		{
-			if(ti < 0)	ti += texture_h;				
-			else if(ti >= texture_h)	ti -= texture_h;
+			if(ti < pca_size/2)	ti += imageSize-pca_size/2;				
+			else if(ti >= imageSize-pca_size/2)	ti -= imageSize-pca_size/2;
 
-			if(tj < 0)	tj += texture_w;				
-			else if(tj >= texture_w)	tj -= texture_w;
+			if(tj < pca_size/2)	tj += imageSize-pca_size/2;				
+			else if(tj >= imageSize-pca_size/2)	tj -= imageSize-pca_size/2;
 
-			red[y][x] = texture_red[ti][tj];
-			green[y][x] = texture_green[ti][tj];
-			blue[y][x] = texture_blue[ti][tj];
-
+			//red[y][x] = texture_red[ti][tj];
+			//green[y][x] = texture_green[ti][tj];
+			//blue[y][x] = texture_blue[ti][tj];
+			lap_sample[y][x] = texture_lap[ti][tj];
 		}
 	}
 
@@ -1251,7 +1219,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	{
 		for(int sj = size/2+pca_size/2 ;  sj < imageSize- size/2-pca_size/2-1; sj++)
 		{
-			if(texture_red[si][sj] == -1) continue;
+			if(sample_lap[si][sj][0] == 0) continue;
 			tempd = 0;
 			bool isDone = true;
 			for(y = si - size/2,ti = 0 ; y <= si + size/2 ; y++,ti++)
@@ -1259,15 +1227,19 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 				for(x = sj - size/2,tj=0 ; x <= sj + size/2 ; x++,tj++)
 				{
 					if(tempd > bestd)	break;
-					if(red[ti][tj] == -1) continue;
-					if(texture_red[y][x] == -1){
+					
+					if(lap_sample[ti][tj][0] == 0) continue;		
+					if(sample_lap[y][x][0] == 0){
 						isDone = false;
 						break;
 					}
-					r = red[ti][tj]-texture_red[y][x];
-					g = green[ti][tj]-texture_green[y][x];
-					b = blue[ti][tj]-texture_blue[y][x];
-					tempd += r*r + g*g + b*b;
+					//r = red[ti][tj]-sample_red[y][x];
+					//g = green[ti][tj]-sample_green[y][x];
+					//b = blue[ti][tj]-sample_blue[y][x];
+					for(int n = 0 ; n < _SrcImgPixDim ; n++){						
+						tempd+= pow(lap_sample[ti][tj][n]-sample_lap[y][x][n],2);
+					}
+					///tempd += r*r + g*g + b*b;
 				}
 				if(!isDone) break;
 			}	
@@ -1281,11 +1253,31 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 			}
 		}
 	}
-	texture_red[i][j] = texture_red[besth][bestw];
-	texture_green[i][j] = texture_green[besth][bestw];
-	texture_blue[i][j] = texture_blue[besth][bestw];
+	/*
+	fstream file;
+	file.open("test_out.txt",ios::app);
+	if(!file)     //檢查檔案是否成功開啟
+	{
+		cerr << "Can't open file!\n";
+		exit(1);     //在不正常情形下，中斷程式的執行
+	}
+	file<< "i:" << i << "," << "j:" << j << "\n";
+	file<< "w:" << bestw << "," << "h:" << besth << "\n";
+	file.close();
+	*/
+	texture_red[i][j] = sample_red[besth][bestw];
+	texture_green[i][j] = sample_green[besth][bestw];
+	texture_blue[i][j] = sample_blue[besth][bestw];
+	texture_lap[i][j] = sample_lap[besth][bestw];
 	original_pos_x[i][j] = bestw;
 	original_pos_y[i][j] = besth;
+
+	ImagePixel[i][j].R = sample_red[besth][bestw];
+	ImagePixel[i][j].G = sample_green[besth][bestw];
+	ImagePixel[i][j].B = sample_blue[besth][bestw];
+	ImagePixel[i][j].originX = bestw;
+	ImagePixel[i][j].originY = besth;
+
 	return;
 	/*
 	//get candidates;

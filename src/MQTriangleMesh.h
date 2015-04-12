@@ -92,6 +92,7 @@ struct MQImagePixel
 	bool isHole;
 	list<int> neighborHole;
 	int position;
+	int originX,originY;
 
 	vector<float> pca_data;
 
@@ -104,6 +105,7 @@ struct MQImagePixel
 		Triangle = 0;
 		isHole = false;
 		position = 0;
+		originX = originY = -1;
 	}
 
 	~MQImagePixel(){}
@@ -176,18 +178,21 @@ public:
 	float** sample_red;
 	float** sample_green;
 	float** sample_blue;
+	float*** sample_lap; 
 
-	int texture_w, texture_h;
+	//int texture_w, texture_h;
 	void * texture_data;
 	float** texture_red;
 	float** texture_green;
 	float** texture_blue;
+	float*** texture_lap; 
 	int** original_pos_x;
 	int** original_pos_y;
 
 	float** red;
 	float** green;
 	float** blue;
+	float*** lap_sample; 
 	vector<int> candidate_x;
 	vector<int> candidate_y;
 
@@ -211,7 +216,7 @@ public:
 	void CheckHole(void);
 	void FillHole(int method);
 
-	void setTexture(int w , int h);
+	void setTexture(int window);
 	void generateTexture(int size,int method);
 	void convertSample();
 	void initializeTexture(int size);
@@ -223,7 +228,7 @@ public:
 	{
 		VertexNum = 0;
 		TriangleNum = 0;
-		imageSize = 256;
+		imageSize = 512;
 		window_size = 5;
 		pca_size = 5;
 		_SrcImgPixDim = 3;
