@@ -143,12 +143,15 @@ public:
 	int imageSize;
 	int window_size;
 	int pca_size;
+	int first_point,second_point;
 	
 
 	float minLap,maxLap;
 	//vector<float> minLap,maxLap;
 	float boundary;
 	
+
+	vector<int> fillpoint;
 	vector<MQVertex>   Vertex;
 	vector<MQTriangle> Triangle;
 	vector<MQTriangleTex> TriangleTex;
@@ -232,6 +235,7 @@ public:
 		window_size = 5;
 		pca_size = 5;
 		_SrcImgPixDim = 3;
+		first_point = second_point = -1;
 	}
 
 	virtual ~MQTriangleMesh()

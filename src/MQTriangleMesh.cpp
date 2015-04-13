@@ -1253,7 +1253,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 			}
 		}
 	}
-	/*
+	
 	fstream file;
 	file.open("test_out.txt",ios::app);
 	if(!file)     //檢查檔案是否成功開啟
@@ -1264,7 +1264,10 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	file<< "i:" << i << "," << "j:" << j << "\n";
 	file<< "w:" << bestw << "," << "h:" << besth << "\n";
 	file.close();
-	*/
+
+	if(besth <  size/2+pca_size/2 || besth > imageSize- size/2-pca_size/2) besth = size/2+pca_size/2 +rand()%(imageSize-size-pca_size);
+	if(bestw <  size/2+pca_size/2 || bestw > imageSize- size/2-pca_size/2) bestw = size/2+pca_size/2 +rand()%(imageSize-size-pca_size);
+
 	texture_red[i][j] = sample_red[besth][bestw];
 	texture_green[i][j] = sample_green[besth][bestw];
 	texture_blue[i][j] = sample_blue[besth][bestw];
@@ -1277,6 +1280,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	ImagePixel[i][j].B = sample_blue[besth][bestw];
 	ImagePixel[i][j].originX = bestw;
 	ImagePixel[i][j].originY = besth;
+	fillpoint.push_back(imageSize*i+j);
 
 	return;
 	/*
@@ -1508,6 +1512,15 @@ void MQTriangleMesh::Draw2D(void)
 
 void MQTriangleMesh::DrawPoint(void)
 {
+	glLineWidth(3.0); 
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_LINES);
+	if(fillpoint.size()>0){
+		glVertex3f(this->ImagePixel[first_point/imageSize][first_point%imageSize].X, this->ImagePixel[first_point/imageSize][first_point%imageSize].Y, 0.0);
+		glVertex3f(this->ImagePixel[second_point/imageSize][second_point%imageSize].X, this->ImagePixel[second_point/imageSize][second_point%imageSize].Y, 0.0);
+	}
+	glEnd();
+
 	glBegin(GL_POINTS);
 	for(int i = 0; i < this->imageSize; i++)
 	{
@@ -1519,5 +1532,7 @@ void MQTriangleMesh::DrawPoint(void)
 		}
 	}
 	glEnd();
+	
+	
 	
 }

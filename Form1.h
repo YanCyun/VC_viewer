@@ -87,6 +87,7 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripMenuItem^  Neighborhood;
 	private: System::Windows::Forms::ToolStripMenuItem^  Growth;
 	private: System::Windows::Forms::ToolStripMenuItem^  ResetHole;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
 
 
 
@@ -142,6 +143,7 @@ namespace VC_viewer2010 {
 			this->Growth = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->ResetHole = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -270,8 +272,8 @@ namespace VC_viewer2010 {
 			// toolStrip1
 			// 
 			this->toolStrip1->AutoSize = false;
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->Draw2D, this->DrawPoint, 
-				this->toolStripDropDownButton1, this->toolStripButton2});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->Draw2D, this->DrawPoint, 
+				this->toolStripDropDownButton1, this->toolStripButton2, this->toolStripButton1});
 			this->toolStrip1->Location = System::Drawing::Point(0, 26);
 			this->toolStrip1->MaximumSize = System::Drawing::Size(0, 32);
 			this->toolStrip1->Name = L"toolStrip1";
@@ -352,6 +354,15 @@ namespace VC_viewer2010 {
 			this->toolStripButton2->Size = System::Drawing::Size(94, 29);
 			this->toolStripButton2->Text = L"CheckHoles";
 			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButton2_Click);
+			// 
+			// toolStripButton1
+			// 
+			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton1.Image")));
+			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton1->Name = L"toolStripButton1";
+			this->toolStripButton1->Size = System::Drawing::Size(63, 29);
+			this->toolStripButton1->Text = L"Touch";
+			this->toolStripButton1->Click += gcnew System::EventHandler(this, &Form1::toolStripButton1_Click);
 			// 
 			// Form1
 			// 
@@ -628,6 +639,15 @@ private: System::Void Growth_Click(System::Object^  sender, System::EventArgs^  
 private: System::Void ResetHole_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->TMesh->UpdatePointStruct();
 			 this->mqOpenGLControl1->Refresh();
+		 }
+private: System::Void toolStripButton1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if(this->TMesh->fillpoint.size()>0){
+				 this->TMesh->first_point = this->TMesh->fillpoint.front();
+				 TMesh->second_point = TMesh->ImagePixel[TMesh->first_point/TMesh->imageSize][TMesh->first_point%TMesh->imageSize].originY*TMesh->imageSize+
+									TMesh->ImagePixel[TMesh->first_point/TMesh->imageSize][TMesh->first_point%TMesh->imageSize].originX;
+				 this->TMesh->fillpoint.erase(this->TMesh->fillpoint.begin());
+				 this->mqOpenGLControl1->Refresh();
+			 }
 		 }
 };
 }
