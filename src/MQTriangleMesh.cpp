@@ -1134,7 +1134,7 @@ void MQTriangleMesh::initializeTexture(int size)// initialize output texture wit
 			if(!ImagePixel[i][j].isHole)//	if(ImagePixel[i][j].Triangle != 0)
 				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
 			else	
-				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = 0.0f;
+				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = -1.0f;
 		}
 	}
 	return;
@@ -1166,7 +1166,7 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 			//if(ImagePixel[i][j].Triangle == 0)
 			//{
 			//	sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
-			//	for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = 0.0f;
+			//	for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = -1.0f;
 			//}
 			//else
 			//{
@@ -1176,7 +1176,7 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 				if(!ImagePixel[i][j].isHole)	
 					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
 				else	
-					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = 0.0f;
+					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = -1.0f;
 			//}
 		}
 	}
@@ -1219,7 +1219,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	{
 		for(int sj = size/2+pca_size/2 ;  sj < imageSize- size/2-pca_size/2-1; sj++)
 		{
-			if(sample_lap[si][sj][0] == 0) continue;
+			if(sample_lap[si][sj][0] == -1.0) continue;
 			tempd = 0;
 			bool isDone = true;
 			for(y = si - size/2,ti = 0 ; y <= si + size/2 ; y++,ti++)
@@ -1228,7 +1228,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 				{
 					if(tempd > bestd)	break;
 					
-					if(lap_sample[ti][tj][0] == 0) continue;		
+					if(lap_sample[ti][tj][0] == -1.0) continue;		
 					if(sample_lap[y][x][0] == 0){
 						isDone = false;
 						break;
