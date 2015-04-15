@@ -7,6 +7,7 @@
 #include <map>
 #include <utility>
 #include "MQOpenGL.h"
+#include "Dtriangle.h"
 
 using namespace std;
 
@@ -132,6 +133,13 @@ struct LaplaianLength
 	~LaplaianLength(){}
 };
 
+struct HoleMesh{
+	vector<MQVertex> Vertex;
+	vector<MQTriangleTex> TriangleTex;
+	int VertexNum;
+	int TriangleNum;
+};
+
 
 class MQTriangleMesh
 {
@@ -173,6 +181,7 @@ public:
 
 	list<list<int>> Holes;
 	list<list<int>> Holes_uv;
+	HoleMesh* baseMesh;
 	
 
 	//fill hole data
@@ -224,6 +233,7 @@ public:
 	void convertSample();
 	void initializeTexture(int size);
 	void findBestMatch(int i, int j, int size);
+	void TriangulateBaseMesh();
 
 public:
 
@@ -234,8 +244,9 @@ public:
 		imageSize = 512;
 		window_size = 5;
 		pca_size = 5;
-		_SrcImgPixDim = 3;
+		_SrcImgPixDim = 6;
 		first_point = second_point = -1;
+		baseMesh = NULL;
 	}
 
 	virtual ~MQTriangleMesh()

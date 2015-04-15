@@ -59,7 +59,6 @@ void MQTriangle::Normal2UnitVector()
 
 bool MQTriangleMesh::ReadObjFile(const char *FileName)
 {
-
 	MQGLMmodel *_model = MQglmReadOBJ(FileName);
 
 	this->VertexNum = (int)(_model->numvertices);
@@ -175,6 +174,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	this->FindHole();
 	this->FindBoundary();
 	this->UpdatePointStruct();
+	//this->TriangulateBaseMesh();
 	t_end = clock();
 	
 	float t_duration = (float)(t_end - t_start);
@@ -861,8 +861,6 @@ void MQTriangleMesh::CheckHole()
 
 void MQTriangleMesh::setTexture(int window)
 {
-
-
 	texture_red = new float* [window];
 	texture_green = new float* [window];
 	texture_blue = new float* [window];
@@ -1193,7 +1191,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 
 	bool add;
 
-	float bestd = 200000*size*size;
+	float bestd = -1.0f;
 	float tempd;
 	float r, g, b;
 
@@ -1226,10 +1224,10 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 			{
 				for(x = sj - size/2,tj=0 ; x <= sj + size/2 ; x++,tj++)
 				{
-					if(tempd > bestd)	break;
+					if(tempd > bestd && bestd != -1.0)	break;
 					
 					if(lap_sample[ti][tj][0] == -1.0) continue;		
-					if(sample_lap[y][x][0] == 0){
+					if(sample_lap[y][x][0] == -1.0){
 						isDone = false;
 						break;
 					}
@@ -1244,7 +1242,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 				if(!isDone) break;
 			}	
 			if(!isDone) continue;;
-			if(tempd < bestd)
+			if(tempd < bestd || (bestd == -1.0 && tempd !=0))
 			{
 				bestw = sj;
 				besth = si;
@@ -1253,7 +1251,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 			}
 		}
 	}
-	
+	/*
 	fstream file;
 	file.open("test_out.txt",ios::app);
 	if(!file)     //檢查檔案是否成功開啟
@@ -1264,7 +1262,7 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	file<< "i:" << i << "," << "j:" << j << "\n";
 	file<< "w:" << bestw << "," << "h:" << besth << "\n";
 	file.close();
-
+	*/
 	if(besth <  size/2+pca_size/2 || besth > imageSize- size/2-pca_size/2) besth = size/2+pca_size/2 +rand()%(imageSize-size-pca_size);
 	if(bestw <  size/2+pca_size/2 || bestw > imageSize- size/2-pca_size/2) bestw = size/2+pca_size/2 +rand()%(imageSize-size-pca_size);
 
@@ -1348,6 +1346,108 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 	*/
 }
 
+void MQTriangleMesh::TriangulateBaseMesh()
+{
+	triangulateio in, out, *vorout = NULL;
+	baseMesh = new HoleMesh();
+	baseMesh->VertexNum = Holes_uv.begin()->size();
+	baseMesh->Vertex.resize(baseMesh->VertexNum+1);
+	list<int>::iterator it = Holes_uv.begin()->begin();
+	for(int i = 1 ;i<=baseMesh->VertexNum;i++){
+		baseMesh->Vertex[i].S = this->Vertex[*it].S;
+		baseMesh->Vertex[i].T = this->Vertex[*it].T;
+		it++;
+	}
+
+	//洞邊界點的資料(x1,y1,x2,y2,...)給in.pointlist
+	//BMesh是自己定義的資料結構
+	in.pointlist = new REAL[baseMesh->VertexNum*2];	
+	for(int i = 1; i <= baseMesh->VertexNum; i++)
+	{
+		in.pointlist[(i-1)*2] = baseMesh->Vertex[i].S;
+		in.pointlist[(i-1)*2+1] = baseMesh->Vertex[i].T;
+	}
+	in.pointattributelist = NULL;
+	in.pointmarkerlist = NULL;
+	//洞邊界點的數目
+	in.numberofpoints = baseMesh->VertexNum;
+	in.numberofpointattributes = 0;
+	in.trianglelist = NULL;
+	in.triangleattributelist = NULL;
+	in.trianglearealist = NULL;
+	in.numberoftriangles = 0;
+	in.numberofcorners = 0;
+	in.numberoftriangleattributes = 0;
+	//洞邊界邊的資料(一個邊由兩個點編號所構成，編號從0開始)給in.segmentlist
+	//VBEdgeList是自己定義的資料結構
+	in.segmentlist = new int[ 2*baseMesh->VertexNum];
+	for(int i = 1 ; i <= baseMesh->VertexNum; i++)
+	{
+		if(i == baseMesh->VertexNum)
+		{
+			in.segmentlist[(i-1)*2]   = i-1;
+			in.segmentlist[(i-1)*2+1] = 0;
+		}
+		else
+		{
+			in.segmentlist[(i-1)*2]   = i-1;
+			in.segmentlist[(i-1)*2+1] = i;
+		}
+	}
+	in.segmentmarkerlist = NULL;
+	//洞邊界邊的數目
+	in.numberofsegments = baseMesh->VertexNum;
+	in.holelist = NULL;
+	in.numberofholes = 0;
+	in.regionlist = NULL;
+	in.numberofregions = 0;
+
+	out.pointlist = NULL;
+	out.pointattributelist = NULL;
+	out.pointmarkerlist = NULL;
+	out.numberofpoints = 0;
+	out.numberofpointattributes = 0;
+	out.trianglelist = NULL;
+	out.triangleattributelist = NULL;
+	out.neighborlist = NULL;
+	out.numberoftriangles = 0;
+	out.numberofcorners = 0;
+	out.numberoftriangleattributes = 0;
+	out.segmentlist = NULL;
+	out.segmentmarkerlist = NULL;
+	out.numberofsegments = 0;
+	out.holelist = NULL;
+	out.numberofholes = 0;
+	out.regionlist = NULL;
+	out.numberofregions = 0;
+	out.edgelist = NULL;
+	out.edgemarkerlist = NULL;
+	out.normlist = NULL;
+	out.numberofedges = 0;
+
+	//三角化參數設定
+	char *option = "Ypz";
+
+	//三角化主程式
+	triangulate(option, &in, &out, vorout);
+
+	//out為三角化後的結果；回填到自己的資料結構BMesh_1
+	baseMesh->TriangleNum = out.numberoftriangles;
+	baseMesh->TriangleTex.resize(baseMesh->TriangleNum +1);
+	for(int i = 1; i <= baseMesh->TriangleTex.size(); i++)
+	{
+		baseMesh->TriangleTex[i].T1 = out.trianglelist[(i-1)*3]+1;
+		baseMesh->TriangleTex[i].T2 = out.trianglelist[(i-1)*3+1]+1;
+		baseMesh->TriangleTex[i].T3 = out.trianglelist[(i-1)*3+2]+1;
+	}
+
+	//free memory
+	delete [] in.pointlist;
+	free(out.pointlist);
+	free(out.trianglelist);
+	free(out.segmentlist);
+}
+
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 {
 	
@@ -1410,7 +1510,7 @@ void MQTriangleMesh::Draw2D(void)
 {
 	glPolygonMode(GL_FRONT,GL_LINE);	
 	//Draw Triangle Line
-	/*glBegin(GL_TRIANGLES);
+	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
 		int t1 = this->TriangleTex[i].T1;
@@ -1429,7 +1529,26 @@ void MQTriangleMesh::Draw2D(void)
 		glColor3ub(0,0,0);
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
-	glEnd();*/
+	if(baseMesh){
+		for(int i = 1 ; i <= baseMesh->TriangleNum; i++){
+			int t1 = baseMesh->TriangleTex[i].T1;
+			int t2 = baseMesh->TriangleTex[i].T2;
+			int t3 = baseMesh->TriangleTex[i].T3;
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(0,0,0);
+			glVertex3f(baseMesh->Vertex[t1].S, baseMesh->Vertex[t1].T, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(0,0,0);
+			glVertex3f(baseMesh->Vertex[t2].S, baseMesh->Vertex[t2].T, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(0,0,0);
+			glVertex3f(baseMesh->Vertex[t3].S, baseMesh->Vertex[t3].T, 0.0);
+		}
+	}
+	glEnd();
 	//Draw hole bounding box
 	/*
 	glBegin(GL_QUADS);

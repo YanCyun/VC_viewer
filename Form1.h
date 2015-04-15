@@ -88,6 +88,7 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripMenuItem^  Growth;
 	private: System::Windows::Forms::ToolStripMenuItem^  ResetHole;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton3;
 
 
 
@@ -117,8 +118,8 @@ namespace VC_viewer2010 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			MQOpenGL::MQFont2DType^  mqFont2DType3 = (gcnew MQOpenGL::MQFont2DType());
-			MQOpenGL::MQFont2DType^  mqFont2DType4 = (gcnew MQOpenGL::MQFont2DType());
+			MQOpenGL::MQFont2DType^  mqFont2DType1 = (gcnew MQOpenGL::MQFont2DType());
+			MQOpenGL::MQFont2DType^  mqFont2DType2 = (gcnew MQOpenGL::MQFont2DType());
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form1::typeid));
 			this->mqOpenGLControl1 = (gcnew MQOpenGL::MQOpenGLControl());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
@@ -144,6 +145,7 @@ namespace VC_viewer2010 {
 			this->ResetHole = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
@@ -152,20 +154,20 @@ namespace VC_viewer2010 {
 			// mqOpenGLControl1
 			// 
 			this->mqOpenGLControl1->Dock = System::Windows::Forms::DockStyle::Fill;
-			mqFont2DType3->Bold = MQOpenGL::FONTBOLD::DONTCARE;
-			mqFont2DType3->Charset = MQOpenGL::FONTCHARSET::ANSI_SET;
-			mqFont2DType3->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
+			mqFont2DType1->Bold = MQOpenGL::FONTBOLD::DONTCARE;
+			mqFont2DType1->Charset = MQOpenGL::FONTCHARSET::ANSI_SET;
+			mqFont2DType1->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			mqFont2DType3->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
-			mqFont2DType3->Pitch = MQOpenGL::FONTPITCH::DEFAULT;
-			this->mqOpenGLControl1->Font2D_Type = mqFont2DType3;
-			mqFont2DType4->Bold = MQOpenGL::FONTBOLD::DONTCARE;
-			mqFont2DType4->Charset = MQOpenGL::FONTCHARSET::ANSI_SET;
-			mqFont2DType4->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
+			mqFont2DType1->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
+			mqFont2DType1->Pitch = MQOpenGL::FONTPITCH::DEFAULT;
+			this->mqOpenGLControl1->Font2D_Type = mqFont2DType1;
+			mqFont2DType2->Bold = MQOpenGL::FONTBOLD::DONTCARE;
+			mqFont2DType2->Charset = MQOpenGL::FONTCHARSET::ANSI_SET;
+			mqFont2DType2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			mqFont2DType4->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
-			mqFont2DType4->Pitch = MQOpenGL::FONTPITCH::DEFAULT;
-			this->mqOpenGLControl1->Font3D_Type = mqFont2DType4;
+			mqFont2DType2->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
+			mqFont2DType2->Pitch = MQOpenGL::FONTPITCH::DEFAULT;
+			this->mqOpenGLControl1->Font3D_Type = mqFont2DType2;
 			this->mqOpenGLControl1->Location = System::Drawing::Point(0, 26);
 			this->mqOpenGLControl1->Margin = System::Windows::Forms::Padding(0);
 			this->mqOpenGLControl1->Name = L"mqOpenGLControl1";
@@ -272,8 +274,8 @@ namespace VC_viewer2010 {
 			// toolStrip1
 			// 
 			this->toolStrip1->AutoSize = false;
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->Draw2D, this->DrawPoint, 
-				this->toolStripDropDownButton1, this->toolStripButton2, this->toolStripButton1});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->Draw2D, this->DrawPoint, 
+				this->toolStripDropDownButton1, this->toolStripButton2, this->toolStripButton1, this->toolStripButton3});
 			this->toolStrip1->Location = System::Drawing::Point(0, 26);
 			this->toolStrip1->MaximumSize = System::Drawing::Size(0, 32);
 			this->toolStrip1->Name = L"toolStrip1";
@@ -363,6 +365,15 @@ namespace VC_viewer2010 {
 			this->toolStripButton1->Size = System::Drawing::Size(63, 29);
 			this->toolStripButton1->Text = L"Touch";
 			this->toolStripButton1->Click += gcnew System::EventHandler(this, &Form1::toolStripButton1_Click);
+			// 
+			// toolStripButton3
+			// 
+			this->toolStripButton3->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton3.Image")));
+			this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton3->Name = L"toolStripButton3";
+			this->toolStripButton3->Size = System::Drawing::Size(92, 29);
+			this->toolStripButton3->Text = L"Triangulate";
+			this->toolStripButton3->Click += gcnew System::EventHandler(this, &Form1::toolStripButton3_Click_1);
 			// 
 			// Form1
 			// 
@@ -648,6 +659,10 @@ private: System::Void toolStripButton1_Click(System::Object^  sender, System::Ev
 				 this->TMesh->fillpoint.erase(this->TMesh->fillpoint.begin());
 				 this->mqOpenGLControl1->Refresh();
 			 }
+		 }
+private: System::Void toolStripButton3_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			 this->TMesh->TriangulateBaseMesh();
+			 this->mqOpenGLControl1->Refresh();
 		 }
 };
 }
