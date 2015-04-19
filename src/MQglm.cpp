@@ -19,9 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 #define T(x) (model->triangles[(x)])
-
 /* MQglmFindGroup: Find a group in the model */
 MQGLMgroup*
 MQglmFindGroup(MQGLMmodel* model, char* name)
@@ -571,7 +569,6 @@ MQglmDelete(MQGLMmodel* model)
 {
     MQGLMgroup* group;
     unsigned int i;
-            
     if (model->pathname)     free(model->pathname);
     if (model->mtllibname) free(model->mtllibname);
     if (model->vertices)     free(model->vertices);
@@ -591,7 +588,6 @@ MQglmDelete(MQGLMmodel* model)
         free(group->triangles);
         free(group);
     }
-    
     free(model);
 }
 

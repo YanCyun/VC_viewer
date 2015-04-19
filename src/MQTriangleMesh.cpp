@@ -61,6 +61,10 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 {
 	MQGLMmodel *_model = MQglmReadOBJ(FileName);
 
+	if(baseMesh){
+		delete baseMesh;
+		baseMesh =NULL;		
+	}
 	this->VertexNum = (int)(_model->numvertices);
 	this->Vertex.resize( (this->VertexNum)+1 );
 	for(int i = 1; i <= this->VertexNum; i++)
@@ -69,7 +73,6 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		this->Vertex[i].Y = _model->vertices[ 3*i+1 ];
 		this->Vertex[i].Z = _model->vertices[ 3*i+2 ];
 	}
-
 	this->TexcoordNum = (int)(_model->numtexcoords);
 
 	for(int i = 1; i <= this->TexcoordNum; i++)
@@ -77,7 +80,6 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		this->Vertex[i].S = _model->texcoords[2*i];
 		this->Vertex[i].T = _model->texcoords[2*i+1];
 	}
-
 	this->TriangleNum = (int)(_model->numtriangles);
 	this->Triangle.resize( (this->TriangleNum)+1 );
 	this->TriangleTex.resize((this->TriangleNum)+1);
@@ -117,11 +119,10 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V3)];
 	}
 	MQglmDelete(_model);
-
 	//calculate normal
 	struct _vector3{ float x; float y; float z; };
 	vector<_vector3> *_NormalTable = new vector<_vector3>[ (this->VertexNum)+1 ];
-
+	
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
 		float v[3][3], out[3];
@@ -146,7 +147,6 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		_NormalTable[ this->Triangle[i].V2 ].push_back(_inormal);
 		_NormalTable[ this->Triangle[i].V3 ].push_back(_inormal);
 	}
-
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
 		float _xsum = 0.0, _ysum = 0.0, _zsum = 0.0;
@@ -163,7 +163,6 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		this->Vertex[i].NZ = _zsum;
 		this->Vertex[i].Normal2UnitVector();
 	}
-
 	delete [] _NormalTable;
 
 	clock_t t_start,t_end; 
@@ -173,10 +172,10 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	this->CalculateLaplacianToColor();
 	this->FindHole();
 	this->FindBoundary();
-	this->UpdatePointStruct();
+	//this->UpdatePointStruct();
 	//this->TriangulateBaseMesh();
 	t_end = clock();
-	
+
 	float t_duration = (float)(t_end - t_start);
 	printf("Read file finish: %.2fs\n\n",t_duration/1000.0f);
 
@@ -1430,17 +1429,17 @@ void MQTriangleMesh::TriangulateBaseMesh()
 
 	//三角化主程式
 	triangulate(option, &in, &out, vorout);
-
+	
 	//out為三角化後的結果；回填到自己的資料結構BMesh_1
 	baseMesh->TriangleNum = out.numberoftriangles;
-	baseMesh->TriangleTex.resize(baseMesh->TriangleNum +1);
-	for(int i = 1; i <= baseMesh->TriangleTex.size(); i++)
+	baseMesh->TriangleTex.resize(baseMesh->TriangleNum +1);	
+	for(int i = 1; i <= baseMesh->TriangleNum; i++)
 	{
 		baseMesh->TriangleTex[i].T1 = out.trianglelist[(i-1)*3]+1;
 		baseMesh->TriangleTex[i].T2 = out.trianglelist[(i-1)*3+1]+1;
 		baseMesh->TriangleTex[i].T3 = out.trianglelist[(i-1)*3+2]+1;
 	}
-
+	
 	//free memory
 	delete [] in.pointlist;
 	free(out.pointlist);
@@ -1504,11 +1503,13 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 		glVertex3f(this->Vertex[v3].X, this->Vertex[v3].Y, this->Vertex[v3].Z);
 	}
 	glEnd();
+	
 }
 
 void MQTriangleMesh::Draw2D(void)
 {
 	glPolygonMode(GL_FRONT,GL_LINE);	
+	
 	//Draw Triangle Line
 	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
@@ -1529,6 +1530,8 @@ void MQTriangleMesh::Draw2D(void)
 		glColor3ub(0,0,0);
 		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 	}
+	
+	//三角化的線	
 	if(baseMesh){
 		for(int i = 1 ; i <= baseMesh->TriangleNum; i++){
 			int t1 = baseMesh->TriangleTex[i].T1;
@@ -1548,7 +1551,9 @@ void MQTriangleMesh::Draw2D(void)
 			glVertex3f(baseMesh->Vertex[t3].S, baseMesh->Vertex[t3].T, 0.0);
 		}
 	}
+	
 	glEnd();
+	
 	//Draw hole bounding box
 	/*
 	glBegin(GL_QUADS);
@@ -1599,6 +1604,7 @@ void MQTriangleMesh::Draw2D(void)
 	glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
 	glEnd();
 	*/
+	
 	//Draw uv
 	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);
