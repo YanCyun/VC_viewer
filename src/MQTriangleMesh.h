@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdlib>
 #include <map>
+#include <set>
 #include <utility>
 #include "MQOpenGL.h"
 #include "Dtriangle.h"
@@ -23,6 +24,7 @@ public:
 	float	LapX, LapY, LapZ;
 	float  R,G,B; //Laplacian to Color
 	float	Lap_length;
+	bool evaluate;
 
 public:
 
@@ -37,6 +39,7 @@ public:
 		NX = NY = NZ = 0.0;
 		LapX = LapY = LapZ = 0.0;
 		R = G = B = 0.0;
+		evaluate = false;
 	}
 
 	~MQVertex()
@@ -183,7 +186,6 @@ public:
 	list<list<int>> Holes_uv;
 	HoleMesh* baseMesh;
 	
-
 	//fill hole data
 	int sample_w, sample_h;
 	void* sample_data;
@@ -242,9 +244,9 @@ public:
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;
-		window_size = 5;
+		window_size = 11;
 		pca_size = 5;
-		_SrcImgPixDim = 6;
+		_SrcImgPixDim = 3;
 		first_point = second_point = -1;
 		baseMesh = NULL;
 	}

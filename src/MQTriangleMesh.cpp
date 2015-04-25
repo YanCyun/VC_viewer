@@ -169,10 +169,10 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	t_start = clock();
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexLaplacianCoordinate();
-	this->CalculateLaplacianToColor();
 	this->FindHole();
 	this->FindBoundary();
-	//this->UpdatePointStruct();
+	this->CalculateLaplacianToColor();
+	this->UpdatePointStruct();
 	//this->TriangulateBaseMesh();
 	t_end = clock();
 
@@ -201,9 +201,10 @@ void MQTriangleMesh::UpdateVertexNeigborVertex(void)
 		this->Vertex[v3].NeighborVertex.push_back(v2);
 	}
 
+	int n1,n2;
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
-		//this->Vertex[i].NeighborVertex.sort();
+		this->Vertex[i].NeighborVertex.sort();
 		this->Vertex[i].NeighborVertex.unique();
 	}
 }
@@ -211,8 +212,6 @@ void MQTriangleMesh::UpdateVertexNeigborVertex(void)
 void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 {
 	list<int>::iterator it, begin, end;
-	minLap = maxLap = 0.0;
-	
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
 		float sumX = 0.0, sumY = 0.0, sumZ = 0.0;
@@ -235,26 +234,6 @@ void MQTriangleMesh::UpdateVertexLaplacianCoordinate(void)
 		this->Vertex[i].LapX = this->Vertex[i].X - mCenterX;
 		this->Vertex[i].LapY = this->Vertex[i].Y - mCenterY;
 		this->Vertex[i].LapZ = this->Vertex[i].Z - mCenterZ;
-
-		this->Vertex[i].Lap_length = sqrt(pow(this->Vertex[i].LapX,2)+pow(this->Vertex[i].LapY,2)+pow(this->Vertex[i].LapZ,2));
-
-		//找到Laplacian的最大最小值 , 以便之後轉換成顏色
-		float min_lap = min(Vertex[i].LapX,min(Vertex[i].LapY,Vertex[i].LapZ));
-		float max_lap = max(Vertex[i].LapX,max(Vertex[i].LapY,Vertex[i].LapZ));
-
-		if(i == 1)
-		{ 
-			minLap = maxLap = this->Vertex[i].Lap_length;
-			//minLap = min_lap;
-			//maxLap = max_lap;
-		}
-		else
-		{
-			if(minLap > this->Vertex[i].Lap_length) minLap = this->Vertex[i].Lap_length;
-			if(maxLap < this->Vertex[i].Lap_length) maxLap = this->Vertex[i].Lap_length;
-			//if(minLap > min_lap)  minLap = min_lap;
-			//if(maxLap < max_lap)  maxLap = max_lap;
-		}
 	}
 }
 
@@ -278,7 +257,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	bool checkHole = false;
 	vector<int> tempHoles;
 	vector<int>::iterator hole_it;
-	
+	/*
 	//測試JPG補洞
 	fstream file;
 	file.open("test.txt", ios::in);
@@ -313,8 +292,8 @@ void MQTriangleMesh::UpdatePointStruct(void)
 		}
 	}	
 	printf("\rUpdatePixel:100%%\n");
+	*/
 	
-	/*
 	this->ImagePixel.resize(imageSize);
 	for(int i = 0 ; i < imageSize ; i++)
 	{
@@ -367,7 +346,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 					//if(minLap_img > min_lap)  minLap_img = min_lap;
 					//if(maxLap_img < max_lap)  maxLap_img = max_lap;
 				}
-				
+				*/
 			}
 			else
 			{
@@ -378,7 +357,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 		}
 	}
 	printf("\rUpdatePixel:100%%\n");
-	*/
+	
 	//float normalize_number = 255.0 / (maxLap_img-minLap_img);
 	
 	for(int i = 0 ; i < imageSize ; i++)
@@ -430,8 +409,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 			if(pixel_boundaryX.first > x) pixel_boundaryX.first = x;
 			if(pixel_boundaryX.second < x) pixel_boundaryX.second = x;
 			if(pixel_boundaryY.first > y) pixel_boundaryY.first = y;
-			if(pixel_boundaryY.second < y) pixel_boundaryY.second = y;
-			
+			if(pixel_boundaryY.second < y) pixel_boundaryY.second = y;			
 		}
 	}
 
@@ -455,7 +433,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 			bool isDone = true;
 			LaplaianLengths[i][j]->X = j;
 			LaplaianLengths[i][j]->Y = i;
-			if(ImagePixel[i][j].isHole)//if(ImagePixel[i][j].Triangle == 0)
+			if(ImagePixel[i][j].Triangle == 0)//if(ImagePixel[i][j].isHole)
 			{
 				if(ImagePixel[i][j].isHole) LaplaianLengths[i][j]->hole = true;
 				else LaplaianLengths[i][j]->boundary = true;
@@ -495,29 +473,30 @@ void MQTriangleMesh::UpdatePointStruct(void)
 
 	sort(tempLaplaianLength.begin(),tempLaplaianLength.end(),my_sort2);//排序鄰居完成PCA的數量
 	
-	vector<LaplaianLength*>::iterator it;
+	LaplaianLength* it;
 	while(tempLaplaianLength.size() > 0){
-		it = tempLaplaianLength.end()-1;
-		(*it)->length.resize(ex_dim+1,0.0f);
-		for(int i = (*it)->Y - range ; i <= (*it)->Y + range ; i++)
+		it = tempLaplaianLength.back();
+		it->length.resize(ex_dim+1,0.0f);
+		for(int i = it->Y - range ; i <= it->Y + range ; i++)
 		{
-			for(int j = (*it)->X - range ; j<= (*it)->X + range ; j++)
+			for(int j = it->X - range ; j<= it->X + range ; j++)
 			{
 				if(LaplaianLengths[i][j]->pca)
 				{
-					for(int x = 1 ; x <= ex_dim ; x++)	(*it)->length[x] += LaplaianLengths[i][j]->length[x];//將鄰居PCA依照index相加
+					for(int x = 1 ; x <= ex_dim ; x++)	it->length[x] += LaplaianLengths[i][j]->length[x];//將鄰居PCA依照index相加
 				}
 			}
 		}
 		for(int x = 1 ; x <= ex_dim ; x++)	{
-			(*it)->length[x] /= (*it)->neighbor_pca;//取平均;
+			it->length[x] /= it->neighbor_pca;//取平均;
 		}
 		
-		(*it)->pca = true;
+		it->pca = true;
 
 		vector<LaplaianLength*>::iterator temp_it;
-		for(temp_it = tempLaplaianLength.begin(); temp_it != tempLaplaianLength.end()-1; temp_it++){
-			if(abs((*temp_it)->X - (*it)->X ) <= 1 && abs((*temp_it)->Y - (*it)->Y ) <= 1) (*temp_it)->neighbor_pca++;
+		for(temp_it = tempLaplaianLength.begin(); temp_it != tempLaplaianLength.end(); temp_it++){
+			if((*temp_it) == it) continue;
+			if(abs((*temp_it)->X - it->X ) <= 1 && abs((*temp_it)->Y - it->Y ) <= 1) (*temp_it)->neighbor_pca++;
 		}
 		tempLaplaianLength.pop_back();
 		sort(tempLaplaianLength.begin(),tempLaplaianLength.end(),my_sort2);
@@ -525,7 +504,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	
 	MQPCA PCA_1;
 
-	PCA_1.SetDataItemDimension(ex_dim);		//告訴PCA每筆資料的維度5x5x3=75
+	PCA_1.SetDataItemDimension(ex_dim);		//告訴PCA每筆資料的維度5x5=25
 	for(int i = range; i < imageSize - range; ++i)
 	{
 		//printf("%d",i);
@@ -569,7 +548,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 			{
 				if(LaplaianLengths[i][j]->hole || LaplaianLengths[i][j]->boundary) continue;
 
-				if(maxLap_img == 0 && minLap_img == 0 && x == 0)
+				if(maxLap_img == 0 && minLap_img == 0)
 				{
 					maxLap_img = minLap_img = ImagePixel[i][j].pca_data[x];
 				}
@@ -587,8 +566,8 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	{
 		for(int j = range ; j < imageSize - range ; j++)
 		{
-			//if(this->ImagePixel[i][j].Triangle == 0) continue;
-			if(LaplaianLengths[i][j]->hole || LaplaianLengths[i][j]->boundary) continue;
+			if(this->ImagePixel[i][j].Triangle == 0) continue;
+			//if(LaplaianLengths[i][j]->hole || LaplaianLengths[i][j]->boundary) continue;
 			this->ImagePixel[i][j].R = (this->ImagePixel[i][j].pca_data[0] - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].G = (this->ImagePixel[i][j].pca_data[1] - minLap_img) *  normalize_number;
 			this->ImagePixel[i][j].B = (this->ImagePixel[i][j].pca_data[2] - minLap_img) *  normalize_number;	
@@ -739,7 +718,6 @@ void MQTriangleMesh::FindHole(void)
 			singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
 		}
 	}
-
 	//將單邊連接成洞(v)
 	map<int,int>::iterator it;
 	list<int> hole;
@@ -784,11 +762,52 @@ void MQTriangleMesh::FindHole(void)
 		Holes_uv.push_back(hole_uv);	
 		hole_uv.clear();
 	}
-
+	
 	vector<float> hole_length;
 	list<list<int>>::iterator hole_it;
 	list<list<int>>::iterator hole_uv_it;
 	list<int>::iterator point_it;
+
+	//校正洞(hole)跟邊緣(boundary)的數值
+	for(hole_it = Holes.begin() ; hole_it != Holes.end() ; hole_it++)
+	{
+		for(point_it = hole_it->begin() ; point_it != hole_it->end() ; point_it++)
+		{
+			float tempX,tempY,tempZ;
+			int total_length;
+			tempX = tempY = tempZ = total_length =  0;
+			list<int>::iterator neighbor_it;
+			for(neighbor_it = Vertex[*point_it].NeighborVertex.begin() ; neighbor_it != Vertex[*point_it].NeighborVertex.end() ; neighbor_it++)
+			{
+				if(find(hole_it->begin(),hole_it->end(),*neighbor_it) != hole_it->end() && Vertex[*neighbor_it].evaluate == false) continue;		
+				float temp_length = 1.0f/sqrt(pow(Vertex[*neighbor_it].LapX - Vertex[*point_it].LapX,2)+pow(Vertex[*neighbor_it].LapY - Vertex[*point_it].LapY,2)+pow(Vertex[*neighbor_it].LapZ - Vertex[*point_it].LapZ,2));
+				tempX += Vertex[*neighbor_it].LapX  * temp_length ;
+				tempY += Vertex[*neighbor_it].LapY  * temp_length ;
+				tempZ += Vertex[*neighbor_it].LapZ  * temp_length ;
+				total_length += temp_length;		
+			}
+			Vertex[*point_it].LapX = tempX/ total_length;
+			Vertex[*point_it].LapY = tempY/ total_length ;
+			Vertex[*point_it].LapZ = tempZ/ total_length ;
+			Vertex[*point_it].evaluate = true;
+		} 
+	}
+	minLap = maxLap = 0.0;
+	for(int i = 1; i <= this->VertexNum; i++)
+	{
+		this->Vertex[i].Lap_length = sqrt(pow(this->Vertex[i].LapX,2)+pow(this->Vertex[i].LapY,2)+pow(this->Vertex[i].LapZ,2));
+		//找到Laplacian的最大最小值 , 以便之後轉換成顏色
+		if(i == 1)
+		{ 
+			minLap = maxLap = this->Vertex[i].Lap_length;
+		}
+		else
+		{
+			if(minLap > this->Vertex[i].Lap_length) minLap = this->Vertex[i].Lap_length;
+			if(maxLap < this->Vertex[i].Lap_length) maxLap = this->Vertex[i].Lap_length;
+		}
+	}
+	
 	//計算UV的洞的長度
 	for(hole_uv_it=Holes_uv.begin();hole_uv_it!= Holes_uv.end();hole_uv_it++)
 	{
@@ -918,7 +937,6 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 				index = rand()%HolePixels.size();
 				temp = HolePixels[index];	
 			}while(temp->neighborHole.size() > 5);
-			//printf(",size:%d\n",temp->neighborHole.size());
 			i = (int)temp->position / imageSize;
 			j = (int)temp->position % imageSize;
 			findBestMatch(j, i, size);
@@ -1041,7 +1059,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 			printf("\rFillHole:%.0f%%",((float)(i+1)/imageSize)*100);
 			for(j=0; j<imageSize; j++)
 			{		
-				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
+				if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == 0)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 				{	
 					findBestMatch(j, i, size);
 					bool filldone = false;
@@ -1053,7 +1071,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 						{
 							for(int x = temp_x-1;x<= temp_x+1;x++)
 							{
-								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == -1)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
+								if(ImagePixel[y][x].isHole && ImagePixel[y][x].R == 0)//測試JPG使用 if(ImagePixel[i][j].isHole && ImagePixel[i][j].R == -1)
 								{
 									findBestMatch(x, y, size);
 									temp_x = x;
@@ -1128,7 +1146,7 @@ void MQTriangleMesh::initializeTexture(int size)// initialize output texture wit
 			original_pos_x[i][j] = j;
 			original_pos_y[i][j] = i;
 
-			if(!ImagePixel[i][j].isHole)//	if(ImagePixel[i][j].Triangle != 0)
+			if(ImagePixel[i][j].Triangle != 0)//if(!ImagePixel[i][j].isHole)//	
 				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
 			else	
 				for(int n = 0 ; n < _SrcImgPixDim ; n++)	texture_lap[i][j][n] = -1.0f;
@@ -1160,13 +1178,13 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 		for(j=pca_size/2; j<imageSize-pca_size/2; j++)
 		{
 
-			//if(ImagePixel[i][j].Triangle == 0)
-			//{
-			//	sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
-			//	for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = -1.0f;
-			//}
-			//else
-			//{
+			if(ImagePixel[i][j].Triangle == 0)
+			{
+				sample_red[i][j] = sample_green[i][j] = sample_blue[i][j] = -1.0;
+				for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = -1.0f;
+			}
+			else
+			{
 				sample_red[i][j] = ImagePixel[i][j].R;
 				sample_green[i][j] = ImagePixel[i][j].G;
 				sample_blue[i][j] = ImagePixel[i][j].B;
@@ -1174,7 +1192,7 @@ void MQTriangleMesh::convertSample()// convert the sample from the stream of byt
 					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = ImagePixel[i][j].pca_data[n];
 				else	
 					for(int n = 0 ; n < _SrcImgPixDim ; n++)	sample_lap[i][j][n] = -1.0f;
-			//}
+			}
 		}
 	}
 	return;
@@ -1348,6 +1366,8 @@ void MQTriangleMesh::findBestMatch(int j, int i, int size)// find the best match
 void MQTriangleMesh::TriangulateBaseMesh()
 {
 	triangulateio in, out, *vorout = NULL;
+	float total_S= 0;
+	float total_T= 0;
 	baseMesh = new HoleMesh();
 	baseMesh->VertexNum = Holes_uv.begin()->size();
 	baseMesh->Vertex.resize(baseMesh->VertexNum+1);
@@ -1357,15 +1377,15 @@ void MQTriangleMesh::TriangulateBaseMesh()
 		baseMesh->Vertex[i].T = this->Vertex[*it].T;
 		it++;
 	}
-
 	//洞邊界點的資料(x1,y1,x2,y2,...)給in.pointlist
 	//BMesh是自己定義的資料結構
 	in.pointlist = new REAL[baseMesh->VertexNum*2];	
-	for(int i = 1; i <= baseMesh->VertexNum; i++)
+	for(int i = 1; i <=baseMesh->VertexNum; i++)
 	{
 		in.pointlist[(i-1)*2] = baseMesh->Vertex[i].S;
 		in.pointlist[(i-1)*2+1] = baseMesh->Vertex[i].T;
 	}
+
 	in.pointattributelist = NULL;
 	in.pointmarkerlist = NULL;
 	//洞邊界點的數目
@@ -1379,10 +1399,10 @@ void MQTriangleMesh::TriangulateBaseMesh()
 	in.numberoftriangleattributes = 0;
 	//洞邊界邊的資料(一個邊由兩個點編號所構成，編號從0開始)給in.segmentlist
 	//VBEdgeList是自己定義的資料結構
-	in.segmentlist = new int[ 2*baseMesh->VertexNum];
-	for(int i = 1 ; i <= baseMesh->VertexNum; i++)
+	in.segmentlist = new int[ 2* baseMesh->VertexNum];
+	for(int i = 1 ; i <=  baseMesh->VertexNum; i++)
 	{
-		if(i == baseMesh->VertexNum)
+		if(i ==  baseMesh->VertexNum)
 		{
 			in.segmentlist[(i-1)*2]   = i-1;
 			in.segmentlist[(i-1)*2+1] = 0;
@@ -1425,7 +1445,7 @@ void MQTriangleMesh::TriangulateBaseMesh()
 	out.numberofedges = 0;
 
 	//三角化參數設定
-	char *option = "Ypz";
+	char *option = "zYq28";
 
 	//三角化主程式
 	triangulate(option, &in, &out, vorout);
@@ -1439,7 +1459,13 @@ void MQTriangleMesh::TriangulateBaseMesh()
 		baseMesh->TriangleTex[i].T2 = out.trianglelist[(i-1)*3+1]+1;
 		baseMesh->TriangleTex[i].T3 = out.trianglelist[(i-1)*3+2]+1;
 	}
-	
+	baseMesh->VertexNum = out.numberofpoints;
+	baseMesh->Vertex.resize(baseMesh->VertexNum);
+	for(int i = 1; i <= baseMesh->VertexNum; i++)
+	{
+		baseMesh->Vertex[i].S = out.pointlist[(i-1)*2];
+		baseMesh->Vertex[i].T = out.pointlist[(i-1)*2+1];
+	}
 	//free memory
 	delete [] in.pointlist;
 	free(out.pointlist);
@@ -1512,6 +1538,7 @@ void MQTriangleMesh::Draw2D(void)
 	
 	//Draw Triangle Line
 	glBegin(GL_TRIANGLES);
+	
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{
 		int t1 = this->TriangleTex[i].T1;
@@ -1559,15 +1586,15 @@ void MQTriangleMesh::Draw2D(void)
 	glBegin(GL_QUADS);
 
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
+		glColor3ub(1,0,0);
 		glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.first, 0.0);
 
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
+		glColor3ub(0,1,0);
 		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.first, 0.0);
 
 		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
+		glColor3ub(0,0,1);
 		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.second, 0.0);
 
 		glNormal3f(0.0, 0.0, 1.0);
@@ -1604,7 +1631,19 @@ void MQTriangleMesh::Draw2D(void)
 	glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
 	glEnd();
 	*/
-	
+	/*
+	//Draw Point
+	glBegin(GL_POINTS);
+	list<int>::iterator hole_it;
+	list<list<int>>::iterator begin = Holes_uv.begin();
+	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
+	{
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,255,255);
+			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+	}
+	glEnd();
+	*/
 	//Draw uv
 	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);

@@ -1,6 +1,3363 @@
-1
-2
-1
-2
-1
-2
+Point:1
+neighbor size:4
+neighbor list:21,40,
+Point:20
+neighbor size:4
+neighbor list:1,39,40,
+Point:19
+neighbor size:4
+neighbor list:20,38,39,
+Point:18
+neighbor size:4
+neighbor list:19,37,38,
+Point:17
+neighbor size:4
+neighbor list:18,36,37,
+Point:16
+neighbor size:4
+neighbor list:17,35,36,
+Point:15
+neighbor size:4
+neighbor list:16,34,35,
+Point:14
+neighbor size:4
+neighbor list:15,33,34,
+Point:13
+neighbor size:4
+neighbor list:14,32,33,
+Point:12
+neighbor size:4
+neighbor list:13,31,32,
+Point:11
+neighbor size:4
+neighbor list:12,30,31,
+Point:10
+neighbor size:4
+neighbor list:11,29,30,
+Point:9
+neighbor size:4
+neighbor list:10,28,29,
+Point:8
+neighbor size:4
+neighbor list:9,27,28,
+Point:7
+neighbor size:4
+neighbor list:8,26,27,
+Point:6
+neighbor size:4
+neighbor list:7,25,26,
+Point:5
+neighbor size:4
+neighbor list:6,24,25,
+Point:4
+neighbor size:4
+neighbor list:5,23,24,
+Point:3
+neighbor size:4
+neighbor list:4,22,23,
+Point:2
+neighbor size:4
+neighbor list:1,3,21,22,
+Point:161
+neighbor size:4
+neighbor list:141,142,
+Point:162
+neighbor size:4
+neighbor list:142,143,161,
+Point:163
+neighbor size:4
+neighbor list:143,144,162,
+Point:164
+neighbor size:4
+neighbor list:144,145,163,
+Point:165
+neighbor size:4
+neighbor list:145,146,164,
+Point:166
+neighbor size:4
+neighbor list:146,147,165,
+Point:167
+neighbor size:4
+neighbor list:147,148,166,
+Point:168
+neighbor size:4
+neighbor list:148,149,167,
+Point:169
+neighbor size:4
+neighbor list:149,150,168,
+Point:170
+neighbor size:4
+neighbor list:150,151,169,
+Point:171
+neighbor size:4
+neighbor list:151,152,170,
+Point:172
+neighbor size:4
+neighbor list:152,153,171,
+Point:173
+neighbor size:4
+neighbor list:153,154,172,
+Point:174
+neighbor size:4
+neighbor list:154,155,173,
+Point:175
+neighbor size:4
+neighbor list:155,156,174,
+Point:176
+neighbor size:4
+neighbor list:156,157,175,
+Point:177
+neighbor size:4
+neighbor list:157,158,176,
+Point:178
+neighbor size:4
+neighbor list:158,159,177,
+Point:179
+neighbor size:4
+neighbor list:159,160,178,
+Point:180
+neighbor size:4
+neighbor list:141,160,161,179,
+Point:1
+neighbor size:4
+neighbor list:208,894,
+Point:821
+neighbor size:3
+neighbor list:1,208,
+Point:822
+neighbor size:3
+neighbor list:208,821,
+Point:860
+neighbor size:3
+neighbor list:208,822,
+Point:861
+neighbor size:3
+neighbor list:208,860,
+Point:748
+neighbor size:3
+neighbor list:208,861,
+Point:925
+neighbor size:3
+neighbor list:208,748,
+Point:209
+neighbor size:3
+neighbor list:208,925,
+Point:304
+neighbor size:3
+neighbor list:208,209,
+Point:52
+neighbor size:3
+neighbor list:208,304,
+Point:646
+neighbor size:3
+neighbor list:52,208,
+Point:786
+neighbor size:3
+neighbor list:208,646,
+Point:847
+neighbor size:3
+neighbor list:208,786,
+Point:708
+neighbor size:4
+neighbor list:208,847,
+Point:302
+neighbor size:5
+neighbor list:708,
+Point:288
+neighbor size:2
+neighbor list:302,
+Point:287
+neighbor size:3
+neighbor list:288,302,
+Point:933
+neighbor size:3
+neighbor list:287,302,
+Point:286
+neighbor size:5
+neighbor list:208,302,708,933,
+Point:647
+neighbor size:3
+neighbor list:208,286,
+Point:836
+neighbor size:3
+neighbor list:208,647,
+Point:207
+neighbor size:3
+neighbor list:208,836,
+Point:293
+neighbor size:4
+neighbor list:207,208,1000,
+Point:285
+neighbor size:3
+neighbor list:293,1000,
+Point:597
+neighbor size:4
+neighbor list:285,923,1000,
+Point:976
+neighbor size:3
+neighbor list:597,923,
+Point:206
+neighbor size:4
+neighbor list:923,970,976,
+Point:637
+neighbor size:4
+neighbor list:206,841,970,
+Point:548
+neighbor size:3
+neighbor list:637,841,
+Point:612
+neighbor size:4
+neighbor list:548,841,940,
+Point:543
+neighbor size:3
+neighbor list:612,940,
+Point:764
+neighbor size:4
+neighbor list:543,653,940,
+Point:284
+neighbor size:3
+neighbor list:653,764,
+Point:968
+neighbor size:3
+neighbor list:284,653,
+Point:552
+neighbor size:4
+neighbor list:653,693,968,
+Point:774
+neighbor size:4
+neighbor list:552,693,910,
+Point:587
+neighbor size:4
+neighbor list:707,774,910,
+Point:289
+neighbor size:3
+neighbor list:587,707,
+Point:816
+neighbor size:3
+neighbor list:289,707,
+Point:614
+neighbor size:4
+neighbor list:707,816,851,
+Point:283
+neighbor size:4
+neighbor list:614,643,851,
+Point:723
+neighbor size:3
+neighbor list:283,643,
+Point:553
+neighbor size:4
+neighbor list:643,723,829,
+Point:772
+neighbor size:3
+neighbor list:553,829,
+Point:292
+neighbor size:3
+neighbor list:772,829,
+Point:753
+neighbor size:3
+neighbor list:292,829,
+Point:575
+neighbor size:5
+neighbor list:645,753,755,829,
+Point:1005
+neighbor size:3
+neighbor list:575,755,
+Point:291
+neighbor size:3
+neighbor list:755,1005,
+Point:621
+neighbor size:3
+neighbor list:291,755,
+Point:540
+neighbor size:5
+neighbor list:621,644,755,886,
+Point:775
+neighbor size:3
+neighbor list:540,886,
+Point:570
+neighbor size:3
+neighbor list:775,886,
+Point:695
+neighbor size:4
+neighbor list:570,886,1025,
+Point:290
+neighbor size:3
+neighbor list:695,1025,
+Point:819
+neighbor size:4
+neighbor list:290,1002,1025,
+Point:573
+neighbor size:3
+neighbor list:819,1002,
+Point:694
+neighbor size:3
+neighbor list:573,1002,
+Point:544
+neighbor size:4
+neighbor list:658,694,1002,
+Point:664
+neighbor size:3
+neighbor list:544,658,
+Point:300
+neighbor size:3
+neighbor list:658,664,
+Point:301
+neighbor size:3
+neighbor list:300,658,
+Point:844
+neighbor size:3
+neighbor list:301,658,
+Point:50
+neighbor size:3
+neighbor list:658,844,
+Point:303
+neighbor size:3
+neighbor list:50,658,
+Point:51
+neighbor size:3
+neighbor list:303,658,
+Point:701
+neighbor size:3
+neighbor list:51,658,
+Point:702
+neighbor size:3
+neighbor list:658,701,
+Point:981
+neighbor size:3
+neighbor list:658,702,
+Point:866
+neighbor size:3
+neighbor list:658,981,
+Point:53
+neighbor size:3
+neighbor list:658,866,
+Point:305
+neighbor size:4
+neighbor list:53,657,658,
+Point:54
+neighbor size:3
+neighbor list:305,657,
+Point:558
+neighbor size:3
+neighbor list:54,657,
+Point:557
+neighbor size:3
+neighbor list:558,657,
+Point:556
+neighbor size:3
+neighbor list:557,657,
+Point:306
+neighbor size:3
+neighbor list:556,657,
+Point:55
+neighbor size:3
+neighbor list:306,657,
+Point:307
+neighbor size:3
+neighbor list:55,657,
+Point:56
+neighbor size:3
+neighbor list:307,657,
+Point:308
+neighbor size:3
+neighbor list:56,657,
+Point:309
+neighbor size:3
+neighbor list:2,308,657,
+Point:2
+neighbor size:3
+neighbor list:309,657,
+Point:57
+neighbor size:3
+neighbor list:2,657,
+Point:312
+neighbor size:3
+neighbor list:57,657,
+Point:59
+neighbor size:3
+neighbor list:312,657,
+Point:63
+neighbor size:3
+neighbor list:59,657,
+Point:315
+neighbor size:3
+neighbor list:63,657,
+Point:316
+neighbor size:4
+neighbor list:315,656,657,
+Point:317
+neighbor size:3
+neighbor list:3,316,656,
+Point:3
+neighbor size:3
+neighbor list:317,656,
+Point:64
+neighbor size:3
+neighbor list:3,656,
+Point:320
+neighbor size:3
+neighbor list:64,656,
+Point:67
+neighbor size:3
+neighbor list:320,656,
+Point:322
+neighbor size:4
+neighbor list:67,619,656,
+Point:68
+neighbor size:3
+neighbor list:322,619,
+Point:324
+neighbor size:3
+neighbor list:68,619,
+Point:210
+neighbor size:3
+neighbor list:324,619,
+Point:326
+neighbor size:3
+neighbor list:210,619,
+Point:71
+neighbor size:3
+neighbor list:326,619,
+Point:328
+neighbor size:3
+neighbor list:71,619,
+Point:329
+neighbor size:3
+neighbor list:328,619,
+Point:74
+neighbor size:3
+neighbor list:329,619,
+Point:331
+neighbor size:3
+neighbor list:74,619,
+Point:213
+neighbor size:3
+neighbor list:331,619,
+Point:333
+neighbor size:3
+neighbor list:213,619,
+Point:842
+neighbor size:3
+neighbor list:333,619,
+Point:572
+neighbor size:4
+neighbor list:619,842,891,
+Point:632
+neighbor size:3
+neighbor list:572,891,
+Point:903
+neighbor size:3
+neighbor list:632,891,
+Point:334
+neighbor size:4
+neighbor list:562,891,903,
+Point:82
+neighbor size:3
+neighbor list:334,562,
+Point:563
+neighbor size:3
+neighbor list:82,562,
+Point:905
+neighbor size:4
+neighbor list:562,563,796,
+Point:564
+neighbor size:3
+neighbor list:796,905,
+Point:711
+neighbor size:4
+neighbor list:564,590,796,
+Point:724
+neighbor size:4
+neighbor list:590,711,1037,
+Point:337
+neighbor size:3
+neighbor list:724,1037,
+Point:338
+neighbor size:3
+neighbor list:337,1037,
+Point:86
+neighbor size:3
+neighbor list:338,1037,
+Point:340
+neighbor size:4
+neighbor list:8,86,1037,
+Point:88
+neighbor size:3
+neighbor list:8,340,
+Point:89
+neighbor size:3
+neighbor list:8,88,
+Point:343
+neighbor size:3
+neighbor list:8,9,89,
+Point:9
+neighbor size:3
+neighbor list:8,10,343,
+Point:10
+neighbor size:3
+neighbor list:8,9,
+Point:346
+neighbor size:3
+neighbor list:8,10,
+Point:91
+neighbor size:4
+neighbor list:8,346,801,
+Point:944
+neighbor size:3
+neighbor list:91,801,
+Point:1006
+neighbor size:3
+neighbor list:801,944,
+Point:571
+neighbor size:3
+neighbor list:801,1006,
+Point:744
+neighbor size:3
+neighbor list:571,801,
+Point:628
+neighbor size:3
+neighbor list:744,801,
+Point:349
+neighbor size:3
+neighbor list:628,801,
+Point:117
+neighbor size:3
+neighbor list:349,801,
+Point:351
+neighbor size:3
+neighbor list:117,801,
+Point:114
+neighbor size:3
+neighbor list:351,801,
+Point:353
+neighbor size:3
+neighbor list:114,801,
+Point:115
+neighbor size:3
+neighbor list:353,801,
+Point:116
+neighbor size:3
+neighbor list:115,801,
+Point:356
+neighbor size:3
+neighbor list:19,116,801,
+Point:19
+neighbor size:3
+neighbor list:356,801,
+Point:120
+neighbor size:3
+neighbor list:19,801,
+Point:359
+neighbor size:3
+neighbor list:120,801,
+Point:237
+neighbor size:4
+neighbor list:359,801,890,
+Point:361
+neighbor size:3
+neighbor list:237,890,
+Point:362
+neighbor size:3
+neighbor list:361,890,
+Point:124
+neighbor size:3
+neighbor list:362,890,
+Point:364
+neighbor size:4
+neighbor list:124,890,914,
+Point:125
+neighbor size:3
+neighbor list:364,914,
+Point:366
+neighbor size:3
+neighbor list:125,914,
+Point:367
+neighbor size:3
+neighbor list:15,366,914,
+Point:15
+neighbor size:3
+neighbor list:367,914,
+Point:369
+neighbor size:4
+neighbor list:15,913,914,
+Point:370
+neighbor size:3
+neighbor list:369,913,
+Point:236
+neighbor size:3
+neighbor list:370,913,
+Point:840
+neighbor size:3
+neighbor list:13,236,913,
+Point:13
+neighbor size:3
+neighbor list:840,913,
+Point:373
+neighbor size:3
+neighbor list:13,913,
+Point:109
+neighbor size:3
+neighbor list:373,913,
+Point:375
+neighbor size:3
+neighbor list:109,913,
+Point:107
+neighbor size:3
+neighbor list:375,913,
+Point:919
+neighbor size:3
+neighbor list:107,913,
+Point:649
+neighbor size:3
+neighbor list:913,919,
+Point:982
+neighbor size:4
+neighbor list:649,739,913,
+Point:377
+neighbor size:3
+neighbor list:739,982,
+Point:234
+neighbor size:3
+neighbor list:377,739,
+Point:379
+neighbor size:3
+neighbor list:234,739,
+Point:278
+neighbor size:3
+neighbor list:379,739,
+Point:381
+neighbor size:3
+neighbor list:278,739,
+Point:276
+neighbor size:5
+neighbor list:381,739,766,871,
+Point:383
+neighbor size:3
+neighbor list:276,766,
+Point:230
+neighbor size:3
+neighbor list:383,766,
+Point:385
+neighbor size:3
+neighbor list:230,766,
+Point:228
+neighbor size:3
+neighbor list:385,766,
+Point:387
+neighbor size:3
+neighbor list:228,766,
+Point:665
+neighbor size:4
+neighbor list:218,387,766,
+Point:992
+neighbor size:3
+neighbor list:218,665,
+Point:388
+neighbor size:3
+neighbor list:218,992,
+Point:833
+neighbor size:3
+neighbor list:218,388,
+Point:217
+neighbor size:3
+neighbor list:218,833,
+Point:631
+neighbor size:4
+neighbor list:217,218,1030,
+Point:390
+neighbor size:3
+neighbor list:631,1030,
+Point:79
+neighbor size:3
+neighbor list:390,1030,
+Point:392
+neighbor size:4
+neighbor list:79,662,1030,
+Point:76
+neighbor size:3
+neighbor list:392,662,
+Point:75
+neighbor size:3
+neighbor list:76,662,
+Point:395
+neighbor size:3
+neighbor list:75,662,
+Point:216
+neighbor size:3
+neighbor list:395,662,
+Point:215
+neighbor size:3
+neighbor list:216,662,
+Point:947
+neighbor size:4
+neighbor list:215,662,674,
+Point:95
+neighbor size:3
+neighbor list:674,947,
+Point:730
+neighbor size:8
+neighbor list:95,674,
+Point:1017
+neighbor size:6
+neighbor list:730,
+Point:399
+neighbor size:2
+neighbor list:1017,
+Point:92
+neighbor size:3
+neighbor list:399,1017,
+Point:94
+neighbor size:3
+neighbor list:92,1017,
+Point:402
+neighbor size:3
+neighbor list:94,1017,
+Point:220
+neighbor size:4
+neighbor list:402,730,1017,
+Point:404
+neighbor size:3
+neighbor list:220,730,
+Point:96
+neighbor size:3
+neighbor list:404,730,
+Point:97
+neighbor size:3
+neighbor list:96,730,
+Point:407
+neighbor size:4
+neighbor list:97,674,730,
+Point:408
+neighbor size:3
+neighbor list:407,674,
+Point:99
+neighbor size:4
+neighbor list:408,674,956,
+Point:100
+neighbor size:3
+neighbor list:99,956,
+Point:411
+neighbor size:3
+neighbor list:100,956,
+Point:897
+neighbor size:3
+neighbor list:411,956,
+Point:21
+neighbor size:3
+neighbor list:897,956,
+Point:126
+neighbor size:4
+neighbor list:21,952,956,
+Point:415
+neighbor size:3
+neighbor list:126,952,
+Point:416
+neighbor size:3
+neighbor list:415,952,
+Point:417
+neighbor size:3
+neighbor list:416,952,
+Point:832
+neighbor size:3
+neighbor list:417,952,
+Point:418
+neighbor size:4
+neighbor list:655,832,952,
+Point:419
+neighbor size:3
+neighbor list:418,655,
+Point:875
+neighbor size:3
+neighbor list:419,655,
+Point:967
+neighbor size:3
+neighbor list:655,875,
+Point:140
+neighbor size:3
+neighbor list:655,967,
+Point:421
+neighbor size:3
+neighbor list:140,655,
+Point:30
+neighbor size:3
+neighbor list:421,655,
+Point:139
+neighbor size:3
+neighbor list:30,655,
+Point:977
+neighbor size:3
+neighbor list:139,655,
+Point:424
+neighbor size:4
+neighbor list:654,655,977,
+Point:142
+neighbor size:3
+neighbor list:424,654,
+Point:426
+neighbor size:3
+neighbor list:142,654,
+Point:146
+neighbor size:3
+neighbor list:426,654,
+Point:145
+neighbor size:4
+neighbor list:143,146,654,
+Point:429
+neighbor size:3
+neighbor list:143,145,
+Point:667
+neighbor size:3
+neighbor list:143,429,
+Point:1020
+neighbor size:4
+neighbor list:143,650,667,
+Point:243
+neighbor size:3
+neighbor list:650,1020,
+Point:782
+neighbor size:3
+neighbor list:243,650,
+Point:978
+neighbor size:3
+neighbor list:650,782,
+Point:979
+neighbor size:3
+neighbor list:650,978,
+Point:555
+neighbor size:3
+neighbor list:650,979,
+Point:636
+neighbor size:3
+neighbor list:555,650,
+Point:865
+neighbor size:3
+neighbor list:636,650,
+Point:839
+neighbor size:4
+neighbor list:650,865,1014,
+Point:582
+neighbor size:3
+neighbor list:839,1014,
+Point:1033
+neighbor size:3
+neighbor list:582,1014,
+Point:713
+neighbor size:3
+neighbor list:1014,1033,
+Point:714
+neighbor size:3
+neighbor list:713,1014,
+Point:729
+neighbor size:3
+neighbor list:714,1014,
+Point:771
+neighbor size:3
+neighbor list:729,1014,
+Point:430
+neighbor size:7
+neighbor list:102,225,241,733,771,1014,
+Point:812
+neighbor size:3
+neighbor list:241,430,
+Point:431
+neighbor size:3
+neighbor list:241,812,
+Point:240
+neighbor size:4
+neighbor list:225,241,431,
+Point:617
+neighbor size:5
+neighbor list:225,240,946,983,
+Point:934
+neighbor size:3
+neighbor list:617,983,
+Point:834
+neighbor size:3
+neighbor list:934,983,
+Point:835
+neighbor size:5
+neighbor list:834,983,
+Point:433
+neighbor size:2
+neighbor list:835,
+Point:23
+neighbor size:3
+neighbor list:433,835,
+Point:435
+neighbor size:4
+neighbor list:23,835,983,
+Point:131
+neighbor size:3
+neighbor list:435,983,
+Point:133
+neighbor size:3
+neighbor list:131,983,
+Point:438
+neighbor size:3
+neighbor list:133,983,
+Point:439
+neighbor size:3
+neighbor list:438,983,
+Point:135
+neighbor size:3
+neighbor list:439,983,
+Point:441
+neighbor size:3
+neighbor list:135,983,
+Point:137
+neighbor size:5
+neighbor list:26,441,920,983,
+Point:242
+neighbor size:3
+neighbor list:137,920,
+Point:444
+neighbor size:3
+neighbor list:242,920,
+Point:150
+neighbor size:3
+neighbor list:444,920,
+Point:446
+neighbor size:4
+neighbor list:150,920,1039,
+Point:759
+neighbor size:3
+neighbor list:446,1039,
+Point:993
+neighbor size:3
+neighbor list:759,1039,
+Point:245
+neighbor size:3
+neighbor list:993,1039,
+Point:152
+neighbor size:4
+neighbor list:31,245,1039,
+Point:32
+neighbor size:3
+neighbor list:31,152,
+Point:450
+neighbor size:3
+neighbor list:31,32,
+Point:451
+neighbor size:3
+neighbor list:31,450,
+Point:973
+neighbor size:3
+neighbor list:31,451,
+Point:41
+neighbor size:3
+neighbor list:31,973,
+Point:454
+neighbor size:3
+neighbor list:31,41,
+Point:455
+neighbor size:3
+neighbor list:31,454,
+Point:1050
+neighbor size:3
+neighbor list:31,455,
+Point:42
+neighbor size:4
+neighbor list:31,604,1050,
+Point:458
+neighbor size:4
+neighbor list:42,604,699,
+Point:188
+neighbor size:3
+neighbor list:458,699,
+Point:189
+neighbor size:3
+neighbor list:188,699,
+Point:461
+neighbor size:3
+neighbor list:189,699,
+Point:462
+neighbor size:3
+neighbor list:461,699,
+Point:268
+neighbor size:3
+neighbor list:462,699,
+Point:464
+neighbor size:3
+neighbor list:268,699,
+Point:465
+neighbor size:3
+neighbor list:464,699,
+Point:185
+neighbor size:3
+neighbor list:465,699,
+Point:467
+neighbor size:3
+neighbor list:185,699,
+Point:38
+neighbor size:3
+neighbor list:467,699,
+Point:186
+neighbor size:3
+neighbor list:38,699,
+Point:470
+neighbor size:3
+neighbor list:176,186,699,
+Point:176
+neighbor size:3
+neighbor list:470,699,
+Point:472
+neighbor size:3
+neighbor list:176,699,
+Point:473
+neighbor size:3
+neighbor list:472,699,
+Point:474
+neighbor size:3
+neighbor list:473,699,
+Point:475
+neighbor size:3
+neighbor list:474,699,
+Point:820
+neighbor size:3
+neighbor list:475,699,
+Point:862
+neighbor size:3
+neighbor list:699,820,
+Point:599
+neighbor size:3
+neighbor list:699,862,
+Point:678
+neighbor size:3
+neighbor list:599,699,
+Point:560
+neighbor size:7
+neighbor list:105,678,699,700,991,1047,
+Point:279
+neighbor size:3
+neighbor list:105,560,
+Point:280
+neighbor size:3
+neighbor list:105,279,
+Point:478
+neighbor size:3
+neighbor list:105,280,
+Point:479
+neighbor size:3
+neighbor list:105,478,
+Point:275
+neighbor size:6
+neighbor list:104,105,157,158,479,
+Point:481
+neighbor size:3
+neighbor list:158,275,
+Point:261
+neighbor size:3
+neighbor list:158,481,
+Point:483
+neighbor size:3
+neighbor list:158,261,
+Point:258
+neighbor size:4
+neighbor list:158,483,824,
+Point:259
+neighbor size:3
+neighbor list:258,824,
+Point:486
+neighbor size:10
+neighbor list:162,164,166,169,259,824,
+Point:164
+neighbor size:3
+neighbor list:162,486,
+Point:487
+neighbor size:2
+neighbor list:162,164,
+Point:162
+neighbor size:4
+neighbor list:164,486,487,
+Point:938
+neighbor size:3
+neighbor list:162,486,
+Point:770
+neighbor size:3
+neighbor list:486,938,
+Point:489
+neighbor size:3
+neighbor list:166,486,770,
+Point:166
+neighbor size:3
+neighbor list:169,486,489,
+Point:169
+neighbor size:3
+neighbor list:166,486,
+Point:670
+neighbor size:4
+neighbor list:169,486,824,
+Point:492
+neighbor size:3
+neighbor list:670,824,
+Point:493
+neighbor size:3
+neighbor list:492,824,
+Point:269
+neighbor size:4
+neighbor list:180,493,824,887,
+Point:180
+neighbor size:3
+neighbor list:179,269,887,
+Point:179
+neighbor size:3
+neighbor list:180,887,
+Point:497
+neighbor size:3
+neighbor list:179,887,
+Point:182
+neighbor size:3
+neighbor list:497,887,
+Point:499
+neighbor size:3
+neighbor list:182,887,
+Point:500
+neighbor size:3
+neighbor list:499,887,
+Point:49
+neighbor size:3
+neighbor list:500,887,
+Point:502
+neighbor size:4
+neighbor list:49,202,887,
+Point:204
+neighbor size:3
+neighbor list:202,502,
+Point:504
+neighbor size:3
+neighbor list:202,204,
+Point:271
+neighbor size:3
+neighbor list:202,504,
+Point:505
+neighbor size:4
+neighbor list:202,271,768,
+Point:506
+neighbor size:3
+neighbor list:505,768,
+Point:47
+neighbor size:3
+neighbor list:506,768,
+Point:508
+neighbor size:3
+neighbor list:47,768,
+Point:941
+neighbor size:3
+neighbor list:508,768,
+Point:197
+neighbor size:3
+neighbor list:768,941,
+Point:510
+neighbor size:3
+neighbor list:197,768,
+Point:198
+neighbor size:4
+neighbor list:510,768,769,
+Point:512
+neighbor size:3
+neighbor list:198,769,
+Point:193
+neighbor size:3
+neighbor list:512,769,
+Point:195
+neighbor size:3
+neighbor list:193,769,
+Point:194
+neighbor size:3
+neighbor list:195,769,
+Point:516
+neighbor size:3
+neighbor list:194,769,
+Point:192
+neighbor size:3
+neighbor list:516,769,
+Point:518
+neighbor size:3
+neighbor list:192,769,
+Point:519
+neighbor size:3
+neighbor list:518,769,
+Point:520
+neighbor size:3
+neighbor list:519,769,
+Point:681
+neighbor size:3
+neighbor list:520,769,
+Point:682
+neighbor size:3
+neighbor list:681,769,
+Point:565
+neighbor size:3
+neighbor list:682,769,
+Point:963
+neighbor size:4
+neighbor list:565,769,1026,
+Point:962
+neighbor size:3
+neighbor list:963,1026,
+Point:521
+neighbor size:3
+neighbor list:962,1026,
+Point:156
+neighbor size:3
+neighbor list:521,1026,
+Point:160
+neighbor size:3
+neighbor list:156,1026,
+Point:522
+neighbor size:4
+neighbor list:159,160,1026,
+Point:523
+neighbor size:3
+neighbor list:159,522,
+Point:253
+neighbor size:6
+neighbor list:153,159,246,523,899,
+Point:250
+neighbor size:3
+neighbor list:253,899,
+Point:251
+neighbor size:3
+neighbor list:250,899,
+Point:527
+neighbor size:3
+neighbor list:251,899,
+Point:281
+neighbor size:3
+neighbor list:527,899,
+Point:254
+neighbor size:5
+neighbor list:281,661,807,899,
+Point:529
+neighbor size:3
+neighbor list:254,807,
+Point:255
+neighbor size:3
+neighbor list:529,807,
+Point:531
+neighbor size:3
+neighbor list:255,807,
+Point:998
+neighbor size:3
+neighbor list:531,807,
+Point:999
+neighbor size:3
+neighbor list:807,998,
+Point:611
+neighbor size:3
+neighbor list:807,999,
+Point:846
+neighbor size:3
+neighbor list:611,807,
+Point:36
+neighbor size:3
+neighbor list:807,846,
+Point:533
+neighbor size:3
+neighbor list:36,807,
+Point:46
+neighbor size:3
+neighbor list:533,807,
+Point:535
+neighbor size:3
+neighbor list:46,174,807,
+Point:174
+neighbor size:3
+neighbor list:535,807,
+Point:265
+neighbor size:4
+neighbor list:174,201,807,
+Point:537
+neighbor size:3
+neighbor list:201,265,
+Point:539
+neighbor size:3
+neighbor list:201,537,
+Point:200
+neighbor size:6
+neighbor list:173,201,257,539,831,
+Point:1048
+neighbor size:3
+neighbor list:173,200,
+Point:538
+neighbor size:3
+neighbor list:173,1048,
+Point:536
+neighbor size:3
+neighbor list:173,538,
+Point:264
+neighbor size:3
+neighbor list:173,536,
+Point:892
+neighbor size:3
+neighbor list:173,264,
+Point:45
+neighbor size:3
+neighbor list:173,892,
+Point:534
+neighbor size:3
+neighbor list:45,172,173,
+Point:172
+neighbor size:3
+neighbor list:173,534,
+Point:532
+neighbor size:4
+neighbor list:172,173,715,
+Point:35
+neighbor size:3
+neighbor list:532,715,
+Point:602
+neighbor size:4
+neighbor list:35,715,717,
+Point:961
+neighbor size:3
+neighbor list:602,717,
+Point:960
+neighbor size:3
+neighbor list:717,961,
+Point:256
+neighbor size:3
+neighbor list:717,960,
+Point:530
+neighbor size:3
+neighbor list:256,717,
+Point:282
+neighbor size:3
+neighbor list:530,717,
+Point:528
+neighbor size:3
+neighbor list:282,717,
+Point:249
+neighbor size:3
+neighbor list:528,717,
+Point:526
+neighbor size:3
+neighbor list:249,717,
+Point:525
+neighbor size:4
+neighbor list:248,526,717,
+Point:524
+neighbor size:3
+neighbor list:248,525,
+Point:252
+neighbor size:4
+neighbor list:248,524,595,
+Point:593
+neighbor size:3
+neighbor list:252,595,
+Point:765
+neighbor size:3
+neighbor list:593,595,
+Point:155
+neighbor size:4
+neighbor list:595,765,794,
+Point:583
+neighbor size:3
+neighbor list:155,794,
+Point:706
+neighbor size:3
+neighbor list:583,794,
+Point:1038
+neighbor size:3
+neighbor list:706,794,
+Point:668
+neighbor size:3
+neighbor list:794,1038,
+Point:757
+neighbor size:3
+neighbor list:171,668,794,
+Point:171
+neighbor size:5
+neighbor list:170,687,757,794,907,
+Point:170
+neighbor size:3
+neighbor list:171,687,
+Point:191
+neighbor size:3
+neighbor list:170,687,
+Point:517
+neighbor size:3
+neighbor list:191,687,
+Point:270
+neighbor size:3
+neighbor list:517,687,
+Point:515
+neighbor size:3
+neighbor list:270,687,
+Point:514
+neighbor size:4
+neighbor list:515,687,1032,
+Point:513
+neighbor size:3
+neighbor list:514,1032,
+Point:196
+neighbor size:3
+neighbor list:513,1032,
+Point:511
+neighbor size:3
+neighbor list:196,1032,
+Point:199
+neighbor size:3
+neighbor list:511,1032,
+Point:509
+neighbor size:3
+neighbor list:199,1032,
+Point:741
+neighbor size:3
+neighbor list:509,1032,
+Point:507
+neighbor size:4
+neighbor list:272,741,1032,
+Point:203
+neighbor size:3
+neighbor list:272,507,
+Point:937
+neighbor size:3
+neighbor list:203,272,
+Point:672
+neighbor size:4
+neighbor list:272,671,937,
+Point:205
+neighbor size:3
+neighbor list:671,672,
+Point:503
+neighbor size:3
+neighbor list:205,671,
+Point:48
+neighbor size:3
+neighbor list:503,671,
+Point:501
+neighbor size:3
+neighbor list:48,671,
+Point:184
+neighbor size:3
+neighbor list:501,671,
+Point:183
+neighbor size:3
+neighbor list:184,671,
+Point:498
+neighbor size:3
+neighbor list:183,671,
+Point:181
+neighbor size:5
+neighbor list:498,594,671,888,
+Point:496
+neighbor size:3
+neighbor list:181,888,
+Point:495
+neighbor size:3
+neighbor list:496,888,
+Point:494
+neighbor size:3
+neighbor list:495,888,
+Point:266
+neighbor size:3
+neighbor list:494,888,
+Point:1022
+neighbor size:3
+neighbor list:175,266,888,
+Point:175
+neighbor size:3
+neighbor list:888,1022,
+Point:263
+neighbor size:3
+neighbor list:175,888,
+Point:491
+neighbor size:3
+neighbor list:263,888,
+Point:490
+neighbor size:3
+neighbor list:165,491,888,
+Point:165
+neighbor size:3
+neighbor list:490,888,
+Point:725
+neighbor size:4
+neighbor list:165,815,888,
+Point:906
+neighbor size:3
+neighbor list:725,815,
+Point:488
+neighbor size:3
+neighbor list:163,815,906,
+Point:163
+neighbor size:4
+neighbor list:154,488,815,
+Point:262
+neighbor size:3
+neighbor list:154,163,
+Point:485
+neighbor size:3
+neighbor list:154,262,
+Point:484
+neighbor size:3
+neighbor list:154,485,
+Point:247
+neighbor size:3
+neighbor list:154,484,
+Point:482
+neighbor size:3
+neighbor list:154,247,
+Point:260
+neighbor size:3
+neighbor list:154,482,
+Point:480
+neighbor size:3
+neighbor list:154,260,
+Point:274
+neighbor size:5
+neighbor list:154,273,480,704,
+Point:845
+neighbor size:3
+neighbor list:274,704,
+Point:477
+neighbor size:3
+neighbor list:704,845,
+Point:476
+neighbor size:3
+neighbor list:477,704,
+Point:640
+neighbor size:3
+neighbor list:476,704,
+Point:603
+neighbor size:3
+neighbor list:640,704,
+Point:607
+neighbor size:3
+neighbor list:603,704,
+Point:745
+neighbor size:3
+neighbor list:167,607,704,
+Point:167
+neighbor size:3
+neighbor list:168,704,745,
+Point:168
+neighbor size:4
+neighbor list:167,177,703,704,
+Point:177
+neighbor size:3
+neighbor list:168,703,
+Point:37
+neighbor size:3
+neighbor list:177,703,
+Point:471
+neighbor size:3
+neighbor list:37,178,703,
+Point:178
+neighbor size:3
+neighbor list:471,703,
+Point:469
+neighbor size:3
+neighbor list:178,703,
+Point:468
+neighbor size:3
+neighbor list:469,703,
+Point:39
+neighbor size:3
+neighbor list:468,703,
+Point:466
+neighbor size:3
+neighbor list:39,703,
+Point:187
+neighbor size:3
+neighbor list:466,703,
+Point:267
+neighbor size:4
+neighbor list:187,703,728,
+Point:463
+neighbor size:3
+neighbor list:267,728,
+Point:190
+neighbor size:3
+neighbor list:463,728,
+Point:44
+neighbor size:3
+neighbor list:190,728,
+Point:460
+neighbor size:3
+neighbor list:44,728,
+Point:459
+neighbor size:3
+neighbor list:460,728,
+Point:43
+neighbor size:3
+neighbor list:459,728,
+Point:457
+neighbor size:3
+neighbor list:43,728,
+Point:456
+neighbor size:3
+neighbor list:457,728,
+Point:40
+neighbor size:3
+neighbor list:456,728,
+Point:453
+neighbor size:3
+neighbor list:40,728,
+Point:452
+neighbor size:3
+neighbor list:453,728,
+Point:1036
+neighbor size:3
+neighbor list:452,728,
+Point:33
+neighbor size:4
+neighbor list:728,895,1036,
+Point:449
+neighbor size:3
+neighbor list:33,895,
+Point:448
+neighbor size:3
+neighbor list:449,895,
+Point:447
+neighbor size:4
+neighbor list:448,737,895,
+Point:720
+neighbor size:3
+neighbor list:447,737,
+Point:149
+neighbor size:3
+neighbor list:720,737,
+Point:445
+neighbor size:3
+neighbor list:149,737,
+Point:151
+neighbor size:3
+neighbor list:445,737,
+Point:443
+neighbor size:3
+neighbor list:151,737,
+Point:442
+neighbor size:3
+neighbor list:443,737,
+Point:136
+neighbor size:3
+neighbor list:442,737,
+Point:440
+neighbor size:3
+neighbor list:136,737,
+Point:134
+neighbor size:3
+neighbor list:440,737,
+Point:132
+neighbor size:3
+neighbor list:134,737,
+Point:437
+neighbor size:4
+neighbor list:132,592,737,
+Point:436
+neighbor size:3
+neighbor list:437,592,
+Point:25
+neighbor size:3
+neighbor list:436,592,
+Point:434
+neighbor size:3
+neighbor list:25,592,
+Point:24
+neighbor size:4
+neighbor list:434,592,1040,
+Point:964
+neighbor size:3
+neighbor list:24,1040,
+Point:965
+neighbor size:3
+neighbor list:964,1040,
+Point:797
+neighbor size:3
+neighbor list:965,1040,
+Point:798
+neighbor size:3
+neighbor list:797,1040,
+Point:799
+neighbor size:3
+neighbor list:798,1040,
+Point:901
+neighbor size:3
+neighbor list:799,1040,
+Point:432
+neighbor size:3
+neighbor list:901,1040,
+Point:239
+neighbor size:8
+neighbor list:221,222,432,588,776,896,1040,
+Point:995
+neighbor size:3
+neighbor list:239,588,
+Point:789
+neighbor size:3
+neighbor list:588,995,
+Point:129
+neighbor size:3
+neighbor list:588,789,
+Point:1021
+neighbor size:3
+neighbor list:129,588,
+Point:726
+neighbor size:3
+neighbor list:588,1021,
+Point:727
+neighbor size:3
+neighbor list:588,726,
+Point:780
+neighbor size:3
+neighbor list:588,727,
+Point:830
+neighbor size:4
+neighbor list:588,780,781,
+Point:584
+neighbor size:3
+neighbor list:781,830,
+Point:879
+neighbor size:3
+neighbor list:584,781,
+Point:877
+neighbor size:3
+neighbor list:781,879,
+Point:878
+neighbor size:3
+neighbor list:781,877,
+Point:547
+neighbor size:3
+neighbor list:781,878,
+Point:634
+neighbor size:3
+neighbor list:547,781,
+Point:635
+neighbor size:3
+neighbor list:634,781,
+Point:917
+neighbor size:3
+neighbor list:635,781,
+Point:742
+neighbor size:4
+neighbor list:781,917,951,
+Point:244
+neighbor size:3
+neighbor list:742,951,
+Point:1027
+neighbor size:3
+neighbor list:244,951,
+Point:148
+neighbor size:3
+neighbor list:951,1027,
+Point:428
+neighbor size:3
+neighbor list:148,951,
+Point:144
+neighbor size:4
+neighbor list:428,633,951,
+Point:427
+neighbor size:3
+neighbor list:144,633,
+Point:147
+neighbor size:3
+neighbor list:427,633,
+Point:425
+neighbor size:3
+neighbor list:147,633,
+Point:141
+neighbor size:3
+neighbor list:425,633,
+Point:924
+neighbor size:3
+neighbor list:141,633,
+Point:423
+neighbor size:4
+neighbor list:633,858,924,
+Point:422
+neighbor size:3
+neighbor list:423,858,
+Point:138
+neighbor size:3
+neighbor list:422,858,
+Point:420
+neighbor size:3
+neighbor list:138,858,
+Point:1023
+neighbor size:3
+neighbor list:420,858,
+Point:795
+neighbor size:3
+neighbor list:858,1023,
+Point:28
+neighbor size:4
+neighbor list:795,858,884,
+Point:29
+neighbor size:3
+neighbor list:28,884,
+Point:868
+neighbor size:3
+neighbor list:29,884,
+Point:130
+neighbor size:3
+neighbor list:868,884,
+Point:127
+neighbor size:3
+neighbor list:130,884,
+Point:128
+neighbor size:4
+neighbor list:127,884,935,
+Point:414
+neighbor size:3
+neighbor list:128,935,
+Point:413
+neighbor size:3
+neighbor list:414,935,
+Point:412
+neighbor size:3
+neighbor list:413,935,
+Point:843
+neighbor size:3
+neighbor list:412,935,
+Point:101
+neighbor size:3
+neighbor list:843,935,
+Point:410
+neighbor size:3
+neighbor list:101,935,
+Point:409
+neighbor size:3
+neighbor list:12,410,935,
+Point:12
+neighbor size:3
+neighbor list:409,935,
+Point:98
+neighbor size:3
+neighbor list:12,935,
+Point:406
+neighbor size:3
+neighbor list:98,935,
+Point:405
+neighbor size:3
+neighbor list:406,935,
+Point:223
+neighbor size:4
+neighbor list:405,935,1011,
+Point:403
+neighbor size:3
+neighbor list:223,1011,
+Point:401
+neighbor size:4
+neighbor list:403,873,1011,
+Point:400
+neighbor size:3
+neighbor list:401,873,
+Point:93
+neighbor size:5
+neighbor list:400,561,827,873,
+Point:749
+neighbor size:3
+neighbor list:93,827,
+Point:398
+neighbor size:3
+neighbor list:749,827,
+Point:397
+neighbor size:3
+neighbor list:398,827,
+Point:396
+neighbor size:3
+neighbor list:397,827,
+Point:77
+neighbor size:3
+neighbor list:396,827,
+Point:394
+neighbor size:3
+neighbor list:77,827,
+Point:393
+neighbor size:4
+neighbor list:394,800,827,
+Point:78
+neighbor size:3
+neighbor list:393,800,
+Point:391
+neighbor size:3
+neighbor list:7,78,800,
+Point:7
+neighbor size:3
+neighbor list:391,800,
+Point:545
+neighbor size:3
+neighbor list:7,800,
+Point:705
+neighbor size:3
+neighbor list:545,800,
+Point:389
+neighbor size:5
+neighbor list:692,705,800,806,
+Point:691
+neighbor size:3
+neighbor list:389,692,
+Point:585
+neighbor size:3
+neighbor list:691,692,
+Point:690
+neighbor size:3
+neighbor list:585,692,
+Point:909
+neighbor size:3
+neighbor list:690,692,
+Point:779
+neighbor size:3
+neighbor list:692,909,
+Point:219
+neighbor size:3
+neighbor list:692,779,
+Point:386
+neighbor size:3
+neighbor list:219,692,
+Point:229
+neighbor size:3
+neighbor list:386,692,
+Point:384
+neighbor size:3
+neighbor list:229,692,
+Point:231
+neighbor size:3
+neighbor list:384,692,
+Point:232
+neighbor size:3
+neighbor list:231,692,
+Point:382
+neighbor size:3
+neighbor list:232,692,
+Point:277
+neighbor size:3
+neighbor list:382,692,
+Point:380
+neighbor size:3
+neighbor list:277,692,
+Point:235
+neighbor size:3
+neighbor list:380,692,
+Point:378
+neighbor size:3
+neighbor list:235,692,
+Point:233
+neighbor size:3
+neighbor list:378,692,
+Point:106
+neighbor size:3
+neighbor list:233,692,
+Point:743
+neighbor size:3
+neighbor list:106,692,
+Point:376
+neighbor size:4
+neighbor list:692,743,850,
+Point:108
+neighbor size:4
+neighbor list:376,791,850,
+Point:374
+neighbor size:3
+neighbor list:14,108,791,
+Point:14
+neighbor size:3
+neighbor list:374,791,
+Point:372
+neighbor size:4
+neighbor list:14,122,791,
+Point:883
+neighbor size:3
+neighbor list:122,372,
+Point:371
+neighbor size:3
+neighbor list:122,883,
+Point:110
+neighbor size:3
+neighbor list:16,122,371,
+Point:16
+neighbor size:3
+neighbor list:110,122,
+Point:368
+neighbor size:3
+neighbor list:16,17,122,
+Point:17
+neighbor size:4
+neighbor list:122,123,368,
+Point:111
+neighbor size:3
+neighbor list:17,123,
+Point:365
+neighbor size:3
+neighbor list:20,111,123,
+Point:20
+neighbor size:3
+neighbor list:123,365,
+Point:363
+neighbor size:3
+neighbor list:20,123,
+Point:1031
+neighbor size:4
+neighbor list:123,363,955,
+Point:238
+neighbor size:3
+neighbor list:955,1031,
+Point:360
+neighbor size:3
+neighbor list:238,955,
+Point:121
+neighbor size:3
+neighbor list:360,955,
+Point:358
+neighbor size:3
+neighbor list:121,955,
+Point:357
+neighbor size:4
+neighbor list:358,792,955,
+Point:119
+neighbor size:3
+neighbor list:357,792,
+Point:355
+neighbor size:3
+neighbor list:119,792,
+Point:354
+neighbor size:3
+neighbor list:18,355,792,
+Point:18
+neighbor size:4
+neighbor list:354,576,792,
+Point:352
+neighbor size:3
+neighbor list:18,576,
+Point:113
+neighbor size:3
+neighbor list:352,576,
+Point:350
+neighbor size:3
+neighbor list:113,576,
+Point:112
+neighbor size:5
+neighbor list:350,576,689,930,
+Point:648
+neighbor size:3
+neighbor list:112,689,
+Point:1007
+neighbor size:3
+neighbor list:648,689,
+Point:348
+neighbor size:3
+neighbor list:689,1007,
+Point:966
+neighbor size:3
+neighbor list:348,689,
+Point:869
+neighbor size:3
+neighbor list:689,966,
+Point:996
+neighbor size:3
+neighbor list:689,869,
+Point:347
+neighbor size:3
+neighbor list:11,689,996,
+Point:11
+neighbor size:3
+neighbor list:347,689,
+Point:345
+neighbor size:3
+neighbor list:11,689,
+Point:344
+neighbor size:3
+neighbor list:345,689,
+Point:90
+neighbor size:3
+neighbor list:344,689,
+Point:342
+neighbor size:4
+neighbor list:90,689,1043,
+Point:341
+neighbor size:3
+neighbor list:342,1043,
+Point:87
+neighbor size:3
+neighbor list:341,1043,
+Point:339
+neighbor size:3
+neighbor list:87,1043,
+Point:84
+neighbor size:3
+neighbor list:339,1043,
+Point:85
+neighbor size:3
+neighbor list:84,1043,
+Point:83
+neighbor size:3
+neighbor list:85,1043,
+Point:336
+neighbor size:3
+neighbor list:6,83,1043,
+Point:6
+neighbor size:3
+neighbor list:336,1043,
+Point:629
+neighbor size:4
+neighbor list:6,882,1043,
+Point:335
+neighbor size:3
+neighbor list:629,882,
+Point:81
+neighbor size:3
+neighbor list:335,882,
+Point:959
+neighbor size:3
+neighbor list:81,882,
+Point:568
+neighbor size:3
+neighbor list:882,959,
+Point:747
+neighbor size:4
+neighbor list:568,882,1008,
+Point:579
+neighbor size:4
+neighbor list:747,1008,1042,
+Point:80
+neighbor size:3
+neighbor list:579,1042,
+Point:332
+neighbor size:3
+neighbor list:80,1042,
+Point:72
+neighbor size:3
+neighbor list:332,1042,
+Point:330
+neighbor size:3
+neighbor list:72,1042,
+Point:212
+neighbor size:3
+neighbor list:330,1042,
+Point:73
+neighbor size:3
+neighbor list:212,1042,
+Point:327
+neighbor size:3
+neighbor list:73,1042,
+Point:211
+neighbor size:3
+neighbor list:327,1042,
+Point:325
+neighbor size:4
+neighbor list:211,660,1042,
+Point:70
+neighbor size:3
+neighbor list:325,660,
+Point:323
+neighbor size:3
+neighbor list:70,660,
+Point:69
+neighbor size:3
+neighbor list:323,660,
+Point:321
+neighbor size:4
+neighbor list:69,660,1028,
+Point:66
+neighbor size:3
+neighbor list:321,1028,
+Point:319
+neighbor size:3
+neighbor list:66,1028,
+Point:318
+neighbor size:3
+neighbor list:319,1028,
+Point:65
+neighbor size:3
+neighbor list:318,1028,
+Point:62
+neighbor size:3
+neighbor list:65,1028,
+Point:61
+neighbor size:3
+neighbor list:62,1028,
+Point:314
+neighbor size:5
+neighbor list:61,750,894,1028,
+Point:313
+neighbor size:3
+neighbor list:314,894,
+Point:58
+neighbor size:3
+neighbor list:313,894,
+Point:311
+neighbor size:3
+neighbor list:58,894,
+Point:310
+neighbor size:3
+neighbor list:1,311,894,
+Point:4
+neighbor size:6
+neighbor list:624,864,916,1010,
+Point:828
+neighbor size:5
+neighbor list:4,679,793,916,
+Point:618
+neighbor size:5
+neighbor list:722,793,828,1013,
+Point:683
+neighbor size:4
+neighbor list:618,758,1013,
+Point:785
+neighbor size:7
+neighbor list:273,683,704,758,802,971,
+Point:659
+neighbor size:4
+neighbor list:596,785,971,
+Point:734
+neighbor size:6
+neighbor list:596,659,767,904,927,
+Point:958
+neighbor size:4
+neighbor list:4,624,734,904,
+Point:2
+neighbor size:3
+neighbor list:6,135,405,
+Point:135
+neighbor size:3
+neighbor list:2,13,405,
+Point:13
+neighbor size:3
+neighbor list:12,135,405,
+Point:12
+neighbor size:3
+neighbor list:13,132,405,
+Point:132
+neighbor size:3
+neighbor list:12,16,405,
+Point:16
+neighbor size:3
+neighbor list:130,132,405,
+Point:130
+neighbor size:3
+neighbor list:16,181,405,
+Point:181
+neighbor size:3
+neighbor list:130,182,405,
+Point:182
+neighbor size:3
+neighbor list:181,405,442,
+Point:442
+neighbor size:3
+neighbor list:182,270,405,
+Point:270
+neighbor size:3
+neighbor list:405,442,471,
+Point:471
+neighbor size:3
+neighbor list:259,270,405,
+Point:259
+neighbor size:3
+neighbor list:189,405,471,
+Point:189
+neighbor size:5
+neighbor list:258,259,405,477,
+Point:225
+neighbor size:3
+neighbor list:189,358,477,
+Point:358
+neighbor size:3
+neighbor list:128,225,477,
+Point:128
+neighbor size:3
+neighbor list:56,358,477,
+Point:56
+neighbor size:4
+neighbor list:128,185,387,477,
+Point:185
+neighbor size:3
+neighbor list:56,58,387,
+Point:58
+neighbor size:3
+neighbor list:126,185,387,
+Point:126
+neighbor size:3
+neighbor list:58,237,387,
+Point:237
+neighbor size:3
+neighbor list:126,238,387,
+Point:238
+neighbor size:3
+neighbor list:237,239,387,
+Point:239
+neighbor size:3
+neighbor list:238,240,387,
+Point:240
+neighbor size:4
+neighbor list:239,320,375,387,
+Point:375
+neighbor size:3
+neighbor list:179,240,320,
+Point:179
+neighbor size:3
+neighbor list:180,320,375,
+Point:180
+neighbor size:3
+neighbor list:179,186,320,
+Point:186
+neighbor size:3
+neighbor list:180,184,320,
+Point:184
+neighbor size:3
+neighbor list:183,186,320,
+Point:183
+neighbor size:3
+neighbor list:184,320,
+Point:60
+neighbor size:4
+neighbor list:183,320,423,
+Point:123
+neighbor size:3
+neighbor list:60,230,423,
+Point:230
+neighbor size:3
+neighbor list:123,351,423,
+Point:351
+neighbor size:3
+neighbor list:230,265,423,
+Point:265
+neighbor size:3
+neighbor list:329,351,423,
+Point:329
+neighbor size:4
+neighbor list:64,265,347,423,
+Point:64
+neighbor size:3
+neighbor list:65,329,347,
+Point:65
+neighbor size:3
+neighbor list:64,347,
+Point:122
+neighbor size:3
+neighbor list:65,121,347,
+Point:121
+neighbor size:3
+neighbor list:66,122,347,
+Point:66
+neighbor size:3
+neighbor list:120,121,347,
+Point:120
+neighbor size:3
+neighbor list:66,68,347,
+Point:68
+neighbor size:3
+neighbor list:120,347,398,
+Point:398
+neighbor size:3
+neighbor list:68,347,400,
+Point:400
+neighbor size:3
+neighbor list:347,398,399,
+Point:399
+neighbor size:3
+neighbor list:72,347,400,
+Point:72
+neighbor size:3
+neighbor list:117,347,399,
+Point:117
+neighbor size:4
+neighbor list:72,317,347,483,
+Point:483
+neighbor size:3
+neighbor list:117,317,350,
+Point:350
+neighbor size:3
+neighbor list:269,317,483,
+Point:269
+neighbor size:3
+neighbor list:266,317,350,
+Point:266
+neighbor size:4
+neighbor list:116,269,317,466,
+Point:116
+neighbor size:3
+neighbor list:78,266,466,
+Point:78
+neighbor size:3
+neighbor list:115,116,466,
+Point:115
+neighbor size:3
+neighbor list:78,80,466,
+Point:80
+neighbor size:4
+neighbor list:113,115,322,466,
+Point:113
+neighbor size:3
+neighbor list:80,82,322,
+Point:82
+neighbor size:3
+neighbor list:113,322,462,
+Point:462
+neighbor size:4
+neighbor list:81,82,322,445,
+Point:81
+neighbor size:3
+neighbor list:111,445,462,
+Point:111
+neighbor size:3
+neighbor list:81,86,445,
+Point:86
+neighbor size:3
+neighbor list:90,111,445,
+Point:90
+neighbor size:4
+neighbor list:86,89,445,494,
+Point:89
+neighbor size:3
+neighbor list:90,108,494,
+Point:108
+neighbor size:3
+neighbor list:87,89,494,
+Point:87
+neighbor size:3
+neighbor list:108,308,494,
+Point:308
+neighbor size:4
+neighbor list:87,262,294,494,
+Point:262
+neighbor size:3
+neighbor list:190,294,308,
+Point:190
+neighbor size:3
+neighbor list:262,294,310,
+Point:310
+neighbor size:3
+neighbor list:190,294,311,
+Point:311
+neighbor size:4
+neighbor list:209,294,310,312,
+Point:209
+neighbor size:3
+neighbor list:311,312,335,
+Point:335
+neighbor size:3
+neighbor list:209,312,366,
+Point:366
+neighbor size:3
+neighbor list:312,335,
+Point:208
+neighbor size:3
+neighbor list:106,312,366,
+Point:106
+neighbor size:3
+neighbor list:96,208,312,
+Point:96
+neighbor size:3
+neighbor list:106,312,
+Point:104
+neighbor size:3
+neighbor list:96,312,475,
+Point:475
+neighbor size:3
+neighbor list:104,263,312,
+Point:263
+neighbor size:3
+neighbor list:312,348,475,
+Point:348
+neighbor size:3
+neighbor list:263,312,403,
+Point:403
+neighbor size:3
+neighbor list:312,348,
+Point:103
+neighbor size:3
+neighbor list:312,403,428,
+Point:428
+neighbor size:3
+neighbor list:98,103,312,
+Point:98
+neighbor size:3
+neighbor list:312,327,428,
+Point:327
+neighbor size:3
+neighbor list:97,98,312,
+Point:97
+neighbor size:4
+neighbor list:281,312,327,452,
+Point:281
+neighbor size:4
+neighbor list:97,229,440,452,
+Point:229
+neighbor size:3
+neighbor list:281,440,451,
+Point:451
+neighbor size:3
+neighbor list:177,229,440,
+Point:177
+neighbor size:4
+neighbor list:328,353,440,451,
+Point:353
+neighbor size:3
+neighbor list:75,177,328,
+Point:75
+neighbor size:4
+neighbor list:284,328,353,
+Point:222
+neighbor size:3
+neighbor list:74,75,284,
+Point:74
+neighbor size:5
+neighbor list:222,279,284,394,446,
+Point:394
+neighbor size:4
+neighbor list:74,178,187,446,
+Point:178
+neighbor size:4
+neighbor list:187,231,394,446,
+Point:231
+neighbor size:4
+neighbor list:73,178,339,446,
+Point:73
+neighbor size:4
+neighbor list:231,338,339,
+Point:227
+neighbor size:4
+neighbor list:73,76,338,409,
+Point:76
+neighbor size:3
+neighbor list:227,264,409,
+Point:264
+neighbor size:4
+neighbor list:76,176,226,409,
+Point:176
+neighbor size:3
+neighbor list:226,264,307,
+Point:307
+neighbor size:5
+neighbor list:176,226,234,316,481,
+Point:234
+neighbor size:4
+neighbor list:77,307,316,336,
+Point:77
+neighbor size:3
+neighbor list:234,267,336,
+Point:267
+neighbor size:3
+neighbor list:77,191,336,
+Point:191
+neighbor size:4
+neighbor list:267,336,378,458,
+Point:458
+neighbor size:3
+neighbor list:191,378,
+Point:248
+neighbor size:3
+neighbor list:100,378,458,
+Point:100
+neighbor size:4
+neighbor list:248,291,378,460,
+Point:291
+neighbor size:3
+neighbor list:100,203,460,
+Point:203
+neighbor size:3
+neighbor list:291,459,460,
+Point:459
+neighbor size:6
+neighbor list:101,203,218,369,435,460,
+Point:101
+neighbor size:4
+neighbor list:218,287,313,459,
+Point:313
+neighbor size:5
+neighbor list:99,101,197,287,
+Point:102
+neighbor size:2
+neighbor list:99,313,
+Point:99
+neighbor size:3
+neighbor list:102,197,313,
+Point:197
+neighbor size:4
+neighbor list:99,287,313,386,
+Point:386
+neighbor size:3
+neighbor list:197,256,287,
+Point:256
+neighbor size:3
+neighbor list:287,337,386,
+Point:337
+neighbor size:3
+neighbor list:256,287,447,
+Point:447
+neighbor size:3
+neighbor list:287,337,
+Point:214
+neighbor size:3
+neighbor list:287,447,
+Point:105
+neighbor size:3
+neighbor list:95,214,287,
+Point:95
+neighbor size:3
+neighbor list:105,287,362,
+Point:362
+neighbor size:4
+neighbor list:95,287,332,491,
+Point:332
+neighbor size:3
+neighbor list:333,362,491,
+Point:333
+neighbor size:3
+neighbor list:91,332,491,
+Point:91
+neighbor size:3
+neighbor list:286,333,491,
+Point:286
+neighbor size:3
+neighbor list:91,304,491,
+Point:304
+neighbor size:4
+neighbor list:198,286,491,492,
+Point:198
+neighbor size:3
+neighbor list:304,492,
+Point:241
+neighbor size:3
+neighbor list:84,198,492,
+Point:84
+neighbor size:3
+neighbor list:107,241,492,
+Point:107
+neighbor size:6
+neighbor list:84,88,93,249,420,492,
+Point:88
+neighbor size:3
+neighbor list:107,420,
+Point:224
+neighbor size:4
+neighbor list:88,109,388,420,
+Point:109
+neighbor size:3
+neighbor list:110,224,388,
+Point:110
+neighbor size:3
+neighbor list:85,109,388,
+Point:85
+neighbor size:3
+neighbor list:110,388,461,
+Point:461
+neighbor size:3
+neighbor list:85,271,388,
+Point:271
+neighbor size:4
+neighbor list:112,293,388,461,
+Point:112
+neighbor size:3
+neighbor list:83,271,293,
+Point:83
+neighbor size:3
+neighbor list:112,293,463,
+Point:463
+neighbor size:3
+neighbor list:83,293,490,
+Point:490
+neighbor size:3
+neighbor list:114,293,463,
+Point:114
+neighbor size:3
+neighbor list:79,293,490,
+Point:79
+neighbor size:3
+neighbor list:114,235,293,
+Point:235
+neighbor size:3
+neighbor list:79,236,293,
+Point:236
+neighbor size:3
+neighbor list:235,293,390,
+Point:390
+neighbor size:3
+neighbor list:236,293,391,
+Point:391
+neighbor size:3
+neighbor list:293,389,390,
+Point:389
+neighbor size:3
+neighbor list:71,293,391,
+Point:71
+neighbor size:3
+neighbor list:293,389,
+Point:118
+neighbor size:3
+neighbor list:71,293,422,
+Point:422
+neighbor size:4
+neighbor list:118,293,321,343,
+Point:321
+neighbor size:3
+neighbor list:343,408,422,
+Point:408
+neighbor size:3
+neighbor list:119,321,343,
+Point:119
+neighbor size:3
+neighbor list:67,343,408,
+Point:67
+neighbor size:3
+neighbor list:119,343,363,
+Point:363
+neighbor size:3
+neighbor list:67,70,343,
+Point:70
+neighbor size:3
+neighbor list:69,343,363,
+Point:69
+neighbor size:3
+neighbor list:70,194,343,
+Point:194
+neighbor size:4
+neighbor list:69,196,343,449,
+Point:196
+neighbor size:4
+neighbor list:194,448,449,
+Point:273
+neighbor size:3
+neighbor list:196,274,448,
+Point:274
+neighbor size:3
+neighbor list:273,373,448,
+Point:373
+neighbor size:3
+neighbor list:223,274,448,
+Point:223
+neighbor size:3
+neighbor list:62,373,448,
+Point:62
+neighbor size:3
+neighbor list:124,223,448,
+Point:124
+neighbor size:3
+neighbor list:62,125,448,
+Point:125
+neighbor size:3
+neighbor list:61,124,448,
+Point:61
+neighbor size:3
+neighbor list:125,216,448,
+Point:216
+neighbor size:3
+neighbor list:61,217,448,
+Point:217
+neighbor size:4
+neighbor list:216,349,352,448,
+Point:352
+neighbor size:3
+neighbor list:215,217,349,
+Point:215
+neighbor size:3
+neighbor list:277,349,352,
+Point:277
+neighbor size:3
+neighbor list:215,276,349,
+Point:276
+neighbor size:3
+neighbor list:57,277,349,
+Point:57
+neighbor size:4
+neighbor list:127,276,303,349,
+Point:127
+neighbor size:3
+neighbor list:57,206,303,
+Point:206
+neighbor size:3
+neighbor list:127,243,303,
+Point:243
+neighbor size:4
+neighbor list:206,207,292,303,
+Point:207
+neighbor size:3
+neighbor list:243,292,419,
+Point:419
+neighbor size:3
+neighbor list:205,207,292,
+Point:205
+neighbor size:3
+neighbor list:204,292,419,
+Point:204
+neighbor size:3
+neighbor list:192,205,292,
+Point:192
+neighbor size:4
+neighbor list:204,292,364,439,
+Point:364
+neighbor size:3
+neighbor list:192,365,439,
+Point:365
+neighbor size:3
+neighbor list:129,364,439,
+Point:129
+neighbor size:3
+neighbor list:17,365,439,
+Point:17
+neighbor size:4
+neighbor list:1,129,131,439,
+Point:131
+neighbor size:3
+neighbor list:1,15,17,
+Point:15
+neighbor size:3
+neighbor list:1,131,133,
+Point:133
+neighbor size:3
+neighbor list:1,15,134,
+Point:134
+neighbor size:3
+neighbor list:1,14,133,
+Point:14
+neighbor size:3
+neighbor list:1,134,136,
+Point:136
+neighbor size:3
+neighbor list:1,14,137,
+Point:137
+neighbor size:3
+neighbor list:1,3,136,
+Point:3
+neighbor size:3
+neighbor list:1,137,139,
+Point:139
+neighbor size:3
+neighbor list:1,3,4,
+Point:4
+neighbor size:4
+neighbor list:1,5,139,488,
+Point:5
+neighbor size:3
+neighbor list:4,485,488,
+Point:485
+neighbor size:4
+neighbor list:5,326,354,488,
+Point:354
+neighbor size:3
+neighbor list:142,326,485,
+Point:142
+neighbor size:3
+neighbor list:9,326,354,
+Point:9
+neighbor size:3
+neighbor list:142,145,326,
+Point:145
+neighbor size:3
+neighbor list:9,326,
+Point:201
+neighbor size:3
+neighbor list:145,326,
+Point:22
+neighbor size:3
+neighbor list:147,201,326,
+Point:147
+neighbor size:3
+neighbor list:18,22,326,
+Point:18
+neighbor size:3
+neighbor list:147,149,326,
+Point:149
+neighbor size:4
+neighbor list:18,20,325,326,
+Point:20
+neighbor size:3
+neighbor list:149,151,325,
+Point:151
+neighbor size:4
+neighbor list:20,24,297,325,
+Point:24
+neighbor size:3
+neighbor list:151,297,
+Point:27
+neighbor size:3
+neighbor list:24,297,
+Point:153
+neighbor size:4
+neighbor list:27,297,356,
+Point:296
+neighbor size:3
+neighbor list:33,153,356,
+Point:33
+neighbor size:3
+neighbor list:156,296,356,
+Point:156
+neighbor size:3
+neighbor list:32,33,356,
+Point:32
+neighbor size:3
+neighbor list:156,356,
+Point:158
+neighbor size:3
+neighbor list:32,356,
+Point:31
+neighbor size:3
+neighbor list:158,199,356,
+Point:199
+neighbor size:3
+neighbor list:31,200,356,
+Point:200
+neighbor size:3
+neighbor list:160,199,356,
+Point:160
+neighbor size:3
+neighbor list:39,200,356,
+Point:39
+neighbor size:4
+neighbor list:29,160,162,356,
+Point:162
+neighbor size:3
+neighbor list:29,39,432,
+Point:432
+neighbor size:3
+neighbor list:29,36,162,
+Point:36
+neighbor size:4
+neighbor list:29,40,52,432,
+Point:52
+neighbor size:3
+neighbor list:36,40,50,
+Point:50
+neighbor size:3
+neighbor list:40,52,166,
+Point:166
+neighbor size:3
+neighbor list:40,42,50,
+Point:42
+neighbor size:3
+neighbor list:40,166,168,
+Point:168
+neighbor size:3
+neighbor list:40,42,43,
+Point:43
+neighbor size:4
+neighbor list:40,44,168,379,
+Point:44
+neighbor size:3
+neighbor list:43,379,418,
+Point:418
+neighbor size:3
+neighbor list:44,48,379,
+Point:48
+neighbor size:3
+neighbor list:379,418,489,
+Point:489
+neighbor size:4
+neighbor list:48,172,379,443,
+Point:172
+neighbor size:3
+neighbor list:45,443,489,
+Point:45
+neighbor size:4
+neighbor list:54,172,253,443,
+Point:54
+neighbor size:3
+neighbor list:45,175,253,
+Point:175
+neighbor size:3
+neighbor list:53,54,253,
+Point:53
+neighbor size:6
+neighbor list:55,175,253,282,424,425,
+Point:55
+neighbor size:3
+neighbor list:53,174,424,
+Point:174
+neighbor size:3
+neighbor list:55,173,424,
+Point:173
+neighbor size:3
+neighbor list:46,174,424,
+Point:46
+neighbor size:3
+neighbor list:49,173,424,
+Point:49
+neighbor size:3
+neighbor list:46,171,424,
+Point:171
+neighbor size:4
+neighbor list:47,49,346,424,
+Point:47
+neighbor size:3
+neighbor list:170,171,346,
+Point:170
+neighbor size:3
+neighbor list:47,169,346,
+Point:169
+neighbor size:3
+neighbor list:41,170,346,
+Point:41
+neighbor size:3
+neighbor list:167,169,346,
+Point:167
+neighbor size:3
+neighbor list:41,51,346,
+Point:51
+neighbor size:3
+neighbor list:165,167,346,
+Point:165
+neighbor size:4
+neighbor list:51,334,346,397,
+Point:334
+neighbor size:3
+neighbor list:164,165,397,
+Point:164
+neighbor size:4
+neighbor list:163,334,395,397,
+Point:163
+neighbor size:3
+neighbor list:37,164,395,
+Point:37
+neighbor size:3
+neighbor list:161,163,395,
+Point:161
+neighbor size:3
+neighbor list:37,38,395,
+Point:38
+neighbor size:3
+neighbor list:161,395,414,
+Point:414
+neighbor size:3
+neighbor list:38,395,413,
+Point:413
+neighbor size:3
+neighbor list:395,414,
+Point:159
+neighbor size:5
+neighbor list:30,298,395,413,469,
+Point:30
+neighbor size:3
+neighbor list:159,298,
+Point:157
+neighbor size:3
+neighbor list:30,35,298,
+Point:35
+neighbor size:3
+neighbor list:155,157,298,
+Point:155
+neighbor size:4
+neighbor list:35,298,465,
+Point:34
+neighbor size:3
+neighbor list:155,465,
+Point:154
+neighbor size:3
+neighbor list:34,465,
+Point:26
+neighbor size:3
+neighbor list:25,154,465,
+Point:25
+neighbor size:3
+neighbor list:26,152,465,
+Point:152
+neighbor size:3
+neighbor list:21,25,465,
+Point:21
+neighbor size:3
+neighbor list:150,152,465,
+Point:150
+neighbor size:4
+neighbor list:19,21,285,465,
+Point:19
+neighbor size:3
+neighbor list:148,150,285,
+Point:148
+neighbor size:3
+neighbor list:19,23,285,
+Point:23
+neighbor size:4
+neighbor list:7,146,148,285,
+Point:146
+neighbor size:3
+neighbor list:7,8,23,
+Point:8
+neighbor size:3
+neighbor list:7,144,146,
+Point:144
+neighbor size:3
+neighbor list:7,8,
+Point:143
+neighbor size:3
+neighbor list:7,10,144,
+Point:10
+neighbor size:3
+neighbor list:7,11,143,
+Point:11
+neighbor size:3
+neighbor list:7,10,141,
+Point:141
+neighbor size:3
+neighbor list:7,11,140,
+Point:140
+neighbor size:3
+neighbor list:7,141,278,
+Point:278
+neighbor size:4
+neighbor list:7,138,140,257,
+Point:138
+neighbor size:3
+neighbor list:6,257,278,
+Point:6
+neighbor size:4
+neighbor list:2,138,257,405,
+Point:221
+neighbor size:3
+neighbor list:290,300,338,
+Point:290
+neighbor size:7
+neighbor list:188,221,289,338,339,381,412,
+Point:412
+neighbor size:4
+neighbor list:228,289,290,385,
+Point:385
+neighbor size:4
+neighbor list:228,254,382,412,
+Point:382
+neighbor size:5
+neighbor list:211,254,301,383,385,
+Point:301
+neighbor size:6
+neighbor list:211,302,360,377,382,450,
+Point:377
+neighbor size:4
+neighbor list:226,300,301,360,
+Point:300
+neighbor size:5
+neighbor list:221,226,338,377,409,
+Point:1
+neighbor size:5
+neighbor list:7,1059,2168,
+Point:2333
+neighbor size:3
+neighbor list:1,2168,
+Point:748
+neighbor size:4
+neighbor list:1382,2168,2333,
+Point:2487
+neighbor size:4
+neighbor list:748,1382,2470,
+Point:2479
+neighbor size:5
+neighbor list:2467,2470,2473,2487,
+Point:2482
+neighbor size:6
+neighbor list:823,1193,2467,2479,
+Point:2207
+neighbor size:2
+neighbor list:2482,
+Point:2269
+neighbor size:4
+neighbor list:1193,2207,2482,
+Point:2066
+neighbor size:4
+neighbor list:1189,1193,2269,
+Point:857
+neighbor size:6
+neighbor list:8,1189,1208,1955,2066,
+Point:1157
+neighbor size:3
+neighbor list:8,857,
+Point:2125
+neighbor size:5
+neighbor list:8,1157,1159,1527,
+Point:2047
+neighbor size:4
+neighbor list:1190,1527,2125,
+Point:2318
+neighbor size:5
+neighbor list:1190,1355,1397,2047,
+Point:2321
+neighbor size:3
+neighbor list:1355,2318,
+Point:2285
+neighbor size:4
+neighbor list:1355,2172,2321,
+Point:2126
+neighbor size:5
+neighbor list:813,1504,2172,2285,
+Point:2122
+neighbor size:5
+neighbor list:813,874,1714,2126,
+Point:938
+neighbor size:4
+neighbor list:1500,1714,2122,
+Point:2348
+neighbor size:4
+neighbor list:18,938,1500,
+Point:937
+neighbor size:5
+neighbor list:18,1270,2263,2348,
+Point:1910
+neighbor size:4
+neighbor list:937,1270,1271,
+Point:1332
+neighbor size:4
+neighbor list:1271,1910,2319,
+Point:1988
+neighbor size:4
+neighbor list:1332,1866,2319,
+Point:2033
+neighbor size:5
+neighbor list:27,1466,1866,1988,
+Point:1957
+neighbor size:3
+neighbor list:1466,2033,
+Point:2024
+neighbor size:5
+neighbor list:1040,1466,1746,1957,
+Point:1598
+neighbor size:4
+neighbor list:15,1746,2024,
+Point:1742
+neighbor size:5
+neighbor list:15,1285,1341,1598,
+Point:2054
+neighbor size:3
+neighbor list:1285,1742,
+Point:1894
+neighbor size:6
+neighbor list:1285,2054,2157,2167,
+Point:2336
+neighbor size:2
+neighbor list:1894,
+Point:2120
+neighbor size:6
+neighbor list:1275,1414,1894,2167,2336,
+Point:2236
+neighbor size:3
+neighbor list:1414,2120,
+Point:2353
+neighbor size:4
+neighbor list:1414,1977,2236,
+Point:1973
+neighbor size:3
+neighbor list:1977,2353,
+Point:887
+neighbor size:7
+neighbor list:17,1593,1618,1741,1973,1977,
+Point:1975
+neighbor size:3
+neighbor list:887,1618,
+Point:1844
+neighbor size:6
+neighbor list:1532,1618,1679,1975,2229,
+Point:2121
+neighbor size:3
+neighbor list:1679,1844,
+Point:1052
+neighbor size:4
+neighbor list:810,1679,2121,
+Point:1437
+neighbor size:6
+neighbor list:810,1052,1136,2215,2463,
+Point:2342
+neighbor size:4
+neighbor list:1437,2463,2465,
+Point:1000
+neighbor size:4
+neighbor list:1077,2342,2465,
+Point:1778
+neighbor size:5
+neighbor list:733,1000,1077,1359,
+Point:1196
+neighbor size:4
+neighbor list:4,1359,1778,
+Point:2279
+neighbor size:4
+neighbor list:4,1196,1930,
+Point:2328
+neighbor size:4
+neighbor list:3,5,1930,2279,
+Point:3
+neighbor size:4
+neighbor list:5,914,2328,
+Point:2338
+neighbor size:4
+neighbor list:2,3,914,
+Point:1329
+neighbor size:4
+neighbor list:2,2096,2338,
+Point:861
+neighbor size:5
+neighbor list:1329,1525,1990,2096,
+Point:2317
+neighbor size:4
+neighbor list:837,861,1525,
+Point:1507
+neighbor size:4
+neighbor list:837,1700,2317,
+Point:2051
+neighbor size:4
+neighbor list:1507,1700,2037,
+Point:2176
+neighbor size:4
+neighbor list:1,1059,2037,2051,
+Point:466
+neighbor size:4
+neighbor list:2375,2383,
+Point:961
+neighbor size:3
+neighbor list:466,2383,
+Point:1350
+neighbor size:5
+neighbor list:961,1506,2231,2383,
+Point:2264
+neighbor size:5
+neighbor list:983,1350,1526,2231,
+Point:2295
+neighbor size:4
+neighbor list:983,2264,2346,
+Point:1032
+neighbor size:4
+neighbor list:488,1130,2295,2346,
+Point:488
+neighbor size:4
+neighbor list:1032,1130,2309,
+Point:1875
+neighbor size:4
+neighbor list:488,2023,2309,
+Point:891
+neighbor size:5
+neighbor list:547,1717,1875,2023,
+Point:1080
+neighbor size:3
+neighbor list:547,891,
+Point:943
+neighbor size:5
+neighbor list:547,731,1080,1150,
+Point:763
+neighbor size:4
+neighbor list:943,1150,2111,
+Point:597
+neighbor size:4
+neighbor list:728,763,2111,
+Point:587
+neighbor size:4
+neighbor list:597,728,2262,
+Point:2052
+neighbor size:6
+neighbor list:587,640,1455,2211,2262,
+Point:693
+neighbor size:3
+neighbor list:1455,2052,
+Point:846
+neighbor size:4
+neighbor list:693,1455,1682,
+Point:1704
+neighbor size:4
+neighbor list:718,846,1682,
+Point:2170
+neighbor size:3
+neighbor list:718,1704,
+Point:1632
+neighbor size:5
+neighbor list:718,1014,1028,2170,
+Point:1614
+neighbor size:4
+neighbor list:778,1014,1632,
+Point:2372
+neighbor size:3
+neighbor list:778,1614,
+Point:2360
+neighbor size:5
+neighbor list:516,778,1537,2372,
+Point:2358
+neighbor size:5
+neighbor list:516,2360,2371,2386,
+Point:2370
+neighbor size:4
+neighbor list:2358,2371,2390,
+Point:2359
+neighbor size:5
+neighbor list:466,2370,2375,2384,2390,

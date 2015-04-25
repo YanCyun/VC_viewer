@@ -47,6 +47,7 @@ void MQPCA::erhand(char* err_msg)
     fprintf(stderr,"Run-time error:\n");
     fprintf(stderr,"%s\n", err_msg);
     fprintf(stderr,"Exiting to system.\n");
+	system("PAUSE");
     exit(1);
 }
 
@@ -285,6 +286,7 @@ for (l = 1; l <= n; l++)
                  e[l] = g;
                  e[m] = 0.0f;
              }
+			 //cout<<"m:"<<m<<",n:"<<n<<"\n";
           }  while (m != l);
       }
 }
