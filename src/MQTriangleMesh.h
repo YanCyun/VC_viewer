@@ -244,7 +244,7 @@ public:
 		VertexNum = 0;
 		TriangleNum = 0;
 		imageSize = 512;
-		window_size = 11;
+		window_size = 5;
 		pca_size = 5;
 		_SrcImgPixDim = 3;
 		first_point = second_point = -1;

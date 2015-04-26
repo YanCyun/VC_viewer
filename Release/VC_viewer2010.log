@@ -1,4 +1,4 @@
-﻿Build started 2015/4/25 下午 01:55:59.
+﻿Build started 2015/4/26 下午 05:53:20.
      1>Project "C:\Users\Yancyun\Desktop\VC_viewer2010\VC_viewer2010.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\VC_viewer2010.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -8,45 +8,45 @@
          All outputs are up-to-date.
          d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FUC:\Users\Yancyun\Desktop\VC_viewer2010\MQOpenGLControl.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt src\MQTriangleMesh.cpp /clr:nostdlib 
          MQTriangleMesh.cpp
-     1>src\MQTriangleMesh.cpp(72): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>src\MQTriangleMesh.cpp(73): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>src\MQTriangleMesh.cpp(74): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(80): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(75): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>src\MQTriangleMesh.cpp(81): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(204): warning C4101: 'n1' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(204): warning C4101: 'n2' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(228): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(564): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(642): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(672): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(778): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(787): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
-     1>src\MQTriangleMesh.cpp(1102): warning C4101: 'w' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1102): warning C4101: 'h' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1101): warning C4101: 'i' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1101): warning C4101: 'j' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1204): warning C4101: 'actualy' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1204): warning C4101: 'actualx' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1203): warning C4101: 'actualh' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1213): warning C4101: 'b' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1213): warning C4101: 'g' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1203): warning C4101: 'actualw' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1213): warning C4101: 'r' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1209): warning C4101: 'add' : unreferenced local variable
-     1>src\MQTriangleMesh.cpp(1466): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(1467): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\MQTriangleMesh.cpp(1662): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1662): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1662): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1666): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1666): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1666): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1670): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1670): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1670): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1694): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1694): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
-     1>src\MQTriangleMesh.cpp(1694): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(82): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(207): warning C4101: 'n1' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(207): warning C4101: 'n2' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(231): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(579): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(660): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(690): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(859): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(876): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
+     1>src\MQTriangleMesh.cpp(1197): warning C4101: 'w' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1197): warning C4101: 'h' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1196): warning C4101: 'i' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1196): warning C4101: 'j' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1302): warning C4101: 'actualy' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1302): warning C4101: 'actualx' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1301): warning C4101: 'actualh' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1311): warning C4101: 'b' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1311): warning C4101: 'g' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1301): warning C4101: 'actualw' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1311): warning C4101: 'r' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1307): warning C4101: 'add' : unreferenced local variable
+     1>src\MQTriangleMesh.cpp(1563): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(1564): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\MQTriangleMesh.cpp(1759): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1759): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1759): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1763): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1763): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1763): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1767): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1767): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1767): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1790): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1790): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
+     1>src\MQTriangleMesh.cpp(1790): warning C4244: 'argument' : conversion from 'float' to 'GLubyte', possible loss of data
          All outputs are up-to-date.
        CoreResGen:
          No resources are out of date with respect to their source files. Skipping resource generation.
@@ -76,4 +76,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.28
+Time Elapsed 00:00:02.46
