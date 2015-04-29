@@ -70,7 +70,7 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStrip^  toolStrip1;
 
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton2;
-	private: System::Windows::Forms::ToolStripButton^  DrawPoint;
+
 
 
 
@@ -80,7 +80,7 @@ namespace VC_viewer2010 {
 
 
 	private: MQOpenGL::MQOpenGLControl^  mqOpenGLControl1;
-	private: System::Windows::Forms::ToolStripButton^  Draw2D;
+
 	private: System::Windows::Forms::ToolStripDropDownButton^  toolStripDropDownButton1;
 	private: System::Windows::Forms::ToolStripMenuItem^  Random;
 	private: System::Windows::Forms::ToolStripMenuItem^  BoundingBox;
@@ -89,6 +89,25 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripMenuItem^  ResetHole;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton3;
+	private: System::Windows::Forms::ToolStripButton^  DrawPoint;
+
+	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator1;
+	private: System::Windows::Forms::ToolStripButton^  Draw2D;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,6 +156,7 @@ namespace VC_viewer2010 {
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->Draw2D = (gcnew System::Windows::Forms::ToolStripButton());
 			this->DrawPoint = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->toolStripDropDownButton1 = (gcnew System::Windows::Forms::ToolStripDropDownButton());
 			this->Random = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->BoundingBox = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -176,6 +196,7 @@ namespace VC_viewer2010 {
 			this->mqOpenGLControl1->TabStop = false;
 			this->mqOpenGLControl1->Load += gcnew System::EventHandler(this, &Form1::mqOpenGLControl1_Load);
 			this->mqOpenGLControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::mqOpenGLControl1_Paint);
+			this->mqOpenGLControl1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::mqOpenGLControl1_KeyDown);
 			this->mqOpenGLControl1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::mqOpenGLControl1_MouseDown);
 			this->mqOpenGLControl1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::mqOpenGLControl1_MouseMove);
 			this->mqOpenGLControl1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::mqOpenGLControl1_MouseUp);
@@ -274,8 +295,8 @@ namespace VC_viewer2010 {
 			// toolStrip1
 			// 
 			this->toolStrip1->AutoSize = false;
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->Draw2D, this->DrawPoint, 
-				this->toolStripDropDownButton1, this->toolStripButton2, this->toolStripButton1, this->toolStripButton3});
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->Draw2D, this->DrawPoint, 
+				this->toolStripSeparator1, this->toolStripDropDownButton1, this->toolStripButton2, this->toolStripButton1, this->toolStripButton3});
 			this->toolStrip1->Location = System::Drawing::Point(0, 26);
 			this->toolStrip1->MaximumSize = System::Drawing::Size(0, 32);
 			this->toolStrip1->Name = L"toolStrip1";
@@ -301,6 +322,11 @@ namespace VC_viewer2010 {
 			this->DrawPoint->Size = System::Drawing::Size(57, 29);
 			this->DrawPoint->Text = L"Point";
 			this->DrawPoint->Click += gcnew System::EventHandler(this, &Form1::toolStripButton3_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this->toolStripSeparator1->Name = L"toolStripSeparator1";
+			this->toolStripSeparator1->Size = System::Drawing::Size(6, 32);
 			// 
 			// toolStripDropDownButton1
 			// 
@@ -607,11 +633,12 @@ private: System::Void toolStripButton3_Click(System::Object^  sender, System::Ev
 					 this->BasicUI->set_position(0,0);
 				 }
 			 }
-
+			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void Draw2D_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->Draw2D->Checked = !this->Draw2D->Checked;
-			 if(this->Draw2D->Checked){
+			 if(this->Draw2D->Checked)
+			 {
 				 double position_x = -1 * (this->TMesh->boundaryX.first + this->TMesh->boundaryX.second)/2.0; 
 				 double position_y = -1 * (this->TMesh->boundaryY.first + this->TMesh->boundaryY.second)/2.0; 
 				 this->BasicUI->set_position(position_x,position_y);
@@ -619,13 +646,16 @@ private: System::Void Draw2D_Click(System::Object^  sender, System::EventArgs^  
 				 this->BasicUI->set_zoom(zoom);
 				 if(this->DrawPoint->Checked) this->DrawPoint->Checked = !this->DrawPoint->Checked;
 			 }
-			 else{
+			 else
+			 {
 				 if(!this->DrawPoint->Checked) 
 				 {
 					 this->BasicUI->set_zoom(0);
 					 this->BasicUI->set_position(0,0);
 				 }
 			 }
+			 this->mqOpenGLControl1->Focus();
+			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void Random_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->TMesh->UpdatePointStruct();
@@ -663,6 +693,18 @@ private: System::Void toolStripButton1_Click(System::Object^  sender, System::Ev
 private: System::Void toolStripButton3_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			 this->TMesh->TriangulateBaseMesh();
 			 this->mqOpenGLControl1->Refresh();
+		 }
+private: System::Void mqOpenGLControl1_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			 if(this->Draw2D->Checked)
+			 {
+				 if(e->KeyCode == Keys::NumPad1)	
+					 this->TMesh->draw_triangle = !this->TMesh->draw_triangle;					 
+				 if(e->KeyCode == Keys::NumPad2)	
+					 this->TMesh->draw_boundary = !this->TMesh->draw_boundary;
+				 if(e->KeyCode == Keys::NumPad3)	
+					 this->TMesh->draw_boundingbox = !this->TMesh->draw_boundingbox;
+				 this->mqOpenGLControl1->Refresh();
+			 }
 		 }
 };
 }

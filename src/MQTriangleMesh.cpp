@@ -791,64 +791,23 @@ void MQTriangleMesh::FindHole(void)
 	for(hole_it = Holes.begin() ; hole_it != Holes.end() ; hole_it++)
 	{
 		list<int> tempholepoint = *hole_it;
-		/*
-		for(point_it = hole_it->begin() ; point_it != hole_it->end() ; point_it++)
-		{
-			
-			//if(Vertex[*point_it].NeighborVertex.size() == 3)
-			//{
-				tempholepoint.push_back(*point_it);
-			//	continue;
-			//}
-			
-			/*
-			float tempX,tempY,tempZ;
-			int total_length;
-			tempX = tempY = tempZ = total_length =  0;
-			fstream file;
-			file.open("test_out.txt",ios::app);
-			if(!file)     //檢查檔案是否成功開啟
-			{
-				cerr << "Can't open file!\n";
-				exit(1);     //在不正常情形下，中斷程式的執行
-			}			
-			file<<"size:"<<Vertex[*point_it].NeighborVertex.size()<<endl;
-			file<<"list:";
-			for(neighbor_it = Vertex[*point_it].NeighborVertex.begin() ; neighbor_it != Vertex[*point_it].NeighborVertex.end() ; neighbor_it++)
-			{
-				if(find(hole_it->begin(),hole_it->end(),*neighbor_it) != hole_it->end() && Vertex[*neighbor_it].evaluate == false) continue;		
-				float temp_length = 1.0f/sqrt(pow(Vertex[*neighbor_it].LapX - Vertex[*point_it].LapX,2)+pow(Vertex[*neighbor_it].LapY - Vertex[*point_it].LapY,2)+pow(Vertex[*neighbor_it].LapZ - Vertex[*point_it].LapZ,2));
-				tempX += Vertex[*neighbor_it].LapX  * temp_length ;
-				tempY += Vertex[*neighbor_it].LapY  * temp_length ;
-				tempZ += Vertex[*neighbor_it].LapZ  * temp_length ;
-				total_length += temp_length;		
-				file<<*neighbor_it<<",";
-			}
-			file<<endl;
-			file.close();
-			Vertex[*point_it].LapX = tempX/ total_length;
-			Vertex[*point_it].LapY = tempY/ total_length ;
-			Vertex[*point_it].LapZ = tempZ/ total_length ;
-			Vertex[*point_it].evaluate = true;
-			
-		}
-		*/	
+
 		while(tempholepoint.size() > 0)
 		{
 			
 			point_it = tempholepoint.begin();
-			if(Vertex[*point_it].NeighborVertex.size() == 3)
+			if(Vertex[*point_it].NeighborVertex.size() == 3)//洞的點鄰居只有一個不是洞的boundary point
 			{
 				bool next = true;	
 				for(neighbor_it = Vertex[*point_it].NeighborVertex.begin() ; neighbor_it != Vertex[*point_it].NeighborVertex.end() ; neighbor_it++)
 				{
-					if(Vertex[*neighbor_it].evaluate == true)
+					if(Vertex[*neighbor_it].evaluate == true)//如果其中的boundary point已經重新計算過
 					{
 						next = false;
 						break;
 					}
 				}
-				if(next){
+				if(next){//如果boudary point 都無重新計算過,將現在的point移到list的最後
 					tempholepoint.push_back(*point_it);
 					tempholepoint.erase(tempholepoint.begin());
 					continue;
@@ -857,15 +816,7 @@ void MQTriangleMesh::FindHole(void)
 			float tempX,tempY,tempZ;
 			int total_length;
 			tempX = tempY = tempZ = total_length =  0;
-			fstream file;
-			file.open("test_out.txt",ios::app);
-			if(!file)     //檢查檔案是否成功開啟
-			{
-				cerr << "Can't open file!\n";
-				exit(1);     //在不正常情形下，中斷程式的執行
-			}	
-			file<<"size:"<<Vertex[*point_it].NeighborVertex.size()<<endl;
-			file<<"list:";
+			//重新計算laplacian
 			for(neighbor_it = Vertex[*point_it].NeighborVertex.begin() ; neighbor_it != Vertex[*point_it].NeighborVertex.end() ; neighbor_it++)
 			{
 				if(find(hole_it->begin(),hole_it->end(),*neighbor_it) != hole_it->end() && Vertex[*neighbor_it].evaluate == false) continue;		
@@ -874,10 +825,7 @@ void MQTriangleMesh::FindHole(void)
 				tempY += Vertex[*neighbor_it].LapY  * temp_length ;
 				tempZ += Vertex[*neighbor_it].LapZ  * temp_length ;
 				total_length += temp_length;	
-				file<<*neighbor_it<<",";
 			}
-			file<<endl;
-			file.close();
 			Vertex[*point_it].LapX = tempX/ total_length;
 			Vertex[*point_it].LapY = tempY/ total_length ;
 			Vertex[*point_it].LapZ = tempZ/ total_length ;
@@ -1630,117 +1578,106 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 }
 
 void MQTriangleMesh::Draw2D(void)
-{
-	glPolygonMode(GL_FRONT,GL_LINE);	
-	
-	//Draw Triangle Line
-	glBegin(GL_TRIANGLES);
-	/*
-	for(int i = 1; i <= this->TriangleNum; i++)
-	{
-		int t1 = this->TriangleTex[i].T1;
-		int t2 = this->TriangleTex[i].T2;
-		int t3 = this->TriangleTex[i].T3;
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[t1].S, this->Vertex[t1].T, 0.0);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[t2].S, this->Vertex[t2].T, 0.0);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
-	}
-	*/
-	//三角化的線	
-	if(baseMesh){
-		for(int i = 1 ; i <= baseMesh->TriangleNum; i++){
-			int t1 = baseMesh->TriangleTex[i].T1;
-			int t2 = baseMesh->TriangleTex[i].T2;
-			int t3 = baseMesh->TriangleTex[i].T3;
-
-			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(0,0,0);
-			glVertex3f(baseMesh->Vertex[t1].S, baseMesh->Vertex[t1].T, 0.0);
-
-			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(0,0,0);
-			glVertex3f(baseMesh->Vertex[t2].S, baseMesh->Vertex[t2].T, 0.0);
-
-			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(0,0,0);
-			glVertex3f(baseMesh->Vertex[t3].S, baseMesh->Vertex[t3].T, 0.0);
-		}
-	}
-	
-	glEnd();
-	
-	//Draw hole bounding box
-	/*
-	glBegin(GL_QUADS);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(1,0,0);
-		glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.first, 0.0);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,1,0);
-		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.first, 0.0);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,1);
-		glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.second, 0.0);
-
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
-		glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.second, 0.0);
-
-	glEnd();
-	*/
+{	
+	glLineWidth(1.0f);	
 	//Draw hole
-	/*
-	glBegin(GL_LINES);
-	list<int>::iterator hole_it;
-	list<list<int>>::iterator begin = Holes_uv.begin();
-	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
+	if(draw_boundary)
 	{
-		if(hole_it == begin->begin())
+		glBegin(GL_LINES);
+		list<int>::iterator hole_it;	
+		list<list<int>>::iterator begin = Holes_uv.begin();
+		for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
 		{
-			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(255,255,255);
-			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			if(hole_it == begin->begin())
+			{
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(255,0,255);
+				glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			}
+			else
+			{
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,255);
+				glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,255);
+				glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			}
 		}
-		else
+		glNormal3f(0.0, 0.0, 1.0);
+		glColor3ub(0,0,255);
+		glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
+		glEnd();
+	}
+
+	glPolygonMode(GL_FRONT,GL_LINE);
+	//Draw hole bounding box
+	if(draw_boundingbox){
+		glBegin(GL_QUADS);
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,0,0);
+			glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.first, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,0,0);
+			glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.first, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,0,0);
+			glVertex3f(this->hole_boundaryX.second, this->hole_boundaryY.second, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(255,0,0);
+			glVertex3f(this->hole_boundaryX.first, this->hole_boundaryY.second, 0.0);
+		glEnd();
+	}
+
+	//Draw Triangle Line	
+	if(draw_triangle){
+	glBegin(GL_TRIANGLES);
+	
+		for(int i = 1; i <= this->TriangleNum; i++)
 		{
+			int t1 = this->TriangleTex[i].T1;
+			int t2 = this->TriangleTex[i].T2;
+			int t3 = this->TriangleTex[i].T3;
+
 			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(255,255,255);
-			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			glColor3ub(0,0,0);
+			glVertex3f(this->Vertex[t1].S, this->Vertex[t1].T, 0.0);
+
 			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(255,255,255);
-			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
+			glColor3ub(0,0,0);
+			glVertex3f(this->Vertex[t2].S, this->Vertex[t2].T, 0.0);
+
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(0,0,0);
+			glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 		}
+	
+		//三角化的線	
+		if(baseMesh){
+			for(int i = 1 ; i <= baseMesh->TriangleNum; i++){
+				int t1 = baseMesh->TriangleTex[i].T1;
+				int t2 = baseMesh->TriangleTex[i].T2;
+				int t3 = baseMesh->TriangleTex[i].T3;
+
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(baseMesh->Vertex[t1].S, baseMesh->Vertex[t1].T, 0.0);
+
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(baseMesh->Vertex[t2].S, baseMesh->Vertex[t2].T, 0.0);
+
+				glNormal3f(0.0, 0.0, 1.0);
+				glColor3ub(0,0,0);
+				glVertex3f(baseMesh->Vertex[t3].S, baseMesh->Vertex[t3].T, 0.0);
+			}
+		}
+	
+		glEnd();	
 	}
-	glNormal3f(0.0, 0.0, 1.0);
-	glColor3ub(255,255,255);
-	glVertex3f(this->Vertex[*begin->begin()].S, this->Vertex[*begin->begin()].T,0);
-	glEnd();
-	*/
-	/*
-	//Draw Point
-	glBegin(GL_POINTS);
-	list<int>::iterator hole_it;
-	list<list<int>>::iterator begin = Holes_uv.begin();
-	for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
-	{
-			glNormal3f(0.0, 0.0, 1.0);
-			glColor3ub(255,255,255);
-			glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
-	}
-	glEnd();
-	*/
 	//Draw uv
 	glPolygonMode(GL_FRONT,GL_FILL);
 	glBegin(GL_TRIANGLES);
@@ -1774,6 +1711,7 @@ void MQTriangleMesh::Draw2D(void)
 void MQTriangleMesh::DrawPoint(void)
 {
 	glColor3f(0.0, 0.0, 0.0);
+	glLineWidth(2.0f);
 	glBegin(GL_LINES);
 	if(fillpoint.size()>0){
 		glVertex3f(this->ImagePixel[first_point/imageSize][first_point%imageSize].X, this->ImagePixel[first_point/imageSize][first_point%imageSize].Y, 0.0);

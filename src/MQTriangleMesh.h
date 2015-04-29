@@ -158,9 +158,9 @@ public:
 	
 
 	float minLap,maxLap;
-	//vector<float> minLap,maxLap;
 	float boundary;
 	
+	bool draw_boundingbox,draw_boundary,draw_triangle;
 
 	vector<int> fillpoint;
 	vector<MQVertex>   Vertex;
