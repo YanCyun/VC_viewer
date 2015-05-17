@@ -6,6 +6,9 @@
 #include <algorithm> 
 #include <time.h>
 #include <fstream>
+#include "Eigen\SparseCore"
+#include "Eigen\IterativeLinearSolvers"
+#include "Eigen\SparseCholesky"
 
 bool my_sort(MQImagePixel* p1,const MQImagePixel* p2){ return p1->neighborHole.size() < p2->neighborHole.size();}
 bool my_sort2(LaplaianLength* p1,const LaplaianLength* p2){ return p1->neighbor_pca < p2->neighbor_pca;}
@@ -204,7 +207,6 @@ void MQTriangleMesh::UpdateVertexNeigborVertex(void)
 		this->Vertex[v3].NeighborVertex.push_back(v2);
 	}
 
-	int n1,n2;
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
 		this->Vertex[i].NeighborVertex.sort();
@@ -376,6 +378,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 					{
 						if(y == i && x == j) continue;
 						if(this->ImagePixel[y][x].isHole)	this->ImagePixel[i][j].neighborHole.push_back(y*imageSize+x);
+						else this->ImagePixel[i][j].neighborLap.push_back(y*imageSize+x);
 					}
 				}
 				//將二維座標轉為一維座標
@@ -600,6 +603,77 @@ void MQTriangleMesh::FillHole(int method)
 	this->convertSample();
 	this->setTexture(imageSize);
 	this->generateTexture(window_size,method);
+	this->RotateLaplacian();
+	this->TriangulateBaseMesh();
+	this->RebuildingCoordination();
+}
+
+void MQTriangleMesh::RotateLaplacian()
+{
+	cout<<"Start RotateLaplacian\n";
+	list<int>::iterator it;
+	vector<MQImagePixel>::iterator it_hole;
+	int index = 0;
+	MQImagePixel* temp;
+	int hole_count = RotateLaplacianPixels.size();
+	int amount = 0;
+	while(RotateLaplacianPixels.size()> 0)
+	{
+		//進度
+		fflush(stdout);
+		printf("\rRotateLaplacian:%.0f%%",(1.0f-((float)RotateLaplacianPixels.size()/hole_count))*100);
+		do{
+			index = rand()%RotateLaplacianPixels.size();
+			temp = RotateLaplacianPixels[index];	
+		}while(temp->neighborLap.size() <= 1);
+
+		int i = (int)temp->position / imageSize;
+		int j = (int)temp->position % imageSize;
+
+		MQImagePixel tempImage = ImagePixel[ImagePixel[i][j].originY][ImagePixel[i][j].originX];
+		float tempLapX = 0;
+		float tempLapY = 0;
+		float tempLapZ = 0;
+		int count_Lap = 0;
+		for(it = temp->neighborLap.begin(); it !=temp->neighborLap.end();it++)
+		{
+			int distance_y = int(*it/imageSize) - i;
+			int distance_x = int(*it%imageSize) - j;
+			MQImagePixel ori_tempImage = ImagePixel[ImagePixel[i][j].originY+distance_y][ImagePixel[i][j].originX+distance_x];
+			MQImagePixel nei_tempImage = ImagePixel[int(*it/imageSize)][int(*it%imageSize)];
+
+			if(ori_tempImage.Lap_length == 0)continue;
+			
+			tempLapX += nei_tempImage.LapX/nei_tempImage.Lap_length - ori_tempImage.LapX/ori_tempImage.Lap_length; 
+			tempLapY += nei_tempImage.LapY/nei_tempImage.Lap_length - ori_tempImage.LapY/ori_tempImage.Lap_length; 
+			tempLapZ += nei_tempImage.LapZ/nei_tempImage.Lap_length - ori_tempImage.LapZ/ori_tempImage.Lap_length;  
+			count_Lap++;
+ 		}
+
+		ImagePixel[i][j].LapX = tempImage.LapX/tempImage.Lap_length + tempLapX/count_Lap;
+		ImagePixel[i][j].LapY = tempImage.LapY/tempImage.Lap_length + tempLapX/count_Lap;
+		ImagePixel[i][j].LapZ = tempImage.LapZ/tempImage.Lap_length + tempLapX/count_Lap;
+		ImagePixel[i][j].Lap_length = sqrt(pow(ImagePixel[i][j].LapX,2)+pow(ImagePixel[i][j].LapY,2)+pow(ImagePixel[i][j].LapZ,2));
+		ImagePixel[i][j].LapX = (ImagePixel[i][j].LapX/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
+		ImagePixel[i][j].LapY = (ImagePixel[i][j].LapY/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
+		ImagePixel[i][j].LapZ = (ImagePixel[i][j].LapZ/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
+		ImagePixel[i][j].Lap_length = tempImage.Lap_length;
+		
+		for(int y = i - 1 ; y <= i + 1 ;y++)
+		{
+			for(int x = j - 1 ; x <= j + 1 ; x++)
+			{
+				if(ImagePixel[y][x].Lap_length == 0)
+				{
+					ImagePixel[y][x].neighborLap.push_back(i*imageSize+j);
+				}
+			}
+		}
+
+		RotateLaplacianPixels.erase(RotateLaplacianPixels.begin()+index);
+	}
+	printf("\n");
+
 }
 
 //判斷像素是否在UV三角形內
@@ -809,7 +883,7 @@ void MQTriangleMesh::FindHole(void)
 				}
 				if(next){//如果boudary point 都無重新計算過,將現在的point移到list的最後
 					tempholepoint.push_back(*point_it);
-					tempholepoint.erase(tempholepoint.begin());
+					tempholepoint.pop_front();
 					continue;
 				}
 			}
@@ -962,6 +1036,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 		for(int x = 0; x < size ; x++) lap_sample[y][x] = new float[_SrcImgPixDim];
 	}
 	t_start = clock();
+	RotateLaplacianPixels = HolePixels;
 	if(method == 1)//隨機
 	{
 		cout<<"Start fill hole for random...\n";
@@ -1490,14 +1565,14 @@ void MQTriangleMesh::TriangulateBaseMesh()
 	out.numberofedges = 0;
 
 	//三角化參數設定
-	char *option = "zYq28";
+	char *option = "pzYq28";
 
 	//三角化主程式
 	triangulate(option, &in, &out, vorout);
 	
 	//out為三角化後的結果；回填到自己的資料結構BMesh_1
 	baseMesh->TriangleNum = out.numberoftriangles;
-	baseMesh->TriangleTex.resize(baseMesh->TriangleNum +1);	
+	baseMesh->TriangleTex.resize(baseMesh->TriangleNum + 1);	
 	for(int i = 1; i <= baseMesh->TriangleNum; i++)
 	{
 		baseMesh->TriangleTex[i].T1 = out.trianglelist[(i-1)*3]+1;
@@ -1505,17 +1580,248 @@ void MQTriangleMesh::TriangulateBaseMesh()
 		baseMesh->TriangleTex[i].T3 = out.trianglelist[(i-1)*3+2]+1;
 	}
 	baseMesh->VertexNum = out.numberofpoints;
-	baseMesh->Vertex.resize(baseMesh->VertexNum);
+	baseMesh->Vertex.resize(baseMesh->VertexNum + 1);
+
+	list<int>::iterator hole_it;
+	list<int>::iterator hole_uv_it;
 	for(int i = 1; i <= baseMesh->VertexNum; i++)
 	{
 		baseMesh->Vertex[i].S = out.pointlist[(i-1)*2];
 		baseMesh->Vertex[i].T = out.pointlist[(i-1)*2+1];
+		for(hole_uv_it = Holes_uv.begin()->begin(),hole_it = Holes.begin()->begin(); hole_uv_it != Holes_uv.begin()->end() ; hole_uv_it++,hole_it++)
+		{
+			if(baseMesh->Vertex[i].S == Vertex[*hole_uv_it].S && baseMesh->Vertex[i].T == Vertex[*hole_uv_it].T)
+			{
+				baseMesh->boundary.push_back(i);
+				baseMesh->Vertex[i].origin_index = *hole_it;
+				baseMesh->Vertex[i].origin_uv_index = *hole_uv_it;
+			}
+		}
 	}
 	//free memory
 	delete [] in.pointlist;
 	free(out.pointlist);
 	free(out.trianglelist);
 	free(out.segmentlist);
+}
+
+void MQTriangleMesh::RebuildingCoordination()
+{
+
+	
+	//三角化後，計算洞內的點的Laplacian
+	for(int i = 1 ; i <= baseMesh->VertexNum ; i++)
+	{
+		vector<int>::iterator temp_vector =  find(baseMesh->boundary.begin(),baseMesh->boundary.end(),i);
+		if(temp_vector == baseMesh->boundary.end())
+		{
+			bool isDone = false;
+			int cornerX = 0;
+			int cornerY = 0;
+			for(int y = this->pixel_boundaryY.first ; y <= pixel_boundaryY.second ; y++)
+			{
+				for(int x = this->pixel_boundaryX.first ; x <= pixel_boundaryX.second ; x++)
+				{
+					if(ImagePixel[y][x].Y < baseMesh->Vertex[i].T) break;
+					if(ImagePixel[y][x].X < baseMesh->Vertex[i].S) continue;
+					cornerY = y;
+					cornerX = x;
+					break;
+				}
+				if(isDone) break;
+			}
+
+			int minimum_distance = 0;
+			for(int y = cornerY-1 ; y<= cornerY ; y++)
+			{
+				for(int x = cornerX -1 ; x <= cornerX ; x++)
+				{
+					int pixel_distance = pow(baseMesh->Vertex[i].S - ImagePixel[y][x].X,2) + pow(baseMesh->Vertex[i].T - ImagePixel[y][x].Y,2);
+					if(y == cornerY-1 && x == cornerX -1)
+					{
+						minimum_distance = pixel_distance;
+						baseMesh->Vertex[i].LapX = ImagePixel[y][x].LapX;
+						baseMesh->Vertex[i].LapY = ImagePixel[y][x].LapY;
+						baseMesh->Vertex[i].LapZ = ImagePixel[y][x].LapZ;
+						baseMesh->Vertex[i].Lap_length = ImagePixel[y][x].Lap_length;
+					}
+					else
+					{
+						if(pixel_distance < minimum_distance)
+						{
+							minimum_distance = pixel_distance;
+							baseMesh->Vertex[i].LapX = ImagePixel[y][x].LapX;
+							baseMesh->Vertex[i].LapY = ImagePixel[y][x].LapY;
+							baseMesh->Vertex[i].LapZ = ImagePixel[y][x].LapZ;
+							baseMesh->Vertex[i].Lap_length = ImagePixel[y][x].Lap_length;
+						}
+					}
+				}
+			}
+			baseMesh->inner_point += 1;
+			this->VertexNum += 1;			
+			this->Vertex.resize(this->VertexNum+1);
+			this->Vertex[VertexNum] = baseMesh->Vertex[i];
+			baseMesh->Vertex[i].origin_index = baseMesh->Vertex[i].origin_uv_index = this->VertexNum;
+			
+		}
+	}
+	for(int i = 1 ; i <= baseMesh->TriangleNum ; i++)
+	{
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T1].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_index);
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T1].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_index);
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T2].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T1].origin_index);
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T2].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_index);
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T3].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T1].origin_index);
+		baseMesh->Vertex[baseMesh->TriangleTex[i].T3].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_index);
+	}
+	for(int i = 1 ; i <= baseMesh->VertexNum ; i++)
+	{
+		baseMesh->Vertex[i].NeighborVertex.sort();
+		baseMesh->Vertex[i].NeighborVertex.unique();
+	}
+
+	this->UpdateVertexLaplacianCoordinate();
+	//this->UpdateVertexNeigborVertex();
+	
+	//solve Ax = b in least square sense
+	int	n = this->VertexNum;
+
+	//build sparse matrix A, then matrix x and matrix b(x, y, z)
+	Eigen::SparseMatrix<double>	A(n, n);
+	Eigen::VectorXd			xx(n), xy(n), xz(n);
+	Eigen::VectorXd			bx(n), by(n), bz(n);
+
+	A.reserve(Eigen::VectorXi::Constant(n, 12));
+
+	list<int>::iterator it, begin, end;
+	for(int i = 1; i <= n - baseMesh->inner_point; i++)
+	{
+		double degree = this->Vertex[i].NeighborVertex.size();
+
+		begin = this->Vertex[i].NeighborVertex.begin();
+		end = this->Vertex[i].NeighborVertex.end();
+		for(it = begin; it != end; it++)
+			A.insert(i-1, (*it)-1) = -1.0/degree;
+
+		A.insert(i-1, i-1) = 1.0;
+		bx(i-1) = this->Vertex[i].LapX;
+		by(i-1) = this->Vertex[i].LapY;
+		bz(i-1) = this->Vertex[i].LapZ;
+	}
+	for(int i = 1 ; i <= baseMesh->VertexNum ; i++)
+	{
+		if(baseMesh->Vertex[i].origin_index > n-baseMesh->inner_point)
+		{
+			double degree = baseMesh->Vertex[i].NeighborVertex.size();
+
+			begin = baseMesh->Vertex[i].NeighborVertex.begin();
+			end = baseMesh->Vertex[i].NeighborVertex.end();
+			for(it = begin; it != end; it++)
+				A.insert(baseMesh->Vertex[i].origin_index-1, (*it)-1) = -1.0/degree;
+
+			A.insert(baseMesh->Vertex[i].origin_index-1, baseMesh->Vertex[i].origin_index-1) = 1.0;
+			bx(baseMesh->Vertex[i].origin_index-1) = baseMesh->Vertex[i].LapX;
+			by(baseMesh->Vertex[i].origin_index-1) = baseMesh->Vertex[i].LapY;
+			bz(baseMesh->Vertex[i].origin_index-1) = baseMesh->Vertex[i].LapZ;
+		}
+	}
+	//finish filling matrix A
+	A.makeCompressed();
+
+	//transpose matrix A
+	Eigen::SparseMatrix<double> At = A.transpose();
+
+	//build matrix At*A and matrix At*b(x, y, z)
+	Eigen::SparseMatrix<double>	AtA = At*A;
+	Eigen::VectorXd			Atbx = At*bx;
+	Eigen::VectorXd			Atby = At*by;
+	Eigen::VectorXd			Atbz = At*bz;
+
+	//begin solve least square system At*A*x = At*b
+	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> solver;
+
+	solver.compute(AtA);
+
+	//solve xx
+	xx = solver.solve(Atbx);
+
+	//solve xy
+	xy = solver.solve(Atby);
+
+	//solve xz
+	xz = solver.solve(Atbz);
+
+	//write back solutions
+	for(int i = 1; i <= n; i++)
+	{
+		this->Vertex[i].X = xx(i-1);
+		this->Vertex[i].Y = xy(i-1);
+		this->Vertex[i].Z = xz(i-1);
+	}
+	for(int i = 1 ; i <= baseMesh->TriangleNum ; i++)
+	{
+		this->TriangleNum += 1;
+		this->Triangle.resize(this->TriangleNum+1);
+		this->TriangleTex.resize(this->TriangleNum+1);
+		this->Triangle[this->TriangleNum].V1 = baseMesh->Vertex[baseMesh->TriangleTex[i].T1].origin_index;
+		this->Triangle[this->TriangleNum].V2 = baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_index;
+		this->Triangle[this->TriangleNum].V3 = baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_index;
+		this->TriangleTex[this->TriangleNum].T1 = baseMesh->Vertex[baseMesh->TriangleTex[i].T1].origin_uv_index;
+		this->TriangleTex[this->TriangleNum].T2 = baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_uv_index;
+		this->TriangleTex[this->TriangleNum].T3 = baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_uv_index;		
+	}
+	this->UpdateVertexNormal();
+}
+void MQTriangleMesh::UpdateVertexNormal(void)
+{
+	//calculate normal
+	struct _vector3{ float x; float y; float z; };
+	vector<_vector3> *_NormalTable = new vector<_vector3>[ (this->VertexNum)+1 ];
+
+	for(int i = 1; i <= this->TriangleNum; i++)
+	{
+		float v[3][3], out[3];
+		v[0][0] = this->Vertex[this->Triangle[i].V1].X;
+		v[0][1] = this->Vertex[this->Triangle[i].V1].Y;
+		v[0][2] = this->Vertex[this->Triangle[i].V1].Z;
+		v[1][0] = this->Vertex[this->Triangle[i].V2].X;
+		v[1][1] = this->Vertex[this->Triangle[i].V2].Y;
+		v[1][2] = this->Vertex[this->Triangle[i].V2].Z;
+		v[2][0] = this->Vertex[this->Triangle[i].V3].X;
+		v[2][1] = this->Vertex[this->Triangle[i].V3].Y;
+		v[2][2] = this->Vertex[this->Triangle[i].V3].Z;
+
+		_CalculateNormal(v, out);
+
+		this->Triangle[i].NX = out[0];
+		this->Triangle[i].NY = out[1];
+		this->Triangle[i].NZ = out[2];
+
+		_vector3 _inormal = { out[0], out[1], out[2] };
+		_NormalTable[ this->Triangle[i].V1 ].push_back(_inormal);
+		_NormalTable[ this->Triangle[i].V2 ].push_back(_inormal);
+		_NormalTable[ this->Triangle[i].V3 ].push_back(_inormal);
+	}
+
+	for(int i = 1; i <= this->VertexNum; i++)
+	{
+		double _xsum = 0.0, _ysum = 0.0, _zsum = 0.0;
+
+		for(unsigned int j = 0; j < _NormalTable[i].size(); j++)
+		{
+			_xsum += _NormalTable[i][j].x;
+			_ysum += _NormalTable[i][j].y;
+			_zsum += _NormalTable[i][j].z;
+		}
+
+		this->Vertex[i].NX = _xsum;
+		this->Vertex[i].NY = _ysum;
+		this->Vertex[i].NZ = _zsum;
+		this->Vertex[i].Normal2UnitVector();
+	}
+
+	delete [] _NormalTable;
 }
 
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
@@ -1591,7 +1897,7 @@ void MQTriangleMesh::Draw2D(void)
 			if(hole_it == begin->begin())
 			{
 				glNormal3f(0.0, 0.0, 1.0);
-				glColor3ub(255,0,255);
+				glColor3ub(0,0,255);
 				glVertex3f(this->Vertex[*hole_it].S, this->Vertex[*hole_it].T,0);
 			}
 			else
@@ -1635,7 +1941,7 @@ void MQTriangleMesh::Draw2D(void)
 	//Draw Triangle Line	
 	if(draw_triangle){
 	glBegin(GL_TRIANGLES);
-	
+		
 		for(int i = 1; i <= this->TriangleNum; i++)
 		{
 			int t1 = this->TriangleTex[i].T1;
@@ -1654,7 +1960,7 @@ void MQTriangleMesh::Draw2D(void)
 			glColor3ub(0,0,0);
 			glVertex3f(this->Vertex[t3].S, this->Vertex[t3].T, 0.0);
 		}
-	
+		
 		//三角化的線	
 		if(baseMesh){
 			for(int i = 1 ; i <= baseMesh->TriangleNum; i++){

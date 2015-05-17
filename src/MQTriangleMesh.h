@@ -19,6 +19,8 @@ public:
 	float X, Y, Z;
 	float S, T;         //parametric coordinates
 	float NX, NY, NZ;   //normal
+	int origin_index;
+	int origin_uv_index;
 
 	list<int>	NeighborVertex;
 	float	LapX, LapY, LapZ;
@@ -40,6 +42,8 @@ public:
 		LapX = LapY = LapZ = 0.0;
 		R = G = B = 0.0;
 		evaluate = false;
+		origin_index = -1;
+		origin_uv_index = -1;
 	}
 
 	~MQVertex()
@@ -95,6 +99,7 @@ struct MQImagePixel
 	int Triangle;
 	bool isHole;
 	list<int> neighborHole;
+	list<int> neighborLap;
 	int position;
 	int originX,originY;
 
@@ -139,8 +144,14 @@ struct LaplaianLength
 struct HoleMesh{
 	vector<MQVertex> Vertex;
 	vector<MQTriangleTex> TriangleTex;
+	vector<int> boundary;
 	int VertexNum;
 	int TriangleNum;
+	int inner_point;
+	HoleMesh()
+	{
+		inner_point = 0;
+	}
 };
 
 
@@ -168,6 +179,7 @@ public:
 	vector<MQTriangleTex> TriangleTex;
 	vector<vector<MQImagePixel>> ImagePixel;
 	vector<MQImagePixel*> HolePixels;
+	vector<MQImagePixel*> RotateLaplacianPixels;
 
 	vector<vector<LaplaianLength*>> LaplaianLengths; //PCA data
 	vector<LaplaianLength*> tempLaplaianLength;
@@ -218,6 +230,7 @@ public:
 	void Draw2D(void);
 	void DrawPoint(void);
 	
+	void UpdateVertexNormal(void);
 	void UpdatePointStruct(void);
 	void UpdateVertexNeigborVertex(void);
 	void UpdateVertexLaplacianCoordinate(void);
@@ -229,6 +242,7 @@ public:
 	void FindHole(void);
 	void CheckHole(void);
 	void FillHole(int method);
+	void RotateLaplacian(void);
 
 	void setTexture(int window);
 	void generateTexture(int size,int method);
@@ -236,6 +250,7 @@ public:
 	void initializeTexture(int size);
 	void findBestMatch(int i, int j, int size);
 	void TriangulateBaseMesh();
+	void RebuildingCoordination();
 
 public:
 

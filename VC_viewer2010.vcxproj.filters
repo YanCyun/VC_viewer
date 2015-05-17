@@ -51,7 +51,7 @@
     <ClCompile Include="src\MQUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\三角化\src\Dtriangle.cpp">
+    <ClCompile Include="src\Dtriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

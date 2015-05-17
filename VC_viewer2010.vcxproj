@@ -95,8 +95,8 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\三角化\src\Dtriangle.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="src\Dtriangle.cpp" />
     <ClCompile Include="src\MQBasicUI.cpp" />
     <ClCompile Include="src\MQDotNETUtility.cpp" />
     <ClCompile Include="src\MQglm.cpp" />
