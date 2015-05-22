@@ -1039,7 +1039,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 	RotateLaplacianPixels = HolePixels;
 	if(method == 1)//隨機
 	{
-		cout<<"Start fill hole for random...\n";
+		cout<<"Start fill hole(Random)...\n";
 		list<int>::iterator it;
 		vector<MQImagePixel>::iterator it_hole;
 		int index = 0;
@@ -1068,7 +1068,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 	}
 	if(method == 2)//bounding box
 	{
-		cout<<"Start fill hole for bounding box...\n";
+		cout<<"Start fill hole(Bounding Box)...\n";
 		int startX = pixel_boundaryX.first;
 		int endX = pixel_boundaryX.second;
 		int startY = pixel_boundaryY.first;
@@ -1143,7 +1143,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 	}
 	if(method == 3)//取鄰居最多像素
 	{
-		cout<<"Start fill hole for most neighborhood have pixel ...\n";
+		cout<<"Start fill hole(Neighborhood) ...\n";
 		list<int>::iterator it;
 		vector<MQImagePixel*>::iterator it_hole;
 		MQImagePixel* temp;
@@ -1169,7 +1169,7 @@ void MQTriangleMesh::generateTexture(int size,int method)// generate the texture
 	}
 	if(method == 4)//成長式
 	{
-		cout<<"Start fill hole for growth...\n";
+		cout<<"Start fill hole(Growth)...\n";
 		for(i=0; i<imageSize; i++)
 		{
 			//進度
@@ -1622,20 +1622,37 @@ void MQTriangleMesh::RebuildingCoordination()
 			{
 				for(int x = this->pixel_boundaryX.first ; x <= pixel_boundaryX.second ; x++)
 				{
-					if(ImagePixel[y][x].Y < baseMesh->Vertex[i].T) break;
+					if(ImagePixel[y][x].Y > baseMesh->Vertex[i].T) break;
 					if(ImagePixel[y][x].X < baseMesh->Vertex[i].S) continue;
 					cornerY = y;
 					cornerX = x;
+					isDone = true;
 					break;
 				}
 				if(isDone) break;
 			}
 
 			int minimum_distance = 0;
+			float total_area = abs((ImagePixel[cornerY][cornerX].X - ImagePixel[cornerY-1][cornerX-1].X) * (ImagePixel[cornerY][cornerX].Y - ImagePixel[cornerY-1][cornerX-1].Y));
+			float tempX,tempY,tempZ;
+			tempX = tempY = tempZ = 0.0;
+
 			for(int y = cornerY-1 ; y<= cornerY ; y++)
 			{
 				for(int x = cornerX -1 ; x <= cornerX ; x++)
 				{
+					
+					float part_area;
+					if(y == cornerY-1 && x == cornerX -1)	part_area = abs((ImagePixel[y+1][x+1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y+1][x+1].Y  - baseMesh->Vertex[i].T) / total_area);
+					if(y == cornerY   && x == cornerX -1)	part_area = abs((ImagePixel[y-1][x+1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y-1][x+1].Y  - baseMesh->Vertex[i].T) / total_area);
+					if(y == cornerY-1 && x == cornerX   )	part_area = abs((ImagePixel[y+1][x-1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y+1][x-1].Y  - baseMesh->Vertex[i].T) / total_area);
+					if(y == cornerY   && x == cornerX   )	part_area = abs((ImagePixel[y-1][x-1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y-1][x-1].Y  - baseMesh->Vertex[i].T) / total_area);					 
+
+					tempX += part_area * ImagePixel[y][x].LapX;
+					tempY += part_area * ImagePixel[y][x].LapY;
+					tempZ += part_area * ImagePixel[y][x].LapZ;
+					
+					/*
 					int pixel_distance = pow(baseMesh->Vertex[i].S - ImagePixel[y][x].X,2) + pow(baseMesh->Vertex[i].T - ImagePixel[y][x].Y,2);
 					if(y == cornerY-1 && x == cornerX -1)
 					{
@@ -1656,8 +1673,15 @@ void MQTriangleMesh::RebuildingCoordination()
 							baseMesh->Vertex[i].Lap_length = ImagePixel[y][x].Lap_length;
 						}
 					}
-				}
+					*/
+				}				
 			}
+			
+			baseMesh->Vertex[i].LapX = tempX;
+			baseMesh->Vertex[i].LapY = tempY;
+			baseMesh->Vertex[i].LapZ = tempZ;
+			baseMesh->Vertex[i].Lap_length = sqrt(pow(baseMesh->Vertex[i].LapX,2) + pow(baseMesh->Vertex[i].LapY,2)+ pow(baseMesh->Vertex[i].LapZ,2));
+			
 			baseMesh->inner_point += 1;
 			this->VertexNum += 1;			
 			this->Vertex.resize(this->VertexNum+1);
@@ -1772,6 +1796,7 @@ void MQTriangleMesh::RebuildingCoordination()
 		this->TriangleTex[this->TriangleNum].T3 = baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_uv_index;		
 	}
 	this->UpdateVertexNormal();
+	this->UpdateVertexLaplacianCoordinate();
 }
 void MQTriangleMesh::UpdateVertexNormal(void)
 {
@@ -1855,6 +1880,21 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 		glVertex3f(this->Vertex[*begin->begin()].X, this->Vertex[*begin->begin()].Y,this->Vertex[*begin->begin()].Z);
 		glEnd();
 	}
+
+	
+	glBegin(GL_LINES);
+	for(int i = 1; i <= this->VertexNum; i++)
+	{
+		glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[i].X, this->Vertex[i].Y, this->Vertex[i].Z);
+
+		glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+		glColor3ub(0,0,0);
+		glVertex3f(this->Vertex[i].X+this->Vertex[i].LapX, this->Vertex[i].Y+this->Vertex[i].LapY, this->Vertex[i].Z+this->Vertex[i].LapZ);
+	}
+	glEnd();
+	
 	glColor3ub(Red, Green, Blue);
 	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
