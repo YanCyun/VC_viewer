@@ -79,6 +79,7 @@ struct HalfEdge
 {
 	HalfEdge* oppositeHalfEdge;
 	HalfEdge* nextHalfEdge;
+	pair<int,int> uv_edge;
 	int  face;
 
 	HalfEdge()
@@ -159,6 +160,8 @@ class MQTriangleMesh
 {
 public:
 
+	string Filename;
+
 	int VertexNum;
 	int TexcoordNum;
 	int TriangleNum;
@@ -167,7 +170,6 @@ public:
 	int pca_size;
 	int first_point,second_point;
 	
-
 	float minLap,maxLap;
 	float boundary;
 	
@@ -226,6 +228,7 @@ public:
 public:
 
 	bool ReadObjFile(const char *FileName);
+	void WriteObjFile();
 	void Draw(GLubyte Red, GLubyte Green, GLubyte Blue);
 	void Draw2D(void);
 	void DrawPoint(void);

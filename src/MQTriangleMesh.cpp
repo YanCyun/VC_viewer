@@ -64,6 +64,8 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 {
 	MQGLMmodel *_model = MQglmReadOBJ(FileName);
 
+	this->Filename = string(FileName);
+
 	if(baseMesh){
 		delete baseMesh;
 		baseMesh =NULL;		
@@ -117,12 +119,15 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		//Edge1
 		this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->nextHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)];
 		this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->oppositeHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V1)];
+		this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)]->uv_edge = pair<int,int>(this->TriangleTex[i].T1,this->TriangleTex[i].T2);
 		//Edge2
 		this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->nextHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)];
 		this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->oppositeHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V2)];
+		this->Edges[pair<int,int>(this->Triangle[i].V2,this->Triangle[i].V3)]->uv_edge = pair<int,int>(this->TriangleTex[i].T2,this->TriangleTex[i].T3);
 		//Edge3
 		this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->nextHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V2)];
 		this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->oppositeHalfEdge = this->Edges[pair<int,int>(this->Triangle[i].V1,this->Triangle[i].V3)];
+		this->Edges[pair<int,int>(this->Triangle[i].V3,this->Triangle[i].V1)]->uv_edge = pair<int,int>(this->TriangleTex[i].T3,this->TriangleTex[i].T1);
 	}
 	MQglmDelete(_model);
 	//calculate normal
@@ -186,6 +191,37 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 	printf("Read file finish: %.2fs\n\n",t_duration/1000.0f);
 
 	return true;
+}
+
+void MQTriangleMesh::WriteObjFile(void)
+{
+	fstream file;
+
+	size_t pos = this->Filename.find_last_of("/\\");
+	file.open("result/result_"+this->Filename.substr(pos+1),ios::out);
+
+	if(!file)     //檢查檔案是否成功開啟
+	{
+		cerr << "Can't open file!\n";
+		exit(1);     //在不正常情形下，中斷程式的執行
+	}
+
+	for(int i = 1 ; i <= this->VertexNum ; i++)
+	{
+		file<< "v " << Vertex[i].X << " " << Vertex[i].Y << " " << Vertex[i].Z << "\n";
+	}
+	file<<"\n";
+	for(int i = 1 ; i <= this->VertexNum ; i++)
+	{
+		file<< "vt " << Vertex[i].S << " " << Vertex[i].T << " " << "\n";
+	}
+	file<<"\n";
+	for(int i = 1 ; i <= this->TriangleNum ; i++)
+	{
+		file<< "f " << Triangle[i].V1 << "/" << TriangleTex[i].T1<< " " << Triangle[i].V2 << "/" << TriangleTex[i].T2<< " " << Triangle[i].V3 << "/" << TriangleTex[i].T3<< " " << "\n";
+	}
+
+	file.close();
 }
 
 void MQTriangleMesh::UpdateVertexNeigborVertex(void)
@@ -606,6 +642,8 @@ void MQTriangleMesh::FillHole(int method)
 	this->RotateLaplacian();
 	this->TriangulateBaseMesh();
 	this->RebuildingCoordination();
+	this->WriteObjFile();
+	printf("Done!\n");
 }
 
 void MQTriangleMesh::RotateLaplacian()
@@ -811,28 +849,53 @@ void MQTriangleMesh::FindHole(void)
 		}
 	}
 	//將單邊連接成洞(v)
+	
+	
 	map<int,int>::iterator it;
 	list<int> hole;
-	int fist_point,search_point,temp;
+	list<int> hole_uv;
+	int first_point,search_point,temp;
+	int uv_first_point,uv_search_point,uv_temp;
+	Holes_uv.clear();
 	Holes.clear();
 	while(!singleEdge.empty())
 	{
 		it = singleEdge.begin();
-		fist_point = it->first;  //設置洞的起始點
-		hole.push_back(fist_point);
-		search_point = singleEdge[fist_point];
-		singleEdge.erase(fist_point);
-		//如果search_point == fist_point 表示圍成一個洞,繼續將剩下的單邊連成另外的洞
-		while(search_point != fist_point)
+		
+		first_point = it->first;  //設置洞的起始點
+		uv_first_point = Edges[pair<int,int>(singleEdge[first_point],first_point)]->uv_edge.second;
+		
+		hole.push_back(first_point);
+		hole_uv.push_back(uv_first_point);
+		
+		search_point = singleEdge[first_point];
+		uv_search_point = singleEdge_uv[uv_first_point];
+
+		singleEdge.erase(first_point);
+		singleEdge_uv.erase(uv_first_point);
+
+		//如果search_point == first_point 表示圍成一個洞,繼續將剩下的單邊連成另外的洞
+		while(search_point != first_point)
 		{
 			hole.push_back(search_point);
+			hole_uv.push_back(uv_search_point);
+
 			temp = search_point;
+			uv_temp = uv_search_point;
+
 			search_point = singleEdge[search_point];
-			singleEdge.erase(temp);			
+			uv_search_point = singleEdge_uv[uv_search_point];
+
+			singleEdge.erase(temp);	
+			singleEdge_uv.erase(uv_temp);
 		}
+
 		Holes.push_back(hole);	
-		hole.clear();
+		Holes_uv.push_back(hole_uv);	
+		hole.clear();		
+		hole_uv.clear();
 	}
+	/*
 	//將單邊連接成洞(vt)
 	list<int> hole_uv;
 	Holes_uv.clear();
@@ -854,7 +917,7 @@ void MQTriangleMesh::FindHole(void)
 		Holes_uv.push_back(hole_uv);	
 		hole_uv.clear();
 	}
-	
+	*/
 	vector<float> hole_length;
 	list<list<int>>::iterator hole_it;
 	list<list<int>>::iterator hole_uv_it;
@@ -1607,8 +1670,6 @@ void MQTriangleMesh::TriangulateBaseMesh()
 
 void MQTriangleMesh::RebuildingCoordination()
 {
-
-	
 	//三角化後，計算洞內的點的Laplacian
 	for(int i = 1 ; i <= baseMesh->VertexNum ; i++)
 	{
@@ -1618,9 +1679,9 @@ void MQTriangleMesh::RebuildingCoordination()
 			bool isDone = false;
 			int cornerX = 0;
 			int cornerY = 0;
-			for(int y = this->pixel_boundaryY.first ; y <= pixel_boundaryY.second ; y++)
+			for(int y = 0 ; y < imageSize ; y++)
 			{
-				for(int x = this->pixel_boundaryX.first ; x <= pixel_boundaryX.second ; x++)
+				for(int x = 0 ; x < imageSize ; x++)
 				{
 					if(ImagePixel[y][x].Y > baseMesh->Vertex[i].T) break;
 					if(ImagePixel[y][x].X < baseMesh->Vertex[i].S) continue;
@@ -1690,6 +1751,7 @@ void MQTriangleMesh::RebuildingCoordination()
 			
 		}
 	}
+
 	for(int i = 1 ; i <= baseMesh->TriangleNum ; i++)
 	{
 		baseMesh->Vertex[baseMesh->TriangleTex[i].T1].NeighborVertex.push_back(baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_index);
@@ -1795,8 +1857,10 @@ void MQTriangleMesh::RebuildingCoordination()
 		this->TriangleTex[this->TriangleNum].T2 = baseMesh->Vertex[baseMesh->TriangleTex[i].T2].origin_uv_index;
 		this->TriangleTex[this->TriangleNum].T3 = baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_uv_index;		
 	}
+
 	this->UpdateVertexNormal();
 	this->UpdateVertexLaplacianCoordinate();
+
 }
 void MQTriangleMesh::UpdateVertexNormal(void)
 {
@@ -1851,37 +1915,38 @@ void MQTriangleMesh::UpdateVertexNormal(void)
 
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 {
-	
-	if(Holes.size()>0)
+	if(draw_boundary)
 	{
-		glBegin(GL_LINES);
-		list<int>::iterator hole_it;
-		list<list<int>>::iterator begin = Holes.begin();
-		for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
+		if(Holes.size()>0)
 		{
-			if(hole_it == begin->begin())
+			glBegin(GL_LINES);
+			list<int>::iterator hole_it;
+			list<list<int>>::iterator begin = Holes.begin();
+			for(hole_it = begin->begin(); hole_it != begin->end();hole_it++)
 			{
-				glNormal3f(0.0, 0.0, 1.0);
-				glColor3ub(0,0,0);
-				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+				if(hole_it == begin->begin())
+				{
+					glNormal3f(0.0, 0.0, 1.0);
+					glColor3ub(0,0,0);
+					glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+				}
+				else
+				{
+					glNormal3f(0.0, 0.0, 1.0);
+					glColor3ub(0,0,0);
+					glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+					glNormal3f(0.0, 0.0, 1.0);
+					glColor3ub(0,0,0);
+					glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
+				}
 			}
-			else
-			{
-				glNormal3f(0.0, 0.0, 1.0);
-				glColor3ub(0,0,0);
-				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
-				glNormal3f(0.0, 0.0, 1.0);
-				glColor3ub(0,0,0);
-				glVertex3f(this->Vertex[*hole_it].X, this->Vertex[*hole_it].Y,this->Vertex[*hole_it].Z);
-			}
+			glNormal3f(0.0, 0.0, 1.0);
+			glColor3ub(0,0,0);
+			glVertex3f(this->Vertex[*begin->begin()].X, this->Vertex[*begin->begin()].Y,this->Vertex[*begin->begin()].Z);
+			glEnd();
 		}
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[*begin->begin()].X, this->Vertex[*begin->begin()].Y,this->Vertex[*begin->begin()].Z);
-		glEnd();
 	}
-
-	
+	/*
 	glBegin(GL_LINES);
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
@@ -1894,7 +1959,7 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 		glVertex3f(this->Vertex[i].X+this->Vertex[i].LapX, this->Vertex[i].Y+this->Vertex[i].LapY, this->Vertex[i].Z+this->Vertex[i].LapZ);
 	}
 	glEnd();
-	
+	*/
 	glColor3ub(Red, Green, Blue);
 	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
