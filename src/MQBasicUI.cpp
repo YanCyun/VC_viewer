@@ -32,6 +32,9 @@ void MQBasicUI::InitialSetup(int Width, int Height)
 	//enable color tracking
 	glEnable(GL_COLOR_MATERIAL);
 
+	glEnable(GL_BLEND);                                         // Add alpha blending
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	//all materials hereafter have full specular reflectivity with a high shine
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specref);
 	glMateriali(GL_FRONT, GL_SHININESS, 128);

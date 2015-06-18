@@ -174,6 +174,7 @@ bool MQTriangleMesh::ReadObjFile(const char *FileName)
 		this->Vertex[i].NZ = _zsum;
 		this->Vertex[i].Normal2UnitVector();
 	}
+	
 	delete [] _NormalTable;
 
 	clock_t t_start,t_end; 
@@ -673,6 +674,7 @@ void MQTriangleMesh::RotateLaplacian()
 		float tempLapY = 0;
 		float tempLapZ = 0;
 		int count_Lap = 0;
+		
 		for(it = temp->neighborLap.begin(); it !=temp->neighborLap.end();it++)
 		{
 			int distance_y = int(*it/imageSize) - i;
@@ -680,18 +682,23 @@ void MQTriangleMesh::RotateLaplacian()
 			MQImagePixel ori_tempImage = ImagePixel[ImagePixel[i][j].originY+distance_y][ImagePixel[i][j].originX+distance_x];
 			MQImagePixel nei_tempImage = ImagePixel[int(*it/imageSize)][int(*it%imageSize)];
 
-			if(ori_tempImage.Lap_length == 0)continue;
+			if(ori_tempImage.Lap_length == 0 || nei_tempImage.Lap_length == 0)continue;
 			
 			tempLapX += nei_tempImage.LapX/nei_tempImage.Lap_length - ori_tempImage.LapX/ori_tempImage.Lap_length; 
 			tempLapY += nei_tempImage.LapY/nei_tempImage.Lap_length - ori_tempImage.LapY/ori_tempImage.Lap_length; 
 			tempLapZ += nei_tempImage.LapZ/nei_tempImage.Lap_length - ori_tempImage.LapZ/ori_tempImage.Lap_length;  
 			count_Lap++;
  		}
-
+		
+		ImagePixel[i][j].ori_LapX = tempImage.LapX;
+		ImagePixel[i][j].ori_LapY = tempImage.LapY;
+		ImagePixel[i][j].ori_LapZ = tempImage.LapZ;
+		
 		ImagePixel[i][j].LapX = tempImage.LapX/tempImage.Lap_length + tempLapX/count_Lap;
-		ImagePixel[i][j].LapY = tempImage.LapY/tempImage.Lap_length + tempLapX/count_Lap;
-		ImagePixel[i][j].LapZ = tempImage.LapZ/tempImage.Lap_length + tempLapX/count_Lap;
+		ImagePixel[i][j].LapY = tempImage.LapY/tempImage.Lap_length + tempLapY/count_Lap;
+		ImagePixel[i][j].LapZ = tempImage.LapZ/tempImage.Lap_length + tempLapZ/count_Lap;
 		ImagePixel[i][j].Lap_length = sqrt(pow(ImagePixel[i][j].LapX,2)+pow(ImagePixel[i][j].LapY,2)+pow(ImagePixel[i][j].LapZ,2));
+
 		ImagePixel[i][j].LapX = (ImagePixel[i][j].LapX/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
 		ImagePixel[i][j].LapY = (ImagePixel[i][j].LapY/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
 		ImagePixel[i][j].LapZ = (ImagePixel[i][j].LapZ/ImagePixel[i][j].Lap_length)*tempImage.Lap_length;
@@ -848,9 +855,7 @@ void MQTriangleMesh::FindHole(void)
 			singleEdge[this->Triangle[i].V1] = this->Triangle[i].V3;
 		}
 	}
-	//將單邊連接成洞(v)
-	
-	
+	//將單邊連接成洞(v)	
 	map<int,int>::iterator it;
 	list<int> hole;
 	list<int> hole_uv;
@@ -885,13 +890,16 @@ void MQTriangleMesh::FindHole(void)
 
 			search_point = singleEdge[search_point];
 			uv_search_point = singleEdge_uv[uv_search_point];
-
 			singleEdge.erase(temp);	
 			singleEdge_uv.erase(uv_temp);
+			if(!search_point){
+				break;
+			}
 		}
-
-		Holes.push_back(hole);	
-		Holes_uv.push_back(hole_uv);	
+		//if(search_point){
+			Holes.push_back(hole);	
+			Holes_uv.push_back(hole_uv);	
+		//}
 		hole.clear();		
 		hole_uv.clear();
 	}
@@ -971,7 +979,6 @@ void MQTriangleMesh::FindHole(void)
 		}
 		
 	}
-	
 	minLap = maxLap = 0.0;
 	for(int i = 1; i <= this->VertexNum; i++)
 	{
@@ -1702,7 +1709,7 @@ void MQTriangleMesh::RebuildingCoordination()
 			{
 				for(int x = cornerX -1 ; x <= cornerX ; x++)
 				{
-					
+					/*
 					float part_area;
 					if(y == cornerY-1 && x == cornerX -1)	part_area = abs((ImagePixel[y+1][x+1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y+1][x+1].Y  - baseMesh->Vertex[i].T) / total_area);
 					if(y == cornerY   && x == cornerX -1)	part_area = abs((ImagePixel[y-1][x+1].X - baseMesh->Vertex[i].S) *  (ImagePixel[y-1][x+1].Y  - baseMesh->Vertex[i].T) / total_area);
@@ -1712,8 +1719,8 @@ void MQTriangleMesh::RebuildingCoordination()
 					tempX += part_area * ImagePixel[y][x].LapX;
 					tempY += part_area * ImagePixel[y][x].LapY;
 					tempZ += part_area * ImagePixel[y][x].LapZ;
+					*/
 					
-					/*
 					int pixel_distance = pow(baseMesh->Vertex[i].S - ImagePixel[y][x].X,2) + pow(baseMesh->Vertex[i].T - ImagePixel[y][x].Y,2);
 					if(y == cornerY-1 && x == cornerX -1)
 					{
@@ -1721,6 +1728,9 @@ void MQTriangleMesh::RebuildingCoordination()
 						baseMesh->Vertex[i].LapX = ImagePixel[y][x].LapX;
 						baseMesh->Vertex[i].LapY = ImagePixel[y][x].LapY;
 						baseMesh->Vertex[i].LapZ = ImagePixel[y][x].LapZ;
+						baseMesh->Vertex[i].ori_LapX = ImagePixel[y][x].ori_LapX;
+						baseMesh->Vertex[i].ori_LapY = ImagePixel[y][x].ori_LapY;
+						baseMesh->Vertex[i].ori_LapZ = ImagePixel[y][x].ori_LapZ;
 						baseMesh->Vertex[i].Lap_length = ImagePixel[y][x].Lap_length;
 					}
 					else
@@ -1731,18 +1741,21 @@ void MQTriangleMesh::RebuildingCoordination()
 							baseMesh->Vertex[i].LapX = ImagePixel[y][x].LapX;
 							baseMesh->Vertex[i].LapY = ImagePixel[y][x].LapY;
 							baseMesh->Vertex[i].LapZ = ImagePixel[y][x].LapZ;
+							baseMesh->Vertex[i].ori_LapX = ImagePixel[y][x].ori_LapX;
+							baseMesh->Vertex[i].ori_LapY = ImagePixel[y][x].ori_LapY;
+							baseMesh->Vertex[i].ori_LapZ = ImagePixel[y][x].ori_LapZ;
 							baseMesh->Vertex[i].Lap_length = ImagePixel[y][x].Lap_length;
 						}
 					}
-					*/
+					
 				}				
 			}
-			
+			/*
 			baseMesh->Vertex[i].LapX = tempX;
 			baseMesh->Vertex[i].LapY = tempY;
 			baseMesh->Vertex[i].LapZ = tempZ;
 			baseMesh->Vertex[i].Lap_length = sqrt(pow(baseMesh->Vertex[i].LapX,2) + pow(baseMesh->Vertex[i].LapY,2)+ pow(baseMesh->Vertex[i].LapZ,2));
-			
+			*/
 			baseMesh->inner_point += 1;
 			this->VertexNum += 1;			
 			this->Vertex.resize(this->VertexNum+1);
@@ -1799,6 +1812,8 @@ void MQTriangleMesh::RebuildingCoordination()
 	{
 		if(baseMesh->Vertex[i].origin_index > n-baseMesh->inner_point)
 		{
+
+			this->Vertex[baseMesh->Vertex[i].origin_index] = baseMesh->Vertex[i];
 			double degree = baseMesh->Vertex[i].NeighborVertex.size();
 
 			begin = baseMesh->Vertex[i].NeighborVertex.begin();
@@ -1858,8 +1873,9 @@ void MQTriangleMesh::RebuildingCoordination()
 		this->TriangleTex[this->TriangleNum].T3 = baseMesh->Vertex[baseMesh->TriangleTex[i].T3].origin_uv_index;		
 	}
 
-	this->UpdateVertexNormal();
-	this->UpdateVertexLaplacianCoordinate();
+	this->UpdateVertexNeigborVertex();
+	this->UpdateVertexNormal();	
+	//this->UpdateVertexLaplacianCoordinate();
 
 }
 void MQTriangleMesh::UpdateVertexNormal(void)
@@ -1946,21 +1962,35 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 			glEnd();
 		}
 	}
-	/*
-	glBegin(GL_LINES);
-	for(int i = 1; i <= this->VertexNum; i++)
+	if(baseMesh)
 	{
-		glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[i].X, this->Vertex[i].Y, this->Vertex[i].Z);
+		glBegin(GL_LINES);
+		for(int i = 1; i <= this->VertexNum; i++)
+		{
+			
+			if(i > this->VertexNum - baseMesh->inner_point)
+			{
+				glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+				glColor3ub(0,0,0);
+				glVertex3f(this->Vertex[i].X, this->Vertex[i].Y, this->Vertex[i].Z);
 
-		glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
-		glColor3ub(0,0,0);
-		glVertex3f(this->Vertex[i].X+this->Vertex[i].LapX, this->Vertex[i].Y+this->Vertex[i].LapY, this->Vertex[i].Z+this->Vertex[i].LapZ);
+				glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+				glColor3ub(0,0,0);
+				glVertex3f(this->Vertex[i].X+this->Vertex[i].LapX*10, this->Vertex[i].Y+this->Vertex[i].LapY*10, this->Vertex[i].Z+this->Vertex[i].LapZ*10);
+				
+				glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+				glColor3ub(0,255,0);
+				glVertex3f(this->Vertex[i].X, this->Vertex[i].Y, this->Vertex[i].Z);
+
+				glNormal3f(this->Vertex[i].NX, this->Vertex[i].NY, this->Vertex[i].NZ);
+				glColor3ub(0,255,0);
+				glVertex3f(this->Vertex[i].X+this->Vertex[i].ori_LapX*10, this->Vertex[i].Y+this->Vertex[i].ori_LapY*10, this->Vertex[i].Z+this->Vertex[i].ori_LapZ*10);
+			}
+		}
+		glEnd();
 	}
-	glEnd();
-	*/
-	glColor3ub(Red, Green, Blue);
+	
+	glColor4ub(Red, Green, Blue,128);
 	glBegin(GL_TRIANGLES);
 	for(int i = 1; i <= this->TriangleNum; i++)
 	{

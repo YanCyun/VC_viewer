@@ -24,6 +24,7 @@ public:
 
 	list<int>	NeighborVertex;
 	float	LapX, LapY, LapZ;
+	float   ori_LapX,ori_LapY,ori_LapZ;
 	float  R,G,B; //Laplacian to Color
 	float	Lap_length;
 	bool evaluate;
@@ -95,6 +96,7 @@ struct MQImagePixel
 {
 	float X,Y;
 	float LapX,LapY,LapZ;
+	float ori_LapX,ori_LapY,ori_LapZ;
 	float R,G,B;
 	float Lap_length;
 	int Triangle;
