@@ -175,7 +175,7 @@ public:
 	float minLap,maxLap;
 	float boundary;
 	
-	bool draw_boundingbox,draw_boundary,draw_triangle;
+	bool draw_boundingbox,draw_boundary,draw_triangle,draw_laplacian;
 
 	vector<int> fillpoint;
 	vector<MQVertex>   Vertex;

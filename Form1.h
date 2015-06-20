@@ -86,7 +86,7 @@ namespace VC_viewer2010 {
 	private: System::Windows::Forms::ToolStripMenuItem^  BoundingBox;
 	private: System::Windows::Forms::ToolStripMenuItem^  Neighborhood;
 	private: System::Windows::Forms::ToolStripMenuItem^  Growth;
-	private: System::Windows::Forms::ToolStripMenuItem^  ResetHole;
+
 
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton3;
 	private: System::Windows::Forms::ToolStripButton^  DrawPoint;
@@ -162,7 +162,6 @@ namespace VC_viewer2010 {
 			this->BoundingBox = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->Neighborhood = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->Growth = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->ResetHole = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->menuStrip1->SuspendLayout();
@@ -329,8 +328,8 @@ namespace VC_viewer2010 {
 			// 
 			// toolStripDropDownButton1
 			// 
-			this->toolStripDropDownButton1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->Random, 
-				this->BoundingBox, this->Neighborhood, this->Growth, this->ResetHole});
+			this->toolStripDropDownButton1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->Random, 
+				this->BoundingBox, this->Neighborhood, this->Growth});
 			this->toolStripDropDownButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripDropDownButton1.Image")));
 			this->toolStripDropDownButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripDropDownButton1->Name = L"toolStripDropDownButton1";
@@ -365,13 +364,6 @@ namespace VC_viewer2010 {
 			this->Growth->Size = System::Drawing::Size(162, 22);
 			this->Growth->Text = L"Growth";
 			this->Growth->Click += gcnew System::EventHandler(this, &Form1::Growth_Click);
-			// 
-			// ResetHole
-			// 
-			this->ResetHole->Name = L"ResetHole";
-			this->ResetHole->Size = System::Drawing::Size(162, 22);
-			this->ResetHole->Text = L"ResetHole";
-			this->ResetHole->Click += gcnew System::EventHandler(this, &Form1::ResetHole_Click);
 			// 
 			// toolStripButton2
 			// 
@@ -649,27 +641,23 @@ private: System::Void Draw2D_Click(System::Object^  sender, System::EventArgs^  
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void Random_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->TMesh->UpdatePointStruct();
+			 //this->TMesh->UpdatePointStruct();
 			 this->TMesh->FillHole(1);
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void BoundingBox_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->TMesh->UpdatePointStruct();
+			 //this->TMesh->UpdatePointStruct();
 			 this->TMesh->FillHole(2);
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void Neighborhood_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->TMesh->UpdatePointStruct();
+			 //this->TMesh->UpdatePointStruct();
 			 this->TMesh->FillHole(3);
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void Growth_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->TMesh->UpdatePointStruct();
+			 //this->TMesh->UpdatePointStruct();
 			 this->TMesh->FillHole(4);
-			 this->mqOpenGLControl1->Refresh();
-		 }
-private: System::Void ResetHole_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->TMesh->UpdatePointStruct();
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void toolStripButton3_Click_1(System::Object^  sender, System::EventArgs^  e) {
@@ -677,14 +665,18 @@ private: System::Void toolStripButton3_Click_1(System::Object^  sender, System::
 			 this->mqOpenGLControl1->Refresh();
 		 }
 private: System::Void mqOpenGLControl1_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-			 if(this->Draw2D->Checked)
+			 if(this->Draw2D->Checked || this->DrawPoint->Checked)
 			 {
 				 if(e->KeyCode == Keys::NumPad1)	
-					 this->TMesh->draw_triangle = !this->TMesh->draw_triangle;					 
-				 if(e->KeyCode == Keys::NumPad2)	
-					 this->TMesh->draw_boundary = !this->TMesh->draw_boundary;
+					 this->TMesh->draw_triangle = !this->TMesh->draw_triangle;					
 				 if(e->KeyCode == Keys::NumPad3)	
 					 this->TMesh->draw_boundingbox = !this->TMesh->draw_boundingbox;
+				 this->mqOpenGLControl1->Refresh();
+			 }
+			 if(!this->Draw2D->Checked && !this->DrawPoint->Checked)
+			 {
+				 if(e->KeyCode == Keys::NumPad4)	
+					 this->TMesh->draw_laplacian = !this->TMesh->draw_laplacian;		
 				 this->mqOpenGLControl1->Refresh();
 			 }
 			 if(this->DrawPoint->Checked)
@@ -700,6 +692,10 @@ private: System::Void mqOpenGLControl1_KeyDown(System::Object^  sender, System::
 						 this->mqOpenGLControl1->Refresh();
 					 }
 				 }
+			 }
+			 if(e->KeyCode == Keys::NumPad2){
+				this->TMesh->draw_boundary = !this->TMesh->draw_boundary;
+				this->mqOpenGLControl1->Refresh();
 			 }
 		 }
 };
