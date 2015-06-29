@@ -1577,7 +1577,7 @@ void MQTriangleMesh::TriangulateBaseMesh()
 	out.numberofedges = 0;
 
 	//三角化參數設定
-	char *option = "pzYq28";
+	char *option = "pzYq30";
 
 	//三角化主程式
 	triangulate(option, &in, &out, vorout);
@@ -1818,6 +1818,7 @@ void MQTriangleMesh::RebuildingCoordination()
 
 	this->UpdateVertexNeigborVertex();
 	this->UpdateVertexNormal();	
+	this->CalculateLaplacianToColor();
 	//this->UpdateVertexLaplacianCoordinate();
 
 }
@@ -1966,6 +1967,10 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 void MQTriangleMesh::Draw2D(void)
 {	
 	glLineWidth(1.0f);	
+	//glDisable(GL_POLYGON_OFFSET_FILL);
+	glPolygonMode(GL_FRONT,GL_LINE);
+	glEnable(GL_POLYGON_OFFSET_LINE);
+	glPolygonOffset(-1.0f, 0.0f);
 	//Draw hole
 	if(draw_boundary)
 	{
@@ -1996,7 +2001,7 @@ void MQTriangleMesh::Draw2D(void)
 		glEnd();
 	}
 
-	glPolygonMode(GL_FRONT,GL_LINE);
+	
 	//Draw hole bounding box
 	if(draw_boundingbox){
 		glBegin(GL_QUADS);
@@ -2066,6 +2071,8 @@ void MQTriangleMesh::Draw2D(void)
 	}
 	//Draw uv
 	glPolygonMode(GL_FRONT,GL_FILL);
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(1.0f, 0.0f);
 	glBegin(GL_TRIANGLES);
 	
 	for(int i = 1; i <= this->TriangleNum; i++)
@@ -2097,6 +2104,9 @@ void MQTriangleMesh::Draw2D(void)
 void MQTriangleMesh::DrawPoint(void)
 {
 	glLineWidth(1.0f);	
+	glPolygonMode(GL_FRONT,GL_LINE);
+	glEnable(GL_POLYGON_OFFSET_LINE);
+	glPolygonOffset(-1.0f, 0.0f);
 	//Draw hole
 	if(draw_boundary)
 	{
@@ -2198,14 +2208,16 @@ void MQTriangleMesh::DrawPoint(void)
 
 
 	glColor3f(0.0, 0.0, 0.0);
-	glLineWidth(2.0f);
+	glLineWidth(1.0f);
 	glBegin(GL_LINES);
 	if(fillpoint.size()>0){
 		glVertex3f(this->ImagePixel[first_point/imageSize][first_point%imageSize].X, this->ImagePixel[first_point/imageSize][first_point%imageSize].Y, 0.0);
 		glVertex3f(this->ImagePixel[second_point/imageSize][second_point%imageSize].X, this->ImagePixel[second_point/imageSize][second_point%imageSize].Y, 0.0);
 	}
 	glEnd();
-
+	glPolygonMode(GL_FRONT,GL_POINT);
+	glEnable(GL_POLYGON_OFFSET_POINT);
+	glPolygonOffset(1.0f, 0.0f);
 	glBegin(GL_POINTS);
 	for(int i = 0; i < this->imageSize; i++)
 	{
