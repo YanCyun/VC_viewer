@@ -28,6 +28,7 @@ public:
 	float  R,G,B; //Laplacian to Color
 	float	Lap_length;
 	bool evaluate;
+	bool in_or_out;
 
 public:
 
@@ -45,6 +46,7 @@ public:
 		evaluate = false;
 		origin_index = -1;
 		origin_uv_index = -1;
+		in_or_out = false;
 	}
 
 	~MQVertex()
@@ -241,7 +243,7 @@ public:
 	void UpdateVertexLaplacianCoordinate(void);
 	
 	void CalculateLaplacianToColor(void);
-	void PointInTriange(MQImagePixel *p,int tri);
+	void PointInTriangel(MQImagePixel *p,int tri);
 
 	void FindBoundary(void);
 	void FindHole(void);
@@ -255,6 +257,7 @@ public:
 	void initializeTexture(int size);
 	void findBestMatch(int i, int j, int size);
 	void TriangulateBaseMesh();
+	void TriangulateBaseMeshAgain();
 	void RebuildingCoordination();
 
 public:

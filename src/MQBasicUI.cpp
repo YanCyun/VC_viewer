@@ -53,7 +53,7 @@ void MQBasicUI::InitialSetup(int Width, int Height)
 	//setup viewing frustum
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, GLdouble(Width)/GLdouble(Height), 1.0, 1024.0);
+	gluPerspective(45.0, GLdouble(Width)/GLdouble(Height), 0.1, 1024.0);
 	glGetDoublev(GL_PROJECTION_MATRIX, this->ProjectionMatrix);
 
 	//trackball's tbInit() requires MODELVIEW matrix mode is set
@@ -74,7 +74,7 @@ void MQBasicUI::ViewportResize(int Width, int Height)
 	//update viewing frustum
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, (GLdouble)(Width)/(GLdouble)(Height), 1.0, 1024.0);
+	gluPerspective(45.0, (GLdouble)(Width)/(GLdouble)(Height), 0.1, 1024.0);
 	glGetDoublev(GL_PROJECTION_MATRIX, this->ProjectionMatrix);
 
 	//MODELVIEW matrix mode
