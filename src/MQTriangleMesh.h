@@ -46,6 +46,7 @@ public:
 		evaluate = false;
 		origin_index = -1;
 		origin_uv_index = -1;
+		Lap_length = 0.0;
 		in_or_out = false;
 	}
 
@@ -101,6 +102,7 @@ struct MQImagePixel
 	float ori_LapX,ori_LapY,ori_LapZ;
 	float R,G,B;
 	float Lap_length;
+	float ori_lap_length;
 	int Triangle;
 	bool isHole;
 	list<int> neighborHole;
@@ -114,7 +116,8 @@ struct MQImagePixel
 	{
 		X = Y = 0.0;
 		LapX = LapY = LapZ = 0.0;
-		Lap_length = 0 ;
+		Lap_length = 0.0 ;
+		ori_lap_length = 0.0 ;
 		R = G = B = 0.0;
 		Triangle = 0;
 		isHole = false;

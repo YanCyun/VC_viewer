@@ -303,7 +303,6 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	bool checkHole = false;
 	vector<int> tempHoles;
 	vector<int>::iterator hole_it;
-
 	this->ImagePixel.resize(imageSize);
 	for(int i = 0 ; i < imageSize ; i++)
 	{
@@ -406,6 +405,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	//分配記憶體
 	LaplaianLengths.resize(imageSize);
 	for(int i = 0 ; i < imageSize ; i++){
+		LaplaianLengths[i].clear();
 		LaplaianLengths[i].resize(imageSize);
 		for(int j = 0 ; j < imageSize ; j++){
 			LaplaianLengths[i][j] = new LaplaianLength();
@@ -413,6 +413,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 	}
 
 	//PCA資料準備
+	tempLaplaianLength.clear();
 	for(int i = range ; i < imageSize -range; i++)
 	{
 		fflush(stdout);
@@ -528,7 +529,7 @@ void MQTriangleMesh::UpdatePointStruct(void)
 			{
 				if(!LaplaianLengths[i][j]->pca) continue;
 				
-				//_SrcImgPixDim=8(代表PCA降維後的維度)；flvecx表示PCA降維後的向量(也就是5x5x3=75->8降維的向量)
+				//_SrcImgPixDim=3(代表PCA降維後的維度)；flvecx表示PCA降維後的向量(也就是5x5x1=25->3降維的向量)
 				vector<float> flvecx = PCA_1.ProjectDataItem(LaplaianLengths[i][j]->length, _SrcImgPixDim);
 
 				//將PCA降維後的向量assign給_SrcImg
@@ -626,10 +627,11 @@ void MQTriangleMesh::RotateLaplacian()
 			MQImagePixel ori_tempImage = ImagePixel[ImagePixel[i][j].originY+distance_y][ImagePixel[i][j].originX+distance_x];
 			MQImagePixel nei_tempImage = ImagePixel[int(*it/imageSize)][int(*it%imageSize)];
 
-			if(ori_tempImage.Lap_length == 0 || nei_tempImage.Lap_length == 0)continue;
-			tempLapX += nei_tempImage.LapX/abs(nei_tempImage.Lap_length) - ori_tempImage.LapX/abs(ori_tempImage.Lap_length); 
-			tempLapY += nei_tempImage.LapY/abs(nei_tempImage.Lap_length) - ori_tempImage.LapY/abs(ori_tempImage.Lap_length); 
-			tempLapZ += nei_tempImage.LapZ/abs(nei_tempImage.Lap_length) - ori_tempImage.LapZ/abs(ori_tempImage.Lap_length); 
+			if(ori_tempImage.ori_lap_length == 0 || nei_tempImage.ori_lap_length == 0)continue;
+			
+			tempLapX += nei_tempImage.LapX/nei_tempImage.ori_lap_length - ori_tempImage.LapX/ori_tempImage.ori_lap_length; 
+			tempLapY += nei_tempImage.LapY/nei_tempImage.ori_lap_length - ori_tempImage.LapY/ori_tempImage.ori_lap_length; 
+			tempLapZ += nei_tempImage.LapZ/nei_tempImage.ori_lap_length - ori_tempImage.LapZ/ori_tempImage.ori_lap_length; 
 			count_Lap++;
  		}
 		
@@ -637,16 +639,16 @@ void MQTriangleMesh::RotateLaplacian()
 		ImagePixel[i][j].ori_LapY = tempImage.LapY;
 		ImagePixel[i][j].ori_LapZ = tempImage.LapZ;
 		
-		ImagePixel[i][j].LapX = tempImage.LapX/abs(tempImage.Lap_length) + tempLapX/count_Lap;
-		ImagePixel[i][j].LapY = tempImage.LapY/abs(tempImage.Lap_length) + tempLapY/count_Lap;
-		ImagePixel[i][j].LapZ = tempImage.LapZ/abs(tempImage.Lap_length) + tempLapZ/count_Lap;
+		ImagePixel[i][j].LapX = tempImage.LapX/tempImage.ori_lap_length + tempLapX/count_Lap;
+		ImagePixel[i][j].LapY = tempImage.LapY/tempImage.ori_lap_length + tempLapY/count_Lap;
+		ImagePixel[i][j].LapZ = tempImage.LapZ/tempImage.ori_lap_length + tempLapZ/count_Lap;
 		ImagePixel[i][j].Lap_length = sqrt(pow(ImagePixel[i][j].LapX,2)+pow(ImagePixel[i][j].LapY,2)+pow(ImagePixel[i][j].LapZ,2));
-
-		ImagePixel[i][j].LapX = (ImagePixel[i][j].LapX/abs(ImagePixel[i][j].Lap_length))*abs(tempImage.Lap_length);
-		ImagePixel[i][j].LapY = (ImagePixel[i][j].LapY/abs(ImagePixel[i][j].Lap_length))*abs(tempImage.Lap_length);
-		ImagePixel[i][j].LapZ = (ImagePixel[i][j].LapZ/abs(ImagePixel[i][j].Lap_length))*abs(tempImage.Lap_length);
-		ImagePixel[i][j].Lap_length = tempImage.Lap_length;
 		
+		ImagePixel[i][j].LapX = (ImagePixel[i][j].LapX/ImagePixel[i][j].Lap_length)*tempImage.ori_lap_length;
+		ImagePixel[i][j].LapY = (ImagePixel[i][j].LapY/ImagePixel[i][j].Lap_length)*tempImage.ori_lap_length;
+		ImagePixel[i][j].LapZ = (ImagePixel[i][j].LapZ/ImagePixel[i][j].Lap_length)*tempImage.ori_lap_length;
+		ImagePixel[i][j].ori_lap_length = tempImage.ori_lap_length;
+		ImagePixel[i][j].Lap_length = tempImage.Lap_length;
 		for(int y = i - 1 ; y <= i + 1 ;y++)
 		{
 			for(int x = j - 1 ; x <= j + 1 ; x++)
@@ -685,7 +687,7 @@ void MQTriangleMesh::PointInTriangel(MQImagePixel *p,int tri)
 			p->LapX = Vertex[Triangle[tri].V1].LapX * a2/sum_a + Vertex[Triangle[tri].V2].LapX * a3/sum_a + Vertex[Triangle[tri].V3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
 			p->LapY = Vertex[Triangle[tri].V1].LapY * a2/sum_a + Vertex[Triangle[tri].V2].LapY * a3/sum_a + Vertex[Triangle[tri].V3].LapY * a1/sum_a;
 			p->LapZ = Vertex[Triangle[tri].V1].LapZ * a2/sum_a + Vertex[Triangle[tri].V2].LapZ * a3/sum_a + Vertex[Triangle[tri].V3].LapZ * a1/sum_a;
-			//p->Lap_length = sqrt(pow(p->LapX,2)+pow(p->LapY,2)+pow(p->LapZ,2));
+			p->ori_lap_length = sqrt(pow(p->LapX,2)+pow(p->LapY,2)+pow(p->LapZ,2));
 			p->Lap_length = Vertex[Triangle[tri].V1].Lap_length * a2/sum_a + Vertex[Triangle[tri].V2].Lap_length * a3/sum_a + Vertex[Triangle[tri].V3].Lap_length * a1/sum_a;
 			return;
 
@@ -708,7 +710,7 @@ void MQTriangleMesh::PointInTriangel(MQImagePixel *p,int tri)
 		p->LapX = Vertex[Triangle[i].V1].LapX * a2/sum_a + Vertex[Triangle[i].V2].LapX * a3/sum_a + Vertex[Triangle[i].V3].LapX * a1/sum_a; //v1*(a2/(a1+a2+a3)) + v2*(a3/(a1+a2+a3)) + v3 + (a3/(a1+a2+a3)) 
 		p->LapY = Vertex[Triangle[i].V1].LapY * a2/sum_a + Vertex[Triangle[i].V2].LapY * a3/sum_a + Vertex[Triangle[i].V3].LapY * a1/sum_a;
 		p->LapZ = Vertex[Triangle[i].V1].LapZ * a2/sum_a + Vertex[Triangle[i].V2].LapZ * a3/sum_a + Vertex[Triangle[i].V3].LapZ * a1/sum_a;
-		//p->Lap_length = sqrt(pow(p->LapX,2)+pow(p->LapY,2)+pow(p->LapZ,2));
+		p->ori_lap_length = sqrt(pow(p->LapX,2)+pow(p->LapY,2)+pow(p->LapZ,2));
 		p->Lap_length = Vertex[Triangle[tri].V1].Lap_length * a2/sum_a + Vertex[Triangle[tri].V2].Lap_length * a3/sum_a + Vertex[Triangle[tri].V3].Lap_length * a1/sum_a;
 		return ;
 
@@ -1591,7 +1593,6 @@ void MQTriangleMesh::TriangulateBaseMeshAgain()
 	//三角化參數設定
 	char *option = "pzYq30";
 
-	cout << index << "," << baseMesh->VertexNum << endl;
 	//三角化主程式
 	triangulate(option, &in, &out, vorout);
 	
@@ -1706,7 +1707,7 @@ void MQTriangleMesh::RebuildingCoordination()
 					}
 					
 				}				
-			}
+			}			
 			/*
 			baseMesh->Vertex[i].LapX = tempX;
 			baseMesh->Vertex[i].LapY = tempY;
@@ -1888,6 +1889,7 @@ void MQTriangleMesh::UpdateVertexNormal(void)
 
 void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 {
+	glLineWidth(1.0f);	
 	if(draw_boundary)
 	{
 		if(Holes.size()>0)
@@ -1919,6 +1921,7 @@ void MQTriangleMesh::Draw(GLubyte Red, GLubyte Green, GLubyte Blue)
 			glEnd();
 		}
 	}
+	glLineWidth(3.0f);	
 	if(baseMesh && draw_laplacian)
 	{
 		glBegin(GL_LINES);
